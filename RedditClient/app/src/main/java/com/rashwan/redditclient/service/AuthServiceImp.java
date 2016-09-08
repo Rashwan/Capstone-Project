@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.rashwan.redditclient.R;
-import com.rashwan.redditclient.data.RedditAuthAPI;
+import com.rashwan.redditclient.data.RedditAuthApi;
 import com.rashwan.redditclient.data.model.AccessToken;
 
 import java.util.UUID;
@@ -17,9 +17,9 @@ import rx.Observable;
  */
 
 public class AuthServiceImp implements AuthService{
-    private Retrofit retrofit;
-    private SharedPreferences sp;
-    private Application application;
+    private final Retrofit retrofit;
+    private final SharedPreferences sp;
+    private final Application application;
     private static final String GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client";
 
 
@@ -37,7 +37,7 @@ public class AuthServiceImp implements AuthService{
         }else {
             deviceId = sp.getString(application.getString(R.string.sp_device_id_key),null);
         }
-        return retrofit.create(RedditAuthAPI.class)
+        return retrofit.create(RedditAuthApi.class)
                 .getAccessToken(GRANT_TYPE,deviceId);
     }
     private String createDeviceId(){

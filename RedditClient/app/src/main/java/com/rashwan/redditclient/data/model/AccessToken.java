@@ -9,7 +9,8 @@ import com.squareup.moshi.Moshi;
  * Created by rashwan on 9/7/16.
  */
 
-@AutoValue public abstract class AccessToken {
+@AutoValue
+public abstract class AccessToken {
     @Json(name = "access_token") public abstract String accessToken();
 
     public static JsonAdapter<AccessToken> jsonAdapter(Moshi moshi){

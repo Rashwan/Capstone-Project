@@ -11,7 +11,7 @@ import rx.Observable;
  * Created by rashwan on 9/7/16.
  */
 
-public interface RedditAuthAPI {
+public interface RedditAuthApi {
     @FormUrlEncoded
     @POST("access_token")
     Observable<AccessToken> getAccessToken(@Field("grant_type") String grantType
