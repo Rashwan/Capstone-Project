@@ -5,6 +5,8 @@ import android.app.Application;
 import com.rashwan.redditclient.DI.ApplicationComponent;
 import com.rashwan.redditclient.DI.ApplicationModule;
 import com.rashwan.redditclient.DI.DaggerApplicationComponent;
+import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageComponent;
+import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
 
 import timber.log.Timber;
 
@@ -14,6 +16,7 @@ import timber.log.Timber;
 
 public class RedditClientApplication extends Application {
     public static ApplicationComponent applicationComponent;
+    private BrowseFrontPageComponent browseFrontPageComponent;
 
     @Override
     public void onCreate() {
@@ -31,6 +34,15 @@ public class RedditClientApplication extends Application {
     private ApplicationComponent createAppComponent() {
         return DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this))
                 .build();
+    }
+
+    public BrowseFrontPageComponent createBrowseFrontPageComponent(){
+        browseFrontPageComponent = applicationComponent.plus(new BrowseFrontPageModule());
+        return browseFrontPageComponent;
+    }
+
+    public void ReleaseBrowseFrontPageComponent(){
+        browseFrontPageComponent = null;
     }
 
     public static ApplicationComponent getApplicationComponent() {

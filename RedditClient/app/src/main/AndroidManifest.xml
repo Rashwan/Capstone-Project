@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".RedditClientApplication">
-        <activity android:name=".feature.BrowseFrontPageActivity">
+        <activity android:name=".feature.browseFrontPage.BrowseFrontPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
