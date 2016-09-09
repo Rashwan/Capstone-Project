@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 
 import com.rashwan.redditclient.R;
-import com.rashwan.redditclient.common.TokenAuthenticator;
+import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
 import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;

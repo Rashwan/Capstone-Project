@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.common;
+package com.rashwan.redditclient.common.utilities;
 
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.service.AuthService;

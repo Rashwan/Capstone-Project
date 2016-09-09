@@ -37,6 +37,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+
 
     //Networking
     compile 'com.squareup.retrofit2:retrofit:2.1.0'

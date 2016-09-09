@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/constraint_layout"
+    android:padding="8dp">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@color/colorAccent"
+            android:id="@+id/thumb"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minLines="3"
+            android:lines="3"
+            tools:text="adsjkq wnekqwj dnaskj dnaskj asjk dnask dnjwd jk adn askjd askdlad klamdsla mkqlwen"
+            app:layout_constraintLeft_toRightOf="@+id/thumb"
+            app:layout_constraintTop_toTopOf="@+id/thumb"
+            app:layout_constraintBottom_toBottomOf="@+id/thumb"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/title"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintVertical_bias="0.32999998" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="900 points"
+            app:layout_constraintLeft_toRightOf="@+id/thumb"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="By user1 in /androiddev"
+            app:layout_constraintTop_toBottomOf="@+id/thumb"
+            android:id="@+id/by"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="8dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="500 comments"
+            app:layout_constraintTop_toBottomOf="@+id/thumb"
+            app:layout_constraintLeft_toRightOf="@+id/by"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/by"/>
+
+</android.support.constraint.ConstraintLayout>
