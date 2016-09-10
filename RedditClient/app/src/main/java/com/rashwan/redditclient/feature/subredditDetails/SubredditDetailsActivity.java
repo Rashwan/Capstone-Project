@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
@@ -13,11 +14,15 @@ import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
+import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
+import com.rashwan.redditclient.data.model.RedditPost;
 import com.rashwan.redditclient.data.model.SubredditDetails;
+import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -36,6 +41,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.rv_subreddit_posts) RecyclerView rvSubredditPosts;
     @Inject SubredditDetailsPresenter presenter;
+    @Inject BrowseFrontPageAdapter adapter;
     private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.feature.subredditDetails.EXTRA_SUBREDDIT";
 
     public static Intent getSubredditDetailsIntent(Context context,String subreddit){
@@ -53,10 +59,19 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this);
+        rvSubredditPosts.setHasFixedSize(true);
+        rvSubredditPosts.addItemDecoration(itemDecoration);
+        rvSubredditPosts.setLayoutManager(linearLayoutManager);
+        rvSubredditPosts.setAdapter(adapter);
+
         presenter.attachView(this);
         Intent intent = getIntent();
         String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
         presenter.getSubredditDetails(subreddit);
+        presenter.getSubredditPosts(subreddit);
+
     }
 
 
@@ -77,7 +92,10 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     }
 
     @Override
-    public void showSubredditPosts() {
-
+    public void showSubredditPosts(List<RedditPost> posts) {
+        adapter.addPosts(posts);
+        adapter.notifyDataSetChanged();
     }
+
+
 }

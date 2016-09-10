@@ -28,4 +28,9 @@ public class RedditServiceImp implements RedditService{
     public Observable<SubredditDetailsResponse> getSubredditDetails(String subreddit) {
         return retrofit.create(RedditApi.class).getSubredditDetails(subreddit);
     }
+
+    @Override
+    public Observable<ListingResponse> getSubredditPosts(String subreddit) {
+        return retrofit.create(RedditApi.class).getSubredditPosts(subreddit);
+    }
 }

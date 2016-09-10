@@ -12,4 +12,5 @@ import rx.Observable;
 public interface RedditService {
     Observable<ListingResponse> getHotPosts();
     Observable<SubredditDetailsResponse> getSubredditDetails(String subreddit);
+    Observable<ListingResponse> getSubredditPosts(String subreddit);
 }

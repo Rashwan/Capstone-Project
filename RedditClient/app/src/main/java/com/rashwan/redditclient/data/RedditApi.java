@@ -23,4 +23,8 @@ public interface RedditApi {
     @GET("r/{subreddit}/about")
     @Headers({USER_AGENT,STUB_ACCESS_TOKEN})
     Observable<SubredditDetailsResponse> getSubredditDetails(@Path("subreddit") String subreddit);
+
+    @GET("r/{subreddit}")
+    @Headers({USER_AGENT,STUB_ACCESS_TOKEN})
+    Observable<ListingResponse> getSubredditPosts(@Path("subreddit") String subreddit);
 }
