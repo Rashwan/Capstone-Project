@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,10 +47,11 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         RedditPostData postData = post.getRedditPostData();
         BrowseFrontPageVH browseFrontPageVH = (BrowseFrontPageVH) holder;
         browseFrontPageVH.title.setText(postData.title());
-        browseFrontPageVH.points.setText(postData.score());
-        browseFrontPageVH.comments.setText(String.valueOf(postData.numOfComments()));
-        browseFrontPageVH.userSubreddit.setText(String.format("by %s in %s",postData.author(),postData.subreddit()));
-        Picasso.with(context).load(postData.thumbnail()).into(((BrowseFrontPageVH) holder).thumb);
+        browseFrontPageVH.points.setText(String.format("%s Points",postData.score()));
+        browseFrontPageVH.comments.setText(String.format(Locale.US,"%d Comments",postData.numOfComments()));
+        browseFrontPageVH.author.setText(postData.author());
+        browseFrontPageVH.subreddit.setText(postData.subreddit());
+        Picasso.with(context).load(postData.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
     }
 
     @Override
@@ -72,7 +74,8 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public class BrowseFrontPageVH extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_thumbnail) ImageView thumb;
         @BindView(R.id.tv_title) TextView title;
-        @BindView(R.id.tv_user_subreddit) TextView userSubreddit;
+        @BindView(R.id.tv_author) TextView author;
+        @BindView(R.id.tv_subreddit) TextView subreddit;
         @BindView(R.id.constraint_layout) ConstraintLayout constraintLayout;
         @BindView(R.id.tv_points) TextView points;
         @BindView(R.id.tv_comments) TextView comments;
