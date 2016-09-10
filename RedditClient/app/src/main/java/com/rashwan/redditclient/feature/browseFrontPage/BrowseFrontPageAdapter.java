@@ -1,6 +1,7 @@
 package com.rashwan.redditclient.feature.browseFrontPage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.data.model.RedditPost;
 import com.rashwan.redditclient.data.model.RedditPostData;
+import com.rashwan.redditclient.feature.subredditDetails.SubredditDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by rashwan on 9/9/16.
@@ -27,6 +30,8 @@ import butterknife.ButterKnife;
 
 public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<RedditPost> posts;
+    private Context context;
+
 
     public BrowseFrontPageAdapter() {
         this.posts = new ArrayList<>();
@@ -34,7 +39,7 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_post, parent, false);
         return new BrowseFrontPageVH(view);
@@ -84,5 +89,13 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+
+        @OnClick(R.id.tv_subreddit)
+        void onSubredditClicked(TextView view){
+            Intent intent = SubredditDetailsActivity
+                    .getSubredditDetailsIntent(context,view.getText().toString());
+            context.startActivity(intent);
+        }
     }
+
 }

@@ -50,4 +50,10 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         adapter.addPosts(posts);
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((RedditClientApplication)getApplication()).releaseBrowseFrontPageComponent();
+    }
 }

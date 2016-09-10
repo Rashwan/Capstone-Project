@@ -68,7 +68,7 @@ public class ApplicationModule {
     @Provides @Singleton
     public OkHttpClient provideOkhttpClient(){
         HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
-        logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logger.setLevel(HttpLoggingInterceptor.Level.BASIC);
         TokenAuthenticator tokenAuthenticator = new TokenAuthenticator();
         return new OkHttpClient.Builder().addInterceptor(logger)
                 .authenticator(tokenAuthenticator).build();
