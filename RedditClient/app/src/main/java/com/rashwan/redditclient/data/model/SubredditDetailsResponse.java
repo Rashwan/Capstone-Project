@@ -6,9 +6,9 @@ package com.rashwan.redditclient.data.model;
 
 public class SubredditDetailsResponse {
     private String kind;
-    private SubredditDetails data;
+    private SubredditDetailsModel data;
 
-    public SubredditDetails getData() {
+    public SubredditDetailsModel getData() {
         return data;
     }
 }

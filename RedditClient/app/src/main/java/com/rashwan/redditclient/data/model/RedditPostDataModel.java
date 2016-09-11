@@ -11,7 +11,7 @@ import com.squareup.moshi.Moshi;
  * Created by rashwan on 9/8/16.
  */
 @AutoValue
-public abstract class RedditPostData {
+public abstract class RedditPostDataModel {
     public abstract String domain();
     public abstract String subreddit();
     public abstract String author();
@@ -25,7 +25,7 @@ public abstract class RedditPostData {
     @Json(name = "url") public abstract String postUrl();
     @Json(name = "num_comments") public abstract int numOfComments();
 
-    public static JsonAdapter<RedditPostData> jsonAdapter(Moshi moshi){
-        return AutoValue_RedditPostData.jsonAdapter(moshi);
+    public static JsonAdapter<RedditPostDataModel> jsonAdapter(Moshi moshi){
+        return AutoValue_RedditPostDataModel.jsonAdapter(moshi);
     }
 }

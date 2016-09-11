@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.data.model.RedditPost;
-import com.rashwan.redditclient.data.model.RedditPostData;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.feature.subredditDetails.SubredditDetailsActivity;
 import com.squareup.picasso.Picasso;
 
@@ -49,7 +49,7 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
         RedditPost post = posts.get(position);
-        RedditPostData postData = post.getRedditPostData();
+        RedditPostDataModel postData = post.getRedditPostData();
         BrowseFrontPageVH browseFrontPageVH = (BrowseFrontPageVH) holder;
         browseFrontPageVH.title.setText(postData.title());
         browseFrontPageVH.points.setText(String.format("%s Points",postData.score()));

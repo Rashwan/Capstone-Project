@@ -8,13 +8,13 @@ import com.squareup.moshi.Json;
 
 public class RedditPost {
     private String kind;
-    @Json(name = "data") private RedditPostData redditPostData;
+    @Json(name = "data") private RedditPostDataModel redditPostData;
 
     public String getKind() {
         return kind;
     }
 
-    public RedditPostData getRedditPostData() {
+    public RedditPostDataModel getRedditPostData() {
         return redditPostData;
     }
 }

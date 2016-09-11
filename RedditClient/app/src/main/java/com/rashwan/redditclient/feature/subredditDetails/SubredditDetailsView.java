@@ -2,7 +2,7 @@ package com.rashwan.redditclient.feature.subredditDetails;
 
 import com.rashwan.redditclient.common.MvpView;
 import com.rashwan.redditclient.data.model.RedditPost;
-import com.rashwan.redditclient.data.model.SubredditDetails;
+import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 
 import java.util.List;
 
@@ -11,6 +11,6 @@ import java.util.List;
  */
 
 public interface SubredditDetailsView extends MvpView {
-    void showSubredditInfo(SubredditDetails details);
+    void showSubredditInfo(SubredditDetailsModel details);
     void showSubredditPosts(List<RedditPost> posts);
 }

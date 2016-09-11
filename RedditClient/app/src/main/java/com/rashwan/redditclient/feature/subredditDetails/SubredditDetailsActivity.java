@@ -17,7 +17,7 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
 import com.rashwan.redditclient.data.model.RedditPost;
-import com.rashwan.redditclient.data.model.SubredditDetails;
+import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -76,7 +76,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
 
 
     @Override
-    public void showSubredditInfo(SubredditDetails details) {
+    public void showSubredditInfo(SubredditDetailsModel details) {
         subredditName.setText(details.name());
         subredditDescription.setText(details.description());
         String formattedNumber = NumberFormat.getInstance().format(details.numOfSubscribers());

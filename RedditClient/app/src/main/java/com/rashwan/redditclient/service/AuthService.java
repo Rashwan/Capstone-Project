@@ -1,6 +1,6 @@
 package com.rashwan.redditclient.service;
 
-import com.rashwan.redditclient.data.model.AccessToken;
+import com.rashwan.redditclient.data.model.AccessTokenModel;
 
 import rx.Observable;
 
@@ -9,6 +9,6 @@ import rx.Observable;
  */
 
 public interface AuthService {
-    Observable<AccessToken> getAccessToken();
+    Observable<AccessTokenModel> getAccessToken();
 
 }

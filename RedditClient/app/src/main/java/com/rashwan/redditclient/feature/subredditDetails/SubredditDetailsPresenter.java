@@ -2,7 +2,7 @@ package com.rashwan.redditclient.feature.subredditDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.RedditPost;
-import com.rashwan.redditclient.data.model.SubredditDetails;
+import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.service.RedditService;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
         detailsSubscription = redditService.getSubredditDetails(subreddit)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subredditDetailsResponse -> {
-                    SubredditDetails data = subredditDetailsResponse.getData();
+                    SubredditDetailsModel data = subredditDetailsResponse.getData();
                     Timber.d(data.name());
                     getView().showSubredditInfo(data);
                 }

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.data.RedditAuthApi;
-import com.rashwan.redditclient.data.model.AccessToken;
+import com.rashwan.redditclient.data.model.AccessTokenModel;
 
 import java.util.UUID;
 
@@ -30,7 +30,7 @@ public class AuthServiceImp implements AuthService{
     }
 
     @Override
-    public Observable<AccessToken> getAccessToken() {
+    public Observable<AccessTokenModel> getAccessToken() {
         String deviceId;
         if (!sp.contains(application.getString(R.string.sp_device_id_key))){
             deviceId = createDeviceId();

@@ -10,14 +10,14 @@ import com.squareup.moshi.Moshi;
  */
 
 @AutoValue
-public abstract class SubredditDetails {
+public abstract class SubredditDetailsModel {
     @Json(name = "title") public abstract String description();
     @Json(name = "display_name") public abstract String name();
     @Json(name = "banner_img") public abstract String bannerImage();
     @Json(name = "icon_img") public abstract String subredditIcon();
     @Json(name = "subscribers") public abstract long numOfSubscribers();
 
-    public static JsonAdapter<SubredditDetails> jsonAdapter(Moshi moshi){
-        return AutoValue_SubredditDetails.jsonAdapter(moshi);
+    public static JsonAdapter<SubredditDetailsModel> jsonAdapter(Moshi moshi){
+        return AutoValue_SubredditDetailsModel.jsonAdapter(moshi);
     }
 }

@@ -10,10 +10,10 @@ import com.squareup.moshi.Moshi;
  */
 
 @AutoValue
-public abstract class AccessToken {
+public abstract class AccessTokenModel {
     @Json(name = "access_token") public abstract String accessToken();
 
-    public static JsonAdapter<AccessToken> jsonAdapter(Moshi moshi){
-        return AutoValue_AccessToken.jsonAdapter(moshi);
+    public static JsonAdapter<AccessTokenModel> jsonAdapter(Moshi moshi){
+        return AutoValue_AccessTokenModel.jsonAdapter(moshi);
     }
 }

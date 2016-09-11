@@ -1,6 +1,6 @@
 package com.rashwan.redditclient.data;
 
-import com.rashwan.redditclient.data.model.AccessToken;
+import com.rashwan.redditclient.data.model.AccessTokenModel;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -14,6 +14,6 @@ import rx.Observable;
 public interface RedditAuthApi {
     @FormUrlEncoded
     @POST("access_token")
-    Observable<AccessToken> getAccessToken(@Field("grant_type") String grantType
-            ,@Field("device_id") String deviceId);
+    Observable<AccessTokenModel> getAccessToken(@Field("grant_type") String grantType
+            , @Field("device_id") String deviceId);
 }
