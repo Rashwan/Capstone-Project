@@ -33,5 +33,7 @@ public interface RedditApi {
     @Headers({USER_AGENT,STUB_ACCESS_TOKEN})
     Observable<UserDetailsResponse> getUserDetails(@Path("username") String username);
 
-
+    @GET("user/{username}/submitted")
+    @Headers({USER_AGENT,STUB_ACCESS_TOKEN})
+    Observable<ListingResponse> getUserPosts(@Path("username") String username);
 }

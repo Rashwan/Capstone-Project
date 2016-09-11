@@ -15,4 +15,5 @@ public interface RedditService {
     Observable<SubredditDetailsResponse> getSubredditDetails(String subreddit);
     Observable<ListingResponse> getSubredditPosts(String subreddit);
     Observable<UserDetailsResponse> getUserDetails(String username);
+    Observable<ListingResponse> getUserPosts(String username);
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
@@ -22,6 +23,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Inject BrowseFrontPageAdapter adapter;
 
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;
+    @BindView(R.id.toolbar_browse_front_page) Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         setContentView(R.layout.activity_browse_front_page);
         ((RedditClientApplication)getApplication()).createBrowseFrontPageComponent().inject(this);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         presenter.attachView(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this);
