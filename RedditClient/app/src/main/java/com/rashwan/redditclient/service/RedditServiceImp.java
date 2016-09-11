@@ -3,6 +3,7 @@ package com.rashwan.redditclient.service;
 import com.rashwan.redditclient.data.RedditApi;
 import com.rashwan.redditclient.data.model.ListingResponse;
 import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
+import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -32,5 +33,10 @@ public class RedditServiceImp implements RedditService{
     @Override
     public Observable<ListingResponse> getSubredditPosts(String subreddit) {
         return retrofit.create(RedditApi.class).getSubredditPosts(subreddit);
+    }
+
+    @Override
+    public Observable<UserDetailsResponse> getUserDetails(String username) {
+        return retrofit.create(RedditApi.class).getUserDetails(username);
     }
 }

@@ -14,6 +14,7 @@ import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.data.model.RedditPost;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.feature.subredditDetails.SubredditDetailsActivity;
+import com.rashwan.redditclient.feature.userDetails.UserDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -96,6 +97,12 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     .getSubredditDetailsIntent(context,view.getText().toString());
             context.startActivity(intent);
         }
+        @OnClick(R.id.tv_author)
+        void onAuthorClicked(TextView view){
+            Intent intent = UserDetailsActivity.getUserDetailsIntent(context,view.getText().toString());
+            context.startActivity(intent);
+        }
+
     }
 
 }

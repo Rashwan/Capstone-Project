@@ -6,6 +6,8 @@ import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPag
 import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
 import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
 import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsModule;
+import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsComponent;
+import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsModule;
 
 import javax.inject.Singleton;
 
@@ -22,5 +24,6 @@ public interface ApplicationComponent {
 
     BrowseFrontPageComponent plus(BrowseFrontPageModule browseFrontPageModule);
     SubredditDetailsComponent plus(SubredditDetailsModule subredditDetailsModule);
+    UserDetailsComponent plus(UserDetailsModule userDetailsModule);
 
 }

@@ -9,6 +9,8 @@ import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPag
 import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
 import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
 import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsModule;
+import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsComponent;
+import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsModule;
 
 import timber.log.Timber;
 
@@ -20,6 +22,7 @@ public class RedditClientApplication extends Application {
     public static ApplicationComponent applicationComponent;
     private BrowseFrontPageComponent browseFrontPageComponent;
     private SubredditDetailsComponent subredditDetailsComponent;
+    private UserDetailsComponent userDetailsComponent;
 
     @Override
     public void onCreate() {
@@ -47,12 +50,19 @@ public class RedditClientApplication extends Application {
         subredditDetailsComponent = applicationComponent.plus(new SubredditDetailsModule());
         return subredditDetailsComponent;
     }
+    public UserDetailsComponent createUserDetailsComponent(){
+        userDetailsComponent = applicationComponent.plus(new UserDetailsModule());
+        return userDetailsComponent;
+    }
 
     public void releaseBrowseFrontPageComponent(){
         browseFrontPageComponent = null;
     }
     public void releaseSubredditDetailsComponent(){
         subredditDetailsComponent = null;
+    }
+    public void releaseUserDetailsComponent(){
+        userDetailsComponent = null;
     }
 
     public static ApplicationComponent getApplicationComponent() {

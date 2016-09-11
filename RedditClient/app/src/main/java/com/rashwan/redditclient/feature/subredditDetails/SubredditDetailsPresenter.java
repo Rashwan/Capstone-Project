@@ -17,7 +17,7 @@ import timber.log.Timber;
  */
 
 public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsView>{
-    private RedditService redditService;
+    private final RedditService redditService;
     private Subscription detailsSubscription;
     private Subscription postsSubscription;
 

@@ -2,6 +2,7 @@ package com.rashwan.redditclient.data;
 
 import com.rashwan.redditclient.data.model.ListingResponse;
 import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
+import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -27,4 +28,10 @@ public interface RedditApi {
     @GET("r/{subreddit}")
     @Headers({USER_AGENT,STUB_ACCESS_TOKEN})
     Observable<ListingResponse> getSubredditPosts(@Path("subreddit") String subreddit);
+
+    @GET("user/{username}/about")
+    @Headers({USER_AGENT,STUB_ACCESS_TOKEN})
+    Observable<UserDetailsResponse> getUserDetails(@Path("username") String username);
+
+
 }

@@ -20,9 +20,8 @@
         </activity>
         <activity
             android:name=".feature.subredditDetails.SubredditDetailsActivity"
-            android:parentActivityName=".feature.browseFrontPage.BrowseFrontPageActivity">
-
-        </activity>
+            android:parentActivityName=".feature.browseFrontPage.BrowseFrontPageActivity"></activity>
+        <activity android:name=".feature.userDetails.UserDetailsActivity"></activity>
     </application>
 
 </manifest>
