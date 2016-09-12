@@ -2,6 +2,7 @@ package com.rashwan.redditclient.feature.browseFrontPage;
 
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.RedditPost;
+import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
 import com.rashwan.redditclient.service.RedditService;
 
 import java.util.List;
@@ -18,7 +19,8 @@ import timber.log.Timber;
 public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView> {
 
     private RedditService redditService;
-    private Subscription postsSubscribtion;
+    private Subscription postsSubscription;
+    private Subscription subredditsSubscription;
 
     public BrowseFrontPagePresenter(RedditService redditService) {
         this.redditService = redditService;
@@ -28,12 +30,27 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     @Override
     public void detachView() {
         super.detachView();
-        if (postsSubscribtion != null) postsSubscribtion.unsubscribe();
+        if (postsSubscription != null) postsSubscription.unsubscribe();
+        if (subredditsSubscription != null) subredditsSubscription.unsubscribe();
     }
 
-    public void getPosts(){
+    public void getPopularSubreddits(){
         checkViewAttached();
-        postsSubscribtion = redditService.getHotPosts()
+        subredditsSubscription = redditService.getPopularSubreddits()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subredditListingResponse -> {
+                    List<SubredditDetailsResponse> subreddits = subredditListingResponse.getData().getSubreddits();
+                    Timber.d(subreddits.get(0).getData().name());
+                    getView().showPopularSubreddits(subreddits);
+                }
+                ,Timber::d
+                ,() -> Timber.d("completed getting popular subreddits"));
+    }
+
+    public void getSubredditPosts(String subreddit){
+        checkViewAttached();
+        postsSubscription = redditService.getSubredditPosts(subreddit)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
@@ -41,7 +58,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                             Timber.d(posts.get(0).getRedditPostData().title());
                             getView().showPosts(posts);
                         }
-                        , Timber::d
-                        , () -> Timber.d("Completed hot"));
+                        ,Timber::d
+                        ,() -> Timber.d("completed subreddit posts"));
     }
 }

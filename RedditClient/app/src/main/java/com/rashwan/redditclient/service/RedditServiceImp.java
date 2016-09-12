@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.rashwan.redditclient.data.RedditApi;
 import com.rashwan.redditclient.data.model.ListingResponse;
 import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
+import com.rashwan.redditclient.data.model.SubredditListingResponse;
 import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.Retrofit;
@@ -28,9 +29,9 @@ public class RedditServiceImp implements RedditService{
     }
 
     @Override
-    public Observable<ListingResponse> getHotPosts() {
+    public Observable<SubredditListingResponse> getPopularSubreddits() {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
-        return retrofit.create(RedditApi.class).getHotPosts(accessToken);
+        return retrofit.create(RedditApi.class).getPopularSubreddits(accessToken);
     }
 
     @Override

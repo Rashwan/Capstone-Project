@@ -2,6 +2,7 @@ package com.rashwan.redditclient.data;
 
 import com.rashwan.redditclient.data.model.ListingResponse;
 import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
+import com.rashwan.redditclient.data.model.SubredditListingResponse;
 import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.http.GET;
@@ -17,9 +18,10 @@ import rx.Observable;
 public interface RedditApi {
     String USER_AGENT = "User-Agent: android:com.rashwan.redditclient:v1.0.0 (by /u/ARashwan)";
 
-    @GET("hot")
+    @GET("subreddits/popular")
     @Headers(USER_AGENT)
-    Observable<ListingResponse> getHotPosts(@Header("Authorization") String accessToken);
+    Observable<SubredditListingResponse> getPopularSubreddits(
+            @Header("Authorization") String accessToken);
 
     @GET("r/{subreddit}/about")
     @Headers(USER_AGENT)
