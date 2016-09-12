@@ -111,7 +111,7 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public RedditService provideRedditService(Retrofit retrofit){
-        return new RedditServiceImp(retrofit);
+    public RedditService provideRedditService(Retrofit retrofit,SharedPreferences sp){
+        return new RedditServiceImp(retrofit,sp);
     }
 }

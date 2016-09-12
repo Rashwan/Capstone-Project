@@ -1,5 +1,7 @@
 package com.rashwan.redditclient.common.utilities;
 
+import android.content.SharedPreferences;
+
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.service.AuthService;
 
@@ -17,7 +19,9 @@ import okhttp3.Route;
  */
 
 public class TokenAuthenticator implements Authenticator {
+    private static final String KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN";
     @Inject AuthService authService;
+    @Inject SharedPreferences sp;
 
     public TokenAuthenticator() {
         RedditClientApplication.getApplicationComponent().inject(this);
@@ -28,7 +32,8 @@ public class TokenAuthenticator implements Authenticator {
         System.out.println("Authenticating for response: " + response);
         System.out.println("Challenges: " + response.challenges());
         String accessToken = authService.getAccessToken().toBlocking().first().accessToken();
-
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(KEY_ACCESS_TOKEN,"bearer " + accessToken).apply();
         return response.request().newBuilder()
                 .header("Authorization","bearer " + accessToken)
                 .build();
