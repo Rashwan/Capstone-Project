@@ -9,6 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -22,6 +23,12 @@ public interface RedditApi {
     @Headers(USER_AGENT)
     Observable<SubredditListingResponse> getPopularSubreddits(
             @Header("Authorization") String accessToken);
+
+    @GET("search/")
+    @Headers(USER_AGENT)
+    Observable<ListingResponse> searchPosts(
+            @Header("Authorization") String accessToken
+            ,@Query("q") String query);
 
     @GET("r/{subreddit}/about")
     @Headers(USER_AGENT)

@@ -35,6 +35,13 @@ public class RedditServiceImp implements RedditService{
     }
 
     @Override
+    public Observable<ListingResponse> searchPosts(String query) {
+        accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
+        String modifiedQuery = "title:" + query;
+        return retrofit.create(RedditApi.class).searchPosts(accessToken,modifiedQuery);
+    }
+
+    @Override
     public Observable<SubredditDetailsResponse> getSubredditDetails(String subreddit) {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
         return retrofit.create(RedditApi.class).getSubredditDetails(accessToken,subreddit);

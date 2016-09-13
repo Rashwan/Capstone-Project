@@ -1,10 +1,14 @@
 package com.rashwan.redditclient.feature.browseFrontPage;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +30,9 @@ import timber.log.Timber;
 
 public class BrowseFrontPageActivity extends AppCompatActivity implements BrowseFrontPageView,AdapterView.OnItemSelectedListener {
     @Inject BrowseFrontPagePresenter presenter;
-    @Inject BrowseFrontPageAdapter adapter;
+    @Inject BrowseFrontPageAdapter postsAdapter;
+    @Inject BrowseFrontPageAdapter searchAdapter;
+
 
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;
     @BindView(R.id.toolbar_browse_front_page) Toolbar toolbar;
@@ -47,7 +53,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         rvBrowseFrontPage.setHasFixedSize(true);
         rvBrowseFrontPage.addItemDecoration(itemDecoration);
         rvBrowseFrontPage.setLayoutManager(linearLayoutManager);
-        rvBrowseFrontPage.setAdapter(adapter);
+        rvBrowseFrontPage.setAdapter(postsAdapter);
 
         arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
         arrayAdapter.add("All");
@@ -66,9 +72,9 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
 
     @Override
     public void showPosts(List<RedditPost> posts) {
-        adapter.clearPosts();
-        adapter.addPosts(posts);
-        adapter.notifyDataSetChanged();
+        postsAdapter.clearPosts();
+        postsAdapter.addPosts(posts);
+        postsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -76,8 +82,15 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         for (SubredditDetailsResponse subreddit: subreddits) {
             arrayAdapter.add(subreddit.getData().name());
         }
+        arrayAdapter.notifyDataSetChanged();
+    }
 
-        adapter.notifyDataSetChanged();
+    @Override
+    public void showSearchResults(List<RedditPost> posts) {
+        searchAdapter.clearPosts();
+        searchAdapter.addPosts(posts);
+        searchAdapter.notifyDataSetChanged();
+        rvBrowseFrontPage.swapAdapter(searchAdapter,true);
     }
 
     @Override
@@ -96,5 +109,43 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         Timber.d("nothing selected");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_browse_front_page,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                presenter.searchPosts(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Timber.d("search view expanded");
+                searchAdapter.clearPosts();
+                rvBrowseFrontPage.swapAdapter(searchAdapter,true);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Timber.d("search view collapsed");
+                rvBrowseFrontPage.swapAdapter(postsAdapter,true);
+                return true;
+            }
+        });
+
+
+        return true;
     }
 }

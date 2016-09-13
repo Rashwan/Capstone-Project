@@ -21,6 +21,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     private RedditService redditService;
     private Subscription postsSubscription;
     private Subscription subredditsSubscription;
+    private Subscription searchPostsSubscription;
 
     public BrowseFrontPagePresenter(RedditService redditService) {
         this.redditService = redditService;
@@ -32,6 +33,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
         super.detachView();
         if (postsSubscription != null) postsSubscription.unsubscribe();
         if (subredditsSubscription != null) subredditsSubscription.unsubscribe();
+        if (searchPostsSubscription != null) searchPostsSubscription.unsubscribe();
     }
 
     public void getPopularSubreddits(){
@@ -60,5 +62,19 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                         }
                         ,Timber::d
                         ,() -> Timber.d("completed subreddit posts"));
+    }
+
+    public void searchPosts(String query){
+        checkViewAttached();
+        searchPostsSubscription = redditService.searchPosts(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(listingResponse -> {
+                    List<RedditPost> posts = listingResponse.getData().getPosts();
+                    Timber.d(posts.get(0).getRedditPostData().title());
+                    getView().showSearchResults(posts);
+                }
+                ,Timber::d
+                ,() -> Timber.d("completed searching posts"));
     }
 }

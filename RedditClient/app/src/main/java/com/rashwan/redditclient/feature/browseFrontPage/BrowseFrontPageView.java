@@ -13,4 +13,5 @@ import java.util.List;
 public interface BrowseFrontPageView extends MvpView{
     void showPosts(List<RedditPost> posts);
     void showPopularSubreddits(List<SubredditDetailsResponse> subreddits);
+    void showSearchResults(List<RedditPost> posts);
 }

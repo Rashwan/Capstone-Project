@@ -57,7 +57,9 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         browseFrontPageVH.comments.setText(String.format(Locale.US,"%d Comments",postData.numOfComments()));
         browseFrontPageVH.author.setText(postData.author());
         browseFrontPageVH.subreddit.setText(postData.subreddit());
-        Picasso.with(context).load(postData.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
+        if (!postData.thumbnail().isEmpty()){
+            Picasso.with(context).load(postData.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
+        }
     }
 
     @Override
