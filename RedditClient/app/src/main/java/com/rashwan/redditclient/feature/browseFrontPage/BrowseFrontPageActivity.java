@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
-import com.rashwan.redditclient.data.model.RedditPost;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     }
 
     @Override
-    public void showPosts(List<RedditPost> posts) {
+    public void showPosts(List<ListingKind> posts) {
         postsAdapter.clearPosts();
         postsAdapter.addPosts(posts);
         postsAdapter.notifyDataSetChanged();
@@ -86,7 +86,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     }
 
     @Override
-    public void showSearchResults(List<RedditPost> posts) {
+    public void showSearchResults(List<ListingKind> posts) {
         searchAdapter.clearPosts();
         searchAdapter.addPosts(posts);
         searchAdapter.notifyDataSetChanged();

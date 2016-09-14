@@ -1,9 +1,9 @@
 package com.rashwan.redditclient.data.model;
 
 import com.google.auto.value.AutoValue;
-import com.squareup.moshi.Json;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by rashwan on 9/10/16.
@@ -11,13 +11,13 @@ import com.squareup.moshi.Moshi;
 
 @AutoValue
 public abstract class SubredditDetailsModel {
-    @Json(name = "title") public abstract String description();
-    @Json(name = "display_name") public abstract String name();
-    @Json(name = "banner_img") public abstract String bannerImage();
-    @Json(name = "icon_img") public abstract String subredditIcon();
-    @Json(name = "subscribers") public abstract long numOfSubscribers();
+    @SerializedName("title") public abstract String description();
+    @SerializedName("display_name") public abstract String name();
+    @SerializedName("banner_img") public abstract String bannerImage();
+    @SerializedName("icon_img") public abstract String subredditIcon();
+    @SerializedName("subscribers") public abstract long numOfSubscribers();
 
-    public static JsonAdapter<SubredditDetailsModel> jsonAdapter(Moshi moshi){
-        return AutoValue_SubredditDetailsModel.jsonAdapter(moshi);
+    public static TypeAdapter<SubredditDetailsModel> typeAdapter(Gson gson) {
+        return new AutoValue_SubredditDetailsModel.GsonTypeAdapter(gson);
     }
 }

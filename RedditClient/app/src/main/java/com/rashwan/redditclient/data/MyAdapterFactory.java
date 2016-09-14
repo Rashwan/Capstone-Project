@@ -1,16 +1,16 @@
 package com.rashwan.redditclient.data;
 
-import com.ryanharter.auto.value.moshi.MoshiAdapterFactory;
-import com.squareup.moshi.JsonAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.ryanharter.auto.value.gson.GsonTypeAdapterFactory;
 
 /**
- * Created by rashwan on 9/7/16.
+ * Created by rashwan on 9/14/16.
  */
-
-@MoshiAdapterFactory
-public abstract class MyAdapterFactory implements JsonAdapter.Factory{
-
-    public static JsonAdapter.Factory create(){
-        return new AutoValueMoshi_MyAdapterFactory();
+@GsonTypeAdapterFactory
+public abstract class MyAdapterFactory implements TypeAdapterFactory{
+    // Static factory method to access the package
+    // private generated implementation
+    public static TypeAdapterFactory create() {
+        return new AutoValueGson_MyAdapterFactory();
     }
 }

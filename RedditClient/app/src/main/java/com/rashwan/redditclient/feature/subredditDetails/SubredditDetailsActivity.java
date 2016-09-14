@@ -16,7 +16,7 @@ import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
-import com.rashwan.redditclient.data.model.RedditPost;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
 import com.squareup.picasso.Picasso;
@@ -92,7 +92,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     }
 
     @Override
-    public void showSubredditPosts(List<RedditPost> posts) {
+    public void showSubredditPosts(List<ListingKind> posts) {
         adapter.addPosts(posts);
         adapter.notifyDataSetChanged();
     }

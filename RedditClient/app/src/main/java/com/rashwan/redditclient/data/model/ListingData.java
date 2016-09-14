@@ -1,6 +1,6 @@
 package com.rashwan.redditclient.data.model;
 
-import com.squareup.moshi.Json;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class ListingData {
     private String after;
     private String before;
-    @Json(name = "children") private List<RedditPost> posts;
+    @SerializedName("children") private List<ListingKind> children;
 
     public String getAfter() {
         return after;
@@ -21,7 +21,7 @@ public class ListingData {
         return before;
     }
 
-    public List<RedditPost> getPosts() {
-        return posts;
+    public List<ListingKind> getChildren() {
+        return children;
     }
 }

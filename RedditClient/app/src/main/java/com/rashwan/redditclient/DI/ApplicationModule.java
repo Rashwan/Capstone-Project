@@ -5,14 +5,17 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Base64;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
 import com.rashwan.redditclient.data.MyAdapterFactory;
+import com.rashwan.redditclient.data.model.ListingDeserializer;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;
 import com.rashwan.redditclient.service.RedditService;
 import com.rashwan.redditclient.service.RedditServiceImp;
-import com.squareup.moshi.Moshi;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -24,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.schedulers.Schedulers;
 
 
@@ -75,28 +78,31 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public Moshi provideMoshi(){
-        return new Moshi.Builder().add(MyAdapterFactory.create()).build();
+    public Gson provideGson(){
+        return new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapterFactory(MyAdapterFactory.create())
+                .registerTypeAdapter(ListingKind.class
+                , new ListingDeserializer()).create();
     }
     @Provides @Named("auth") @Singleton
-    public Retrofit provideAuthRetrofit(@Named("auth") OkHttpClient okHttpClient,Moshi moshi){
+    public Retrofit provideAuthRetrofit(@Named("auth") OkHttpClient okHttpClient,Gson gson){
         RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
         return new Retrofit.Builder()
                 .baseUrl(application.getString(R.string.reddit_auth_base_url))
                 .client(okHttpClient)
                 .addCallAdapterFactory(rxAdapter)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 
     @Provides @Singleton
-    public Retrofit provideRetrofit(OkHttpClient okHttpClient,Moshi moshi){
+    public Retrofit provideRetrofit(OkHttpClient okHttpClient,Gson gson){
         RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
         return new Retrofit.Builder()
                 .baseUrl(application.getString(R.string.reddit_api_base_url))
                 .client(okHttpClient)
                 .addCallAdapterFactory(rxAdapter)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 

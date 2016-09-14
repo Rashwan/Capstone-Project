@@ -1,7 +1,7 @@
 package com.rashwan.redditclient.feature.subredditDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
-import com.rashwan.redditclient.data.model.RedditPost;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.service.RedditService;
 
@@ -51,8 +51,8 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                    List<RedditPost> posts = listingResponse.getData().getPosts();
-                    Timber.d(posts.get(0).getRedditPostData().title());
+                    List<ListingKind> posts = listingResponse.getData().getChildren();
+                    Timber.d(posts.get(0).getType());
                     getView().showSubredditPosts(posts);
                 }
                 ,Timber::d

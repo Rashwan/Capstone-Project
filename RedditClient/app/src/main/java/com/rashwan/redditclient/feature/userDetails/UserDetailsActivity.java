@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
-import com.rashwan.redditclient.data.model.RedditPost;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
 import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
 
@@ -76,7 +76,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     }
 
     @Override
-    public void showUserPosts(List<RedditPost> posts) {
+    public void showUserPosts(List<ListingKind> posts) {
         adapter.addPosts(posts);
         adapter.notifyDataSetChanged();
     }

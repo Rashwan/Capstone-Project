@@ -1,9 +1,9 @@
 package com.rashwan.redditclient.data.model;
 
 import com.google.auto.value.AutoValue;
-import com.squareup.moshi.Json;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.SerializedName;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -18,12 +18,12 @@ import timber.log.Timber;
 @AutoValue
 public abstract class UserDetailsModel {
     public abstract String name();
-    @Json(name = "created_utc") public abstract long createdUtc();
-    @Json(name = "link_karma") public abstract long linkKarma();
-    @Json(name = "comment_karma") public abstract long commentKarma();
+    @SerializedName("created_utc") public abstract long createdUtc();
+    @SerializedName("link_karma") public abstract long linkKarma();
+    @SerializedName("comment_karma") public abstract long commentKarma();
 
-    public static JsonAdapter<UserDetailsModel> jsonAdapter(Moshi moshi){
-        return AutoValue_UserDetailsModel.jsonAdapter(moshi);
+    public static TypeAdapter<UserDetailsModel> typeAdapter(Gson gson) {
+        return new AutoValue_UserDetailsModel.GsonTypeAdapter(gson);
     }
 
     public String convertUtcToLocalTime(Long utc){

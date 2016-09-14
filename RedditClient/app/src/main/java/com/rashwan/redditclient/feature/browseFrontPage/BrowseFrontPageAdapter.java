@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
-import com.rashwan.redditclient.data.model.RedditPost;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.feature.subredditDetails.SubredditDetailsActivity;
 import com.rashwan.redditclient.feature.userDetails.UserDetailsActivity;
@@ -30,7 +30,7 @@ import butterknife.OnClick;
  */
 
 public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<RedditPost> posts;
+    private List<ListingKind> posts;
     private Context context;
 
 
@@ -49,16 +49,19 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
-        RedditPost post = posts.get(position);
-        RedditPostDataModel postData = post.getRedditPostData();
-        BrowseFrontPageVH browseFrontPageVH = (BrowseFrontPageVH) holder;
-        browseFrontPageVH.title.setText(postData.title());
-        browseFrontPageVH.points.setText(String.format("%s Points",postData.score()));
-        browseFrontPageVH.comments.setText(String.format(Locale.US,"%d Comments",postData.numOfComments()));
-        browseFrontPageVH.author.setText(postData.author());
-        browseFrontPageVH.subreddit.setText(postData.subreddit());
-        if (!postData.thumbnail().isEmpty()){
-            Picasso.with(context).load(postData.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
+        ListingKind listingKind = posts.get(position);
+        String type = listingKind.getType();
+        if (type.equals("post")) {
+            RedditPostDataModel post = (RedditPostDataModel) listingKind;
+            BrowseFrontPageVH browseFrontPageVH = (BrowseFrontPageVH) holder;
+            browseFrontPageVH.title.setText(post.getTitle());
+            browseFrontPageVH.points.setText(String.format("%s Points", post.getScore()));
+            browseFrontPageVH.comments.setText(String.format(Locale.US, "%d Comments", post.getNumOfComments()));
+            browseFrontPageVH.author.setText(post.getAuthor());
+            browseFrontPageVH.subreddit.setText(post.getSubreddit());
+            if (!post.getThumbnail().isEmpty()) {
+                Picasso.with(context).load(post.getThumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
+            }
         }
     }
 
@@ -67,7 +70,7 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return this.posts.size();
     }
 
-    public void addPosts(List<RedditPost> posts){
+    public void addPosts(List<ListingKind> posts){
         this.posts.addAll(posts);
     }
 

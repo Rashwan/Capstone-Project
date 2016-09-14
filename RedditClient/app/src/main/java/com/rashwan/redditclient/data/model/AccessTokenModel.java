@@ -1,9 +1,9 @@
 package com.rashwan.redditclient.data.model;
 
 import com.google.auto.value.AutoValue;
-import com.squareup.moshi.Json;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by rashwan on 9/7/16.
@@ -11,9 +11,9 @@ import com.squareup.moshi.Moshi;
 
 @AutoValue
 public abstract class AccessTokenModel {
-    @Json(name = "access_token") public abstract String accessToken();
+    @SerializedName("access_token") public abstract String accessToken();
 
-    public static JsonAdapter<AccessTokenModel> jsonAdapter(Moshi moshi){
-        return AutoValue_AccessTokenModel.jsonAdapter(moshi);
+    public static TypeAdapter<AccessTokenModel> typeAdapter(Gson gson) {
+        return new AutoValue_AccessTokenModel.GsonTypeAdapter(gson);
     }
 }
