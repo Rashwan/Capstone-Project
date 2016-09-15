@@ -37,10 +37,13 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         detailsSubscription = redditService.getUserDetails(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userDetailsResponse -> {
-                    UserDetailsModel details = userDetailsResponse.getData();
-                    Timber.d(details.name());
-                    getView().showUserDetails(details);
+                .subscribe(listingKind -> {
+                    if (listingKind.getType().equals("user")){
+                        UserDetailsModel userDetails = (UserDetailsModel) listingKind;
+                        Timber.d(userDetails.getName());
+                        getView().showUserDetails(userDetails);
+                    }
+
                 }
                 ,Timber::d
                 ,() -> Timber.d("completed getting user details"));

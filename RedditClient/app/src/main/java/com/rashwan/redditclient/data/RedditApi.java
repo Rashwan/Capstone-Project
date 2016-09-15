@@ -2,7 +2,6 @@ package com.rashwan.redditclient.data;
 
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
-import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -44,7 +43,7 @@ public interface RedditApi {
 
     @GET("user/{username}/about")
     @Headers(USER_AGENT)
-    Observable<UserDetailsResponse> getUserDetails(
+    Observable<ListingKind> getUserDetails(
             @Header("Authorization") String accessToken
             ,@Path("username") String username);
 

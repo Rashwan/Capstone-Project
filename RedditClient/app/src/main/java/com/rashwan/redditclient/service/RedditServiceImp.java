@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import com.rashwan.redditclient.data.RedditApi;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
-import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -53,7 +52,7 @@ public class RedditServiceImp implements RedditService{
     }
 
     @Override
-    public Observable<UserDetailsResponse> getUserDetails(String username) {
+    public Observable<ListingKind> getUserDetails(String username) {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
         return retrofit.create(RedditApi.class).getUserDetails(accessToken,username);
     }
