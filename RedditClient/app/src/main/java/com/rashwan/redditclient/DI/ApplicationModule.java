@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
-import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.data.ListingDeserializer;
+import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;
@@ -79,10 +79,11 @@ public class ApplicationModule {
 
     @Provides @Singleton
     public Gson provideGson(){
-        return new GsonBuilder().setPrettyPrinting()
+        return new GsonBuilder()
                 .registerTypeAdapterFactory(MyAdapterFactory.create())
                 .registerTypeAdapter(ListingKind.class
-                , new ListingDeserializer()).create();
+                , new ListingDeserializer())
+                .create();
     }
     @Provides @Named("auth") @Singleton
     public Retrofit provideAuthRetrofit(@Named("auth") OkHttpClient okHttpClient,Gson gson){

@@ -1,6 +1,6 @@
 package com.rashwan.redditclient.feature.browseFrontPage.injection;
 
-import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
+import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
 import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPagePresenter;
 import com.rashwan.redditclient.service.RedditService;
 
@@ -19,8 +19,8 @@ public class BrowseFrontPageModule {
     }
 
     @Provides
-    public BrowseFrontPageAdapter provideBrowseFrontPageAdapter(){
-        return new BrowseFrontPageAdapter();
+    public BrowsePostsAdapter provideBrowseFrontPageAdapter(){
+        return new BrowsePostsAdapter();
     }
 
 }

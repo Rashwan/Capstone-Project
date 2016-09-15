@@ -19,6 +19,7 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
+import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
 
 import java.util.List;
 
@@ -30,8 +31,10 @@ import timber.log.Timber;
 
 public class BrowseFrontPageActivity extends AppCompatActivity implements BrowseFrontPageView,AdapterView.OnItemSelectedListener {
     @Inject BrowseFrontPagePresenter presenter;
-    @Inject BrowseFrontPageAdapter postsAdapter;
-    @Inject BrowseFrontPageAdapter searchAdapter;
+    @Inject
+    BrowsePostsAdapter postsAdapter;
+    @Inject
+    BrowsePostsAdapter searchAdapter;
 
 
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;

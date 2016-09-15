@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.feature.browseFrontPage;
+package com.rashwan.redditclient.feature.common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,12 +29,12 @@ import butterknife.OnClick;
  * Created by rashwan on 9/9/16.
  */
 
-public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ListingKind> posts;
     private Context context;
 
 
-    public BrowseFrontPageAdapter() {
+    public BrowsePostsAdapter() {
         this.posts = new ArrayList<>();
     }
 
@@ -43,7 +43,7 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_post, parent, false);
-        return new BrowseFrontPageVH(view);
+        return new BrowsePostsVH(view);
     }
 
     @Override
@@ -53,14 +53,14 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         String type = listingKind.getType();
         if (type.equals(RedditPostDataModel.class.getSimpleName())) {
             RedditPostDataModel post = (RedditPostDataModel) listingKind;
-            BrowseFrontPageVH browseFrontPageVH = (BrowseFrontPageVH) holder;
-            browseFrontPageVH.title.setText(post.title());
-            browseFrontPageVH.points.setText(String.format("%s Points", post.score()));
-            browseFrontPageVH.comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
-            browseFrontPageVH.author.setText(post.author());
-            browseFrontPageVH.subreddit.setText(post.subreddit());
+            BrowsePostsVH browsePostsVH = (BrowsePostsVH) holder;
+            browsePostsVH.title.setText(post.title());
+            browsePostsVH.points.setText(String.format("%s Points", post.score()));
+            browsePostsVH.comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
+            browsePostsVH.author.setText(post.author());
+            browsePostsVH.subreddit.setText(post.subreddit());
             if (!post.thumbnail().isEmpty()) {
-                Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
+                Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowsePostsVH) holder).thumb);
             }
         }
     }
@@ -82,7 +82,7 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return this.posts.isEmpty();
     }
 
-    public class BrowseFrontPageVH extends RecyclerView.ViewHolder {
+    public class BrowsePostsVH extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_thumbnail) ImageView thumb;
         @BindView(R.id.tv_title) TextView title;
         @BindView(R.id.tv_author) TextView author;
@@ -91,7 +91,7 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @BindView(R.id.tv_points) TextView points;
         @BindView(R.id.tv_comments) TextView comments;
 
-        public BrowseFrontPageVH(View itemView) {
+        public BrowsePostsVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

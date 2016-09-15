@@ -18,7 +18,7 @@ import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
-import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
+import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -41,7 +41,8 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.rv_subreddit_posts) RecyclerView rvSubredditPosts;
     @Inject SubredditDetailsPresenter presenter;
-    @Inject BrowseFrontPageAdapter adapter;
+    @Inject
+    BrowsePostsAdapter adapter;
     private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.feature.subredditDetails.EXTRA_SUBREDDIT";
 
     public static Intent getSubredditDetailsIntent(Context context,String subreddit){

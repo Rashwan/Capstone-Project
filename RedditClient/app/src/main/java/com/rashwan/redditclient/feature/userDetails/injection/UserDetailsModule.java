@@ -1,7 +1,6 @@
 package com.rashwan.redditclient.feature.userDetails.injection;
 
-import com.rashwan.redditclient.data.RedditApi;
-import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
+import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
 import com.rashwan.redditclient.feature.userDetails.UserDetailsPresenter;
 import com.rashwan.redditclient.service.RedditService;
 
@@ -18,8 +17,8 @@ public class UserDetailsModule {
         return new UserDetailsPresenter(redditService);
     }
     @Provides
-    BrowseFrontPageAdapter provideBrowseFrontPageAdapter(){
-        return new BrowseFrontPageAdapter();
+    BrowsePostsAdapter provideBrowseFrontPageAdapter(){
+        return new BrowsePostsAdapter();
     }
 
 }

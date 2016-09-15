@@ -14,7 +14,7 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
-import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageAdapter;
+import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
 
 import java.util.List;
 import java.util.Locale;
@@ -34,7 +34,8 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     @BindView(R.id.rv_user_posts) RecyclerView rvUserPosts;
     private static final String EXTRA_USERNAME = "com.rashwan.redditclient.feature.userDetails.EXTRA_USERNAME";
     @Inject UserDetailsPresenter presenter;
-    @Inject BrowseFrontPageAdapter adapter;
+    @Inject
+    BrowsePostsAdapter adapter;
 
     public static Intent getUserDetailsIntent(Context context, String username) {
         Intent intent = new Intent(context, UserDetailsActivity.class);

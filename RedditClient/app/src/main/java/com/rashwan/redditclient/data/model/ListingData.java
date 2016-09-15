@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public abstract class ListingData {
     @Nullable public abstract String after();
     @Nullable public abstract String before();
-    @SerializedName("children") public abstract List<ListingKind> children();
+    public abstract List<ListingKind> children();
 
     public static TypeAdapter<ListingData> typeAdapter(Gson gson) {
         return new AutoValue_ListingData.GsonTypeAdapter(gson);
