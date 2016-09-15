@@ -18,7 +18,7 @@ import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.data.model.ListingKind;
-import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
+import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 
 import java.util.List;
 
@@ -65,6 +65,12 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.attachView(this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         presenter.detachView();
@@ -78,9 +84,14 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     }
 
     @Override
-    public void showPopularSubreddits(List<SubredditDetailsResponse> subreddits) {
-        for (SubredditDetailsResponse subreddit: subreddits) {
-            arrayAdapter.add(subreddit.getData().name());
+    public void showPopularSubreddits(List<ListingKind> subreddits) {
+        SubredditDetailsModel subredditDetails;
+
+        for (ListingKind subreddit: subreddits) {
+            if (subreddit.getType().equals("subreddit")){
+                subredditDetails = (SubredditDetailsModel) subreddit;
+                arrayAdapter.add(subredditDetails.getName());
+            }
         }
         arrayAdapter.notifyDataSetChanged();
     }

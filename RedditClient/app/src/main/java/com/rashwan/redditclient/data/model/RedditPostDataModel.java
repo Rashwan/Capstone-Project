@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
  * Created by rashwan on 9/8/16.
  */
 public class RedditPostDataModel extends ListingKind{
+    String author;
+    String score;
     public  String domain;
     public  String subreddit;
     public  String name;
@@ -18,6 +20,15 @@ public class RedditPostDataModel extends ListingKind{
     @Nullable @SerializedName("post_hint") public  String postHint;
     @SerializedName("url") public  String postUrl;
     @SerializedName("num_comments") public  int numOfComments;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
 
     public String getDomain() {
         return domain;

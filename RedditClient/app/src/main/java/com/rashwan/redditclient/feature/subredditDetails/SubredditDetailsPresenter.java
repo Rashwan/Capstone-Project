@@ -36,10 +36,13 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
         checkViewAttached();
         detailsSubscription = redditService.getSubredditDetails(subreddit)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subredditDetailsResponse -> {
-                    SubredditDetailsModel data = subredditDetailsResponse.getData();
-                    Timber.d(data.name());
-                    getView().showSubredditInfo(data);
+                .subscribe(listingKind -> {
+                    if (listingKind.getType().equals("subreddit")){
+                        SubredditDetailsModel subredditDetails = (SubredditDetailsModel) listingKind;
+                        Timber.d(subredditDetails.getName());
+                        getView().showSubredditInfo(subredditDetails);
+                    }
+
                 }
                     ,Timber::d
                     ,() -> Timber.d("completed subreddit details"));

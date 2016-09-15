@@ -1,8 +1,7 @@
 package com.rashwan.redditclient.data;
 
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
-import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
-import com.rashwan.redditclient.data.model.SubredditListingResponse;
 import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.http.GET;
@@ -21,7 +20,7 @@ public interface RedditApi {
 
     @GET("subreddits/popular")
     @Headers(USER_AGENT)
-    Observable<SubredditListingResponse> getPopularSubreddits(
+    Observable<ListingResponse> getPopularSubreddits(
             @Header("Authorization") String accessToken);
 
     @GET("search/")
@@ -30,17 +29,18 @@ public interface RedditApi {
             @Header("Authorization") String accessToken
             ,@Query("q") String query);
 
-    @GET("r/{subreddit}/about")
-    @Headers(USER_AGENT)
-    Observable<SubredditDetailsResponse> getSubredditDetails(
-            @Header("Authorization") String accessToken
-            ,@Path("subreddit") String subreddit);
-
     @GET("r/{subreddit}")
     @Headers(USER_AGENT)
     Observable<ListingResponse> getSubredditPosts(
             @Header("Authorization") String accessToken
             ,@Path("subreddit") String subreddit);
+
+    @GET("r/{subreddit}/about")
+    @Headers(USER_AGENT)
+    Observable<ListingKind> getSubredditDetails(
+            @Header("Authorization") String accessToken
+            ,@Path("subreddit") String subreddit);
+
 
     @GET("user/{username}/about")
     @Headers(USER_AGENT)

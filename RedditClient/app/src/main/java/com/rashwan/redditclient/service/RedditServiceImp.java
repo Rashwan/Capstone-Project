@@ -3,9 +3,8 @@ package com.rashwan.redditclient.service;
 import android.content.SharedPreferences;
 
 import com.rashwan.redditclient.data.RedditApi;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
-import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
-import com.rashwan.redditclient.data.model.SubredditListingResponse;
 import com.rashwan.redditclient.data.model.UserDetailsResponse;
 
 import retrofit2.Retrofit;
@@ -29,7 +28,7 @@ public class RedditServiceImp implements RedditService{
     }
 
     @Override
-    public Observable<SubredditListingResponse> getPopularSubreddits() {
+    public Observable<ListingResponse> getPopularSubreddits() {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
         return retrofit.create(RedditApi.class).getPopularSubreddits(accessToken);
     }
@@ -42,7 +41,7 @@ public class RedditServiceImp implements RedditService{
     }
 
     @Override
-    public Observable<SubredditDetailsResponse> getSubredditDetails(String subreddit) {
+    public Observable<ListingKind> getSubredditDetails(String subreddit) {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
         return retrofit.create(RedditApi.class).getSubredditDetails(accessToken,subreddit);
     }

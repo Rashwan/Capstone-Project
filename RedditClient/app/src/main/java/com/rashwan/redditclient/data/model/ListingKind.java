@@ -5,17 +5,8 @@ package com.rashwan.redditclient.data.model;
  */
 
 public class ListingKind {
-    String author;
-    String score;
+
     String type;
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getScore() {
-        return score;
-    }
 
     public String getType() {
         return type;

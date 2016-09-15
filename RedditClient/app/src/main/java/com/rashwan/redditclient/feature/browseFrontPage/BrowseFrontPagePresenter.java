@@ -2,7 +2,6 @@ package com.rashwan.redditclient.feature.browseFrontPage;
 
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.ListingKind;
-import com.rashwan.redditclient.data.model.SubredditDetailsResponse;
 import com.rashwan.redditclient.service.RedditService;
 
 import java.util.List;
@@ -41,9 +40,9 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
         subredditsSubscription = redditService.getPopularSubreddits()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subredditListingResponse -> {
-                    List<SubredditDetailsResponse> subreddits = subredditListingResponse.getData().getSubreddits();
-                    Timber.d(subreddits.get(0).getData().name());
+                .subscribe(listingResponse -> {
+                    List<ListingKind> subreddits = listingResponse.getData().getChildren();
+                    Timber.d(subreddits.get(0).getType());
                     getView().showPopularSubreddits(subreddits);
                 }
                 ,Timber::d

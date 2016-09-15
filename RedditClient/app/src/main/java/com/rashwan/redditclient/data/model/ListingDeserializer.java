@@ -31,6 +31,11 @@ public class ListingDeserializer implements JsonDeserializer<ListingKind>{
                         .deserialize(jsonObject.get("data"), RedditPostDataModel.class);
                 post.setType("post");
                 return post;
+            case "t5":
+                SubredditDetailsModel subreddit = context
+                        .deserialize(jsonObject.get("data"),SubredditDetailsModel.class);
+                subreddit.setType("subreddit");
+                return subreddit;
         }
         return null;
     }
