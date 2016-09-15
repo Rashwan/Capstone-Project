@@ -1,30 +1,28 @@
 package com.rashwan.redditclient.data.model;
 
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by rashwan on 9/14/16.
  */
+@AutoValue
+public abstract class RedditCommentDataModel extends ListingKind{
 
-public class RedditCommentDataModel extends ListingKind{
-    String author;
-    String score;
-    @SerializedName("parent_id") String parentId;
-    String body;
+    public abstract String author();
+    public abstract String score();
+    @SerializedName("parent_id") public abstract String parentId();
+    public abstract String body();
 
-    public String getAuthor() {
-        return author;
+
+    public static TypeAdapter<RedditCommentDataModel> typeAdapter(Gson gson) {
+        return new AutoValue_RedditCommentDataModel.GsonTypeAdapter(gson);
     }
 
-    public String getScore() {
-        return score;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public String getBody() {
-        return body;
+    @Override
+    public String getType() {
+        return RedditCommentDataModel.class.getSimpleName();
     }
 }

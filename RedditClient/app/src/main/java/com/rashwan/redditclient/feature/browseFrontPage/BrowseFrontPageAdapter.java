@@ -51,16 +51,16 @@ public class BrowseFrontPageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Context context = holder.itemView.getContext();
         ListingKind listingKind = posts.get(position);
         String type = listingKind.getType();
-        if (type.equals("post")) {
+        if (type.equals(RedditPostDataModel.class.getSimpleName())) {
             RedditPostDataModel post = (RedditPostDataModel) listingKind;
             BrowseFrontPageVH browseFrontPageVH = (BrowseFrontPageVH) holder;
-            browseFrontPageVH.title.setText(post.getTitle());
-            browseFrontPageVH.points.setText(String.format("%s Points", post.getScore()));
-            browseFrontPageVH.comments.setText(String.format(Locale.US, "%d Comments", post.getNumOfComments()));
-            browseFrontPageVH.author.setText(post.getAuthor());
-            browseFrontPageVH.subreddit.setText(post.getSubreddit());
-            if (!post.getThumbnail().isEmpty()) {
-                Picasso.with(context).load(post.getThumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
+            browseFrontPageVH.title.setText(post.title());
+            browseFrontPageVH.points.setText(String.format("%s Points", post.score()));
+            browseFrontPageVH.comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
+            browseFrontPageVH.author.setText(post.author());
+            browseFrontPageVH.subreddit.setText(post.subreddit());
+            if (!post.thumbnail().isEmpty()) {
+                Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowseFrontPageVH) holder).thumb);
             }
         }
     }

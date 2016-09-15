@@ -2,72 +2,35 @@ package com.rashwan.redditclient.data.model;
 
 import android.support.annotation.Nullable;
 
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by rashwan on 9/8/16.
  */
-public class RedditPostDataModel extends ListingKind{
-    String author;
-    String score;
-    public  String domain;
-    public  String subreddit;
-    public  String name;
-    public  String thumbnail;
-    public  String title;
-    @SerializedName("over_18") public  boolean nsfw;
-    @SerializedName("subreddit_id") public  String subredditId;
-    @Nullable @SerializedName("post_hint") public  String postHint;
-    @SerializedName("url") public  String postUrl;
-    @SerializedName("num_comments") public  int numOfComments;
+@AutoValue
+public abstract class RedditPostDataModel extends ListingKind{
+    public abstract String author();
+    public abstract String score();
+    public abstract String domain();
+    public abstract String subreddit();
+    public abstract String name();
+    public abstract String thumbnail();
+    public abstract String title();
+    @SerializedName("over_18") public abstract boolean nsfw();
+    @SerializedName("subreddit_id") public abstract String subredditId();
+    @Nullable @SerializedName("post_hint") public abstract String postHint();
+    @SerializedName("url") public abstract String postUrl();
+    @SerializedName("num_comments") public abstract int numOfComments();
 
-    public String getAuthor() {
-        return author;
+    public static TypeAdapter<RedditPostDataModel> typeAdapter(Gson gson) {
+        return new AutoValue_RedditPostDataModel.GsonTypeAdapter(gson);
     }
 
-    public String getScore() {
-        return score;
-    }
-
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public String getSubreddit() {
-        return subreddit;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public boolean isNsfw() {
-        return nsfw;
-    }
-
-    public String getSubredditId() {
-        return subredditId;
-    }
-
-    @Nullable
-    public String getPostHint() {
-        return postHint;
-    }
-
-    public String getPostUrl() {
-        return postUrl;
-    }
-
-    public int getNumOfComments() {
-        return numOfComments;
+    @Override
+    public String getType() {
+        return RedditPostDataModel.class.getSimpleName();
     }
 }

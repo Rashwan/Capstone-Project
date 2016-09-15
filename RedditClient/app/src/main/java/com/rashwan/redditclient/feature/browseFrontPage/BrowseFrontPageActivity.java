@@ -88,9 +88,9 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         SubredditDetailsModel subredditDetails;
 
         for (ListingKind subreddit: subreddits) {
-            if (subreddit.getType().equals("subreddit")){
+            if (subreddit.getType().equals(SubredditDetailsModel.class.getSimpleName())){
                 subredditDetails = (SubredditDetailsModel) subreddit;
-                arrayAdapter.add(subredditDetails.getName());
+                arrayAdapter.add(subredditDetails.name());
             }
         }
         arrayAdapter.notifyDataSetChanged();

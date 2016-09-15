@@ -77,18 +77,18 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
 
     @Override
     public void showSubredditInfo(SubredditDetailsModel details) {
-        subredditName.setText(details.getName());
-        subredditDescription.setText(details.getDescription());
-        String formattedNumber = NumberFormat.getInstance().format(details.getNumOfSubscribers());
+        subredditName.setText(details.name());
+        subredditDescription.setText(details.description());
+        String formattedNumber = NumberFormat.getInstance().format(details.numOfSubscribers());
         subredditSubscribers.setText(String.format(Locale.US,"%s Subscribers",formattedNumber));
 
         int color = ContextCompat.getColor(this,android.R.color.white);
-        String iconUrl = details.getSubredditIcon().isEmpty()?null:details.getSubredditIcon();
+        String iconUrl = details.subredditIcon().isEmpty()?null:details.subredditIcon();
         Picasso.with(this)
                 .load(iconUrl)
                 .placeholder(R.drawable.ic_reddit_logo_and_wordmark)
                 .transform(new RoundedTransformation(color)).into(subredditIcon);
-        toolbar.setTitle(details.getName());
+        toolbar.setTitle(details.name());
     }
 
     @Override

@@ -12,38 +12,33 @@ import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
 
 import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by rashwan on 9/14/16.
  */
 
 public class ListingDeserializer implements JsonDeserializer<ListingKind>{
+
+    private static Map<String, Class> map = new TreeMap<>();
+
+    static {
+        map.put("t1", RedditCommentDataModel.class);
+        map.put("t2", UserDetailsModel.class);
+        map.put("t3", RedditPostDataModel.class);
+        map.put("t5", SubredditDetailsModel.class);
+    }
+
     @Override
     public ListingKind deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
+        JsonElement data = jsonObject.get("data");
         String kind = jsonObject.get("kind").getAsString();
-        switch (kind){
-            case "t1":
-                RedditCommentDataModel comment = context
-                        .deserialize(jsonObject.get("data"), RedditCommentDataModel.class);
-                comment.setType("comment");
-                return comment;
-            case "t2":
-                UserDetailsModel user = context
-                        .deserialize(jsonObject.get("data"), UserDetailsModel.class);
-                user.setType("user");
-                return user;
-            case "t3":
-                RedditPostDataModel post = context
-                        .deserialize(jsonObject.get("data"), RedditPostDataModel.class);
-                post.setType("post");
-                return post;
-            case "t5":
-                SubredditDetailsModel subreddit = context
-                        .deserialize(jsonObject.get("data"),SubredditDetailsModel.class);
-                subreddit.setType("subreddit");
-                return subreddit;
+        Class type = map.get(kind);
+        if (type == null){
+            throw new RuntimeException("Unknown class: " + kind);
         }
-        return null;
+        return context.deserialize(data,type);
     }
 }

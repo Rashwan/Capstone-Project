@@ -1,5 +1,10 @@
 package com.rashwan.redditclient.data.model;
 
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -7,21 +12,13 @@ import java.util.List;
 /**
  * Created by rashwan on 9/8/16.
  */
+@AutoValue
+public abstract class ListingData {
+    @Nullable public abstract String after();
+    @Nullable public abstract String before();
+    @SerializedName("children") public abstract List<ListingKind> children();
 
-public class ListingData {
-    private String after;
-    private String before;
-    @SerializedName("children") private List<ListingKind> children;
-
-    public String getAfter() {
-        return after;
-    }
-
-    public String getBefore() {
-        return before;
-    }
-
-    public List<ListingKind> getChildren() {
-        return children;
+    public static TypeAdapter<ListingData> typeAdapter(Gson gson) {
+        return new AutoValue_ListingData.GsonTypeAdapter(gson);
     }
 }

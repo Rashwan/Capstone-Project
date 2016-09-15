@@ -41,7 +41,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                    List<ListingKind> subreddits = listingResponse.getData().getChildren();
+                    List<ListingKind> subreddits = listingResponse.data().children();
                     Timber.d(subreddits.get(0).getType());
                     getView().showPopularSubreddits(subreddits);
                 }
@@ -55,7 +55,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                            List<ListingKind> posts = listingResponse.getData().getChildren();
+                            List<ListingKind> posts = listingResponse.data().children();
                             Timber.d(posts.get(0).getType());
                             getView().showPosts(posts);
                         }
@@ -69,7 +69,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                    List<ListingKind> posts = listingResponse.getData().getChildren();
+                    List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
                     getView().showSearchResults(posts);
                 }

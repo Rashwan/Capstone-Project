@@ -37,9 +37,9 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
         detailsSubscription = redditService.getSubredditDetails(subreddit)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingKind -> {
-                    if (listingKind.getType().equals("subreddit")){
+                    if (listingKind.getType().equals(SubredditDetailsModel.class.getSimpleName())){
                         SubredditDetailsModel subredditDetails = (SubredditDetailsModel) listingKind;
-                        Timber.d(subredditDetails.getName());
+                        Timber.d(subredditDetails.name());
                         getView().showSubredditInfo(subredditDetails);
                     }
 
@@ -54,7 +54,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                    List<ListingKind> posts = listingResponse.getData().getChildren();
+                    List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
                     getView().showSubredditPosts(posts);
                 }

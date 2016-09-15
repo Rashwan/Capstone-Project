@@ -6,13 +6,7 @@ package com.rashwan.redditclient.data.model;
 
 public class ListingKind {
 
-    String type;
-
     public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+        return ListingKind.class.getSimpleName();
     }
 }

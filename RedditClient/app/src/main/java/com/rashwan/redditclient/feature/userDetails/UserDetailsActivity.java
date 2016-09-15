@@ -68,10 +68,10 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
 
     @Override
     public void showUserDetails(UserDetailsModel details) {
-        username.setText(details.getName());
-        userPostCarma.setText(String.format(Locale.US,"Link Karma: %d Points",details.getLinkKarma()));
-        userCommentCarma.setText(String.format(Locale.US,"Comment Karma: %d Points",details.getCommentKarma()));
-        userJoinedAt.setText(details.convertUtcToLocalTime(details.getCreatedUtc()));
+        username.setText(details.name());
+        userPostCarma.setText(String.format(Locale.US,"Link Karma: %d Points",details.linkKarma()));
+        userCommentCarma.setText(String.format(Locale.US,"Comment Karma: %d Points",details.commentKarma()));
+        userJoinedAt.setText(details.convertUtcToLocalTime(details.createdUtc()));
     }
 
     @Override

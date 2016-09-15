@@ -38,9 +38,9 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingKind -> {
-                    if (listingKind.getType().equals("user")){
+                    if (listingKind.getType().equals(UserDetailsModel.class.getSimpleName())){
                         UserDetailsModel userDetails = (UserDetailsModel) listingKind;
-                        Timber.d(userDetails.getName());
+                        Timber.d(userDetails.name());
                         getView().showUserDetails(userDetails);
                     }
 
@@ -55,7 +55,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                    List<ListingKind> posts = listingResponse.getData().getChildren();
+                    List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
                     getView().showUserPosts(posts);
                 }

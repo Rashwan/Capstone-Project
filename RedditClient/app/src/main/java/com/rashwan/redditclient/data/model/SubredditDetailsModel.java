@@ -1,35 +1,27 @@
 package com.rashwan.redditclient.data.model;
 
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by rashwan on 9/10/16.
  */
+@AutoValue
+public abstract class SubredditDetailsModel extends ListingKind{
 
-public class SubredditDetailsModel extends ListingKind{
-    @SerializedName("title") public  String description;
-    @SerializedName("display_name") public  String name;
-    @SerializedName("banner_img") public  String bannerImage;
-    @SerializedName("icon_img") public  String subredditIcon;
-    @SerializedName("subscribers") public  long numOfSubscribers;
+    @SerializedName("title") public abstract String description();
+    @SerializedName("display_name") public abstract String name();
+    @SerializedName("banner_img") public abstract String bannerImage();
+    @SerializedName("icon_img") public abstract String subredditIcon();
+    @SerializedName("subscribers") public abstract long numOfSubscribers();
 
-    public String getDescription() {
-        return description;
+    public static TypeAdapter<SubredditDetailsModel> typeAdapter(Gson gson) {
+        return new AutoValue_SubredditDetailsModel.GsonTypeAdapter(gson);
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getBannerImage() {
-        return bannerImage;
-    }
-
-    public String getSubredditIcon() {
-        return subredditIcon;
-    }
-
-    public long getNumOfSubscribers() {
-        return numOfSubscribers;
+    @Override
+    public String getType() {
+        return SubredditDetailsModel.class.getSimpleName();
     }
 }
