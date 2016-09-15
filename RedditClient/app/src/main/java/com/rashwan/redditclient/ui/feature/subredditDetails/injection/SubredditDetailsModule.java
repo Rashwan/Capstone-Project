@@ -1,7 +1,7 @@
-package com.rashwan.redditclient.feature.subredditDetails.injection;
+package com.rashwan.redditclient.ui.feature.subredditDetails.injection;
 
-import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
-import com.rashwan.redditclient.feature.subredditDetails.SubredditDetailsPresenter;
+import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
+import com.rashwan.redditclient.ui.feature.subredditDetails.SubredditDetailsPresenter;
 import com.rashwan.redditclient.service.RedditService;
 
 import dagger.Module;
@@ -18,7 +18,7 @@ public class SubredditDetailsModule {
         return new SubredditDetailsPresenter(redditService);
     }
     @Provides
-    BrowsePostsAdapter provideBrowseFrontPageAdapter(){
+    BrowsePostsAdapter provideBrowsePostsAdapter(){
         return new BrowsePostsAdapter();
     }
 }

@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.feature.common;
+package com.rashwan.redditclient.ui.common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
-import com.rashwan.redditclient.feature.subredditDetails.SubredditDetailsActivity;
-import com.rashwan.redditclient.feature.userDetails.UserDetailsActivity;
+import com.rashwan.redditclient.ui.feature.postDetails.PostDetailsActivity;
+import com.rashwan.redditclient.ui.feature.subredditDetails.SubredditDetailsActivity;
+import com.rashwan.redditclient.ui.feature.userDetails.UserDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -62,6 +63,15 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (!post.thumbnail().isEmpty()) {
                 Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowsePostsVH) holder).thumb);
             }
+
+            browsePostsVH.constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = PostDetailsActivity.getPostDetailsIntent(context,
+                            post.subreddit(), post.id());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -107,6 +117,11 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Intent intent = UserDetailsActivity.getUserDetailsIntent(context,view.getText().toString());
             context.startActivity(intent);
         }
+//        @OnClick(R.id.constraint_layout)
+//        void onPostClicked(View view){
+//            Intent intent = PostDetailsActivity.getPostDetailsIntent(context,"androiddev","52kvqk");
+//            context.startActivity(intent);
+//        }
 
     }
 

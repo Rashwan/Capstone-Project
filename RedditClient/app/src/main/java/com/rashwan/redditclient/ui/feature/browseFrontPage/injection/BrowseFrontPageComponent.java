@@ -1,7 +1,7 @@
-package com.rashwan.redditclient.feature.browseFrontPage.injection;
+package com.rashwan.redditclient.ui.feature.browseFrontPage.injection;
 
 import com.rashwan.redditclient.DI.PerActivity;
-import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPageActivity;
+import com.rashwan.redditclient.ui.feature.browseFrontPage.BrowseFrontPageActivity;
 
 import dagger.Subcomponent;
 

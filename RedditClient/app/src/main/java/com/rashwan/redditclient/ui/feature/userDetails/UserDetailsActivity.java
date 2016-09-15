@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.feature.userDetails;
+package com.rashwan.redditclient.ui.feature.userDetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
-import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
+import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
 
 import java.util.List;
 import java.util.Locale;
@@ -32,7 +32,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     @BindView(R.id.tv_user_comment_carma) TextView userCommentCarma;
     @BindView(R.id.tv_user_joined_at) TextView userJoinedAt;
     @BindView(R.id.rv_user_posts) RecyclerView rvUserPosts;
-    private static final String EXTRA_USERNAME = "com.rashwan.redditclient.feature.userDetails.EXTRA_USERNAME";
+    private static final String EXTRA_USERNAME = "com.rashwan.redditclient.ui.feature.userDetails.EXTRA_USERNAME";
     @Inject UserDetailsPresenter presenter;
     @Inject
     BrowsePostsAdapter adapter;

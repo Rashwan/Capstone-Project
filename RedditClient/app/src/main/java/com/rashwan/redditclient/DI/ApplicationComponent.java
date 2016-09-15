@@ -2,12 +2,14 @@ package com.rashwan.redditclient.DI;
 
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
-import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageComponent;
-import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
-import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
-import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsModule;
-import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsComponent;
-import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsModule;
+import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageComponent;
+import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageModule;
+import com.rashwan.redditclient.ui.feature.postDetails.injection.PostDetailsComponent;
+import com.rashwan.redditclient.ui.feature.postDetails.injection.PostDetailsModule;
+import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsComponent;
+import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsModule;
+import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsComponent;
+import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsModule;
 
 import javax.inject.Singleton;
 
@@ -25,5 +27,6 @@ public interface ApplicationComponent {
     BrowseFrontPageComponent plus(BrowseFrontPageModule browseFrontPageModule);
     SubredditDetailsComponent plus(SubredditDetailsModule subredditDetailsModule);
     UserDetailsComponent plus(UserDetailsModule userDetailsModule);
+    PostDetailsComponent plus(PostDetailsModule postDetailsModule);
 
 }

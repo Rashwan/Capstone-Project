@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.feature.subredditDetails;
+package com.rashwan.redditclient.ui.feature.subredditDetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
-import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
+import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -43,7 +43,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     @Inject SubredditDetailsPresenter presenter;
     @Inject
     BrowsePostsAdapter adapter;
-    private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.feature.subredditDetails.EXTRA_SUBREDDIT";
+    private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.ui.feature.subredditDetails.EXTRA_SUBREDDIT";
 
     public static Intent getSubredditDetailsIntent(Context context,String subreddit){
         Intent intent = new Intent(context,SubredditDetailsActivity.class);

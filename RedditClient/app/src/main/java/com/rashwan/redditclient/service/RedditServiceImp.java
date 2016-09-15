@@ -6,6 +6,8 @@ import com.rashwan.redditclient.data.RedditApi;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
 
+import java.util.List;
+
 import retrofit2.Retrofit;
 import rx.Observable;
 
@@ -61,5 +63,11 @@ public class RedditServiceImp implements RedditService{
     public Observable<ListingResponse> getUserPosts(String username) {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
         return retrofit.create(RedditApi.class).getUserPosts(accessToken,username);
+    }
+
+    @Override
+    public Observable<List<ListingResponse>> getPostDetails(String subreddit, String postId) {
+        accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
+        return retrofit.create(RedditApi.class).getPostDetails(accessToken,subreddit,postId);
     }
 }

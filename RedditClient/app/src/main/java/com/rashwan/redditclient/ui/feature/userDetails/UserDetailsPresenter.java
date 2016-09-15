@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.feature.userDetails;
+package com.rashwan.redditclient.ui.feature.userDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.ListingKind;

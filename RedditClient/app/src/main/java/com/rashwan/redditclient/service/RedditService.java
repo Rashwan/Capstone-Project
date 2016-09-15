@@ -3,6 +3,8 @@ package com.rashwan.redditclient.service;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
 
+import java.util.List;
+
 import rx.Observable;
 
 /**
@@ -16,4 +18,5 @@ public interface RedditService {
     Observable<ListingResponse> getSubredditPosts(String subreddit);
     Observable<ListingKind> getUserDetails(String username);
     Observable<ListingResponse> getUserPosts(String username);
+    Observable<List<ListingResponse>> getPostDetails(String subreddit,String postId);
 }

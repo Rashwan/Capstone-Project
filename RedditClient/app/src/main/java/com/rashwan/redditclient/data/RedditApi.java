@@ -3,6 +3,8 @@ package com.rashwan.redditclient.data;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.ListingResponse;
 
+import java.util.List;
+
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -52,4 +54,12 @@ public interface RedditApi {
     Observable<ListingResponse> getUserPosts(
             @Header("Authorization") String accessToken
             ,@Path("username") String username);
+
+    @GET("r/{subreddit}/comments/{postId}?showmore=false")
+    @Headers(USER_AGENT)
+    Observable<List<ListingResponse>> getPostDetails(
+            @Header("Authorization") String accessToken
+            ,@Path("subreddit") String subreddit
+            ,@Path("postId") String postId);
+
 }

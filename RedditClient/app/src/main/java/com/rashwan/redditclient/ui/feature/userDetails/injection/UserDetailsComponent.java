@@ -1,7 +1,7 @@
-package com.rashwan.redditclient.feature.userDetails.injection;
+package com.rashwan.redditclient.ui.feature.userDetails.injection;
 
 import com.rashwan.redditclient.DI.PerActivity;
-import com.rashwan.redditclient.feature.userDetails.UserDetailsActivity;
+import com.rashwan.redditclient.ui.feature.userDetails.UserDetailsActivity;
 
 import dagger.Subcomponent;
 

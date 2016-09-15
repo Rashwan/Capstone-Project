@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".feature.browseFrontPage.BrowseFrontPageActivity">
+        <activity android:name=".ui.feature.browseFrontPage.BrowseFrontPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.subredditDetails.SubredditDetailsActivity"
-            android:parentActivityName=".feature.browseFrontPage.BrowseFrontPageActivity">
-
-        </activity>
-        <activity android:name=".feature.userDetails.UserDetailsActivity"
-            android:parentActivityName=".feature.browseFrontPage.BrowseFrontPageActivity">
-
-        </activity>
+            android:name=".ui.feature.subredditDetails.SubredditDetailsActivity"
+            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity"></activity>
+        <activity
+            android:name=".ui.feature.userDetails.UserDetailsActivity"
+            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity"></activity>
+        <activity android:name=".ui.feature.postDetails.PostDetailsActivity"></activity>
     </application>
 
 </manifest>

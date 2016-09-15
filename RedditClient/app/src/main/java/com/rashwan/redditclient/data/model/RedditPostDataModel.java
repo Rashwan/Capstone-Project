@@ -17,8 +17,10 @@ public abstract class RedditPostDataModel extends ListingKind{
     public abstract String domain();
     public abstract String subreddit();
     public abstract String name();
+    public abstract String id();
     public abstract String thumbnail();
     public abstract String title();
+    @SerializedName("selftext") public abstract String body();
     @SerializedName("over_18") public abstract boolean nsfw();
     @SerializedName("subreddit_id") public abstract String subredditId();
     @Nullable @SerializedName("post_hint") public abstract String postHint();

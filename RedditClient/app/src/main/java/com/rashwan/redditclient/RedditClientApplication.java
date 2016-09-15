@@ -5,12 +5,14 @@ import android.app.Application;
 import com.rashwan.redditclient.DI.ApplicationComponent;
 import com.rashwan.redditclient.DI.ApplicationModule;
 import com.rashwan.redditclient.DI.DaggerApplicationComponent;
-import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageComponent;
-import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
-import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
-import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsModule;
-import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsComponent;
-import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsModule;
+import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageComponent;
+import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageModule;
+import com.rashwan.redditclient.ui.feature.postDetails.injection.PostDetailsComponent;
+import com.rashwan.redditclient.ui.feature.postDetails.injection.PostDetailsModule;
+import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsComponent;
+import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsModule;
+import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsComponent;
+import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsModule;
 
 import timber.log.Timber;
 
@@ -23,6 +25,7 @@ public class RedditClientApplication extends Application {
     private BrowseFrontPageComponent browseFrontPageComponent;
     private SubredditDetailsComponent subredditDetailsComponent;
     private UserDetailsComponent userDetailsComponent;
+    private PostDetailsComponent postDetailsComponent;
 
     @Override
     public void onCreate() {
@@ -55,6 +58,11 @@ public class RedditClientApplication extends Application {
         return userDetailsComponent;
     }
 
+    public PostDetailsComponent createPostDetailsComponent(){
+        postDetailsComponent = applicationComponent.plus(new PostDetailsModule());
+        return postDetailsComponent;
+    }
+
     public void releaseBrowseFrontPageComponent(){
         browseFrontPageComponent = null;
     }
@@ -63,6 +71,9 @@ public class RedditClientApplication extends Application {
     }
     public void releaseUserDetailsComponent(){
         userDetailsComponent = null;
+    }
+    public void releasePostDetailsComponent(){
+        postDetailsComponent = null;
     }
 
     public static ApplicationComponent getApplicationComponent() {

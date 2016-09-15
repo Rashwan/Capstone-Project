@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.feature.browseFrontPage;
+package com.rashwan.redditclient.ui.feature.browseFrontPage;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -19,7 +19,7 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
-import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
+import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
 
 import java.util.List;
 
@@ -31,10 +31,8 @@ import timber.log.Timber;
 
 public class BrowseFrontPageActivity extends AppCompatActivity implements BrowseFrontPageView,AdapterView.OnItemSelectedListener {
     @Inject BrowseFrontPagePresenter presenter;
-    @Inject
-    BrowsePostsAdapter postsAdapter;
-    @Inject
-    BrowsePostsAdapter searchAdapter;
+    @Inject BrowsePostsAdapter postsAdapter;
+    @Inject BrowsePostsAdapter searchAdapter;
 
 
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;
