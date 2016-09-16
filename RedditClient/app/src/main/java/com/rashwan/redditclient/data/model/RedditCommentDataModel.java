@@ -13,8 +13,9 @@ public abstract class RedditCommentDataModel extends ListingKind{
 
     public abstract String author();
     public abstract String score();
-    @SerializedName("parent_id") public abstract String parentId();
     public abstract String body();
+    private transient ListingResponse replies;
+    @SerializedName("parent_id") public abstract String parentId();
 
 
     public static TypeAdapter<RedditCommentDataModel> typeAdapter(Gson gson) {
@@ -24,5 +25,13 @@ public abstract class RedditCommentDataModel extends ListingKind{
     @Override
     public String getType() {
         return RedditCommentDataModel.class.getSimpleName();
+    }
+
+    public ListingResponse getReplies() {
+        return replies;
+    }
+
+    public void setReplies(ListingResponse replies) {
+        this.replies = replies;
     }
 }

@@ -51,6 +51,8 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             postsCommentsVH.body.setText(comment.body());
             postsCommentsVH.points.setText(String.format("%s Points", comment.score()));
             postsCommentsVH.author.setText(comment.author());
+//            RedditCommentDataModel reply = (RedditCommentDataModel) comment.replies().data().children().get(0);
+//            Timber.d(reply.body());
         }
     }
 

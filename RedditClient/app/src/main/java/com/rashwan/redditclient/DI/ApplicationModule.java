@@ -9,9 +9,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
+import com.rashwan.redditclient.data.CommentDeserializer;
 import com.rashwan.redditclient.data.ListingDeserializer;
 import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;
 import com.rashwan.redditclient.service.RedditService;
@@ -83,6 +85,8 @@ public class ApplicationModule {
                 .registerTypeAdapterFactory(MyAdapterFactory.create())
                 .registerTypeAdapter(ListingKind.class
                 , new ListingDeserializer())
+                .registerTypeAdapter(RedditCommentDataModel.class
+                ,new CommentDeserializer())
                 .create();
     }
     @Provides @Named("auth") @Singleton
