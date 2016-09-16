@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
@@ -25,6 +26,8 @@ import butterknife.OnClick;
  */
 
 public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
     private Context context;
     private List<ListingKind> comments;
 
@@ -51,8 +54,24 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             postsCommentsVH.body.setText(comment.body());
             postsCommentsVH.points.setText(String.format("%s Points", comment.score()));
             postsCommentsVH.author.setText(comment.author());
-//            RedditCommentDataModel reply = (RedditCommentDataModel) comment.replies().data().children().get(0);
-//            Timber.d(reply.body());
+            if (comment.getReplies()!=null){
+                RedditCommentDataModel firstReply = (RedditCommentDataModel) comment.getReplies()
+                        .data().children().get(0);
+                postsCommentsVH.firstReplyLayout.setVisibility(View.VISIBLE);
+                postsCommentsVH.firstReplyAuthor.setText(firstReply.author());
+                postsCommentsVH.firstReplyBody.setText(firstReply.body());
+                postsCommentsVH.firstReplyPoints.setText(String.format("%s Points", firstReply.score()));
+
+                if (comment.getReplies().data().children().size() > 1){
+                    RedditCommentDataModel secondReply = (RedditCommentDataModel) comment.getReplies()
+                            .data().children().get(1);
+                    postsCommentsVH.secondReplyLayout.setVisibility(View.VISIBLE);
+                    postsCommentsVH.secondReplyAuthor.setText(secondReply.author());
+                    postsCommentsVH.secondReplyBody.setText(secondReply.body());
+                    postsCommentsVH.secondReplyPoints.setText(String.format("%s Points", secondReply.score()));
+                }
+
+            }
         }
     }
 
@@ -78,6 +97,14 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.tv_points) TextView points;
         @BindView(R.id.tv_body) TextView body;
         @BindView(R.id.tv_author) TextView author;
+        @BindView(R.id.tv_first_reply_points) TextView firstReplyPoints;
+        @BindView(R.id.tv_first_reply_body) TextView firstReplyBody;
+        @BindView(R.id.tv_first_reply_author) TextView firstReplyAuthor;
+        @BindView(R.id.first_reply_layout) LinearLayout firstReplyLayout;
+        @BindView(R.id.tv_second_reply_points) TextView secondReplyPoints;
+        @BindView(R.id.tv_second_reply_body) TextView secondReplyBody;
+        @BindView(R.id.tv_second_reply_author) TextView secondReplyAuthor;
+        @BindView(R.id.second_reply_layout) LinearLayout secondReplyLayout;
 
 
         public PostCommentsVH(View itemView) {

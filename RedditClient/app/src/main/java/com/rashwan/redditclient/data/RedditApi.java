@@ -55,7 +55,7 @@ public interface RedditApi {
             @Header("Authorization") String accessToken
             ,@Path("username") String username);
 
-    @GET("r/{subreddit}/comments/{postId}?showmore=false")
+    @GET("r/{subreddit}/comments/{postId}?showmore=false?depth=2")
     @Headers(USER_AGENT)
     Observable<List<ListingResponse>> getPostDetails(
             @Header("Authorization") String accessToken
