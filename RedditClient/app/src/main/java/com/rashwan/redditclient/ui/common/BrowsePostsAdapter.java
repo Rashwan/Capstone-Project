@@ -84,6 +84,7 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.posts.addAll(posts);
     }
 
+
     public void clearPosts(){
         this.posts.clear();
     }

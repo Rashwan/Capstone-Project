@@ -20,9 +20,11 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     private final RedditService redditService;
     private Subscription detailsSubscription;
     private Subscription postsSubscription;
+    private String after;
 
     public UserDetailsPresenter(RedditService redditService) {
         this.redditService = redditService;
+        this.after = null;
     }
 
     @Override
@@ -51,12 +53,14 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void getUserPosts(String username){
         checkViewAttached();
-        postsSubscription = redditService.getUserPosts(username)
+        postsSubscription = redditService.getUserPosts(username,after)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
                     List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
+                    after = listingResponse.data().after();
+                    Timber.d(after);
                     getView().showUserPosts(posts);
                 }
                 ,Timber::d

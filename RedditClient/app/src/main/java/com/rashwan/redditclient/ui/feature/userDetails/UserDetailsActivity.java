@@ -7,35 +7,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
+import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
-import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class UserDetailsActivity extends AppCompatActivity implements UserDetailsView {
 
     @BindView(R.id.toolbar_user_details) Toolbar toolbar;
-    @BindView(R.id.tv_username) TextView username;
-    @BindView(R.id.tv_user_post_carma) TextView userPostCarma;
-    @BindView(R.id.tv_user_comment_carma) TextView userCommentCarma;
-    @BindView(R.id.tv_user_joined_at) TextView userJoinedAt;
     @BindView(R.id.rv_user_posts) RecyclerView rvUserPosts;
     private static final String EXTRA_USERNAME = "com.rashwan.redditclient.ui.feature.userDetails.EXTRA_USERNAME";
     @Inject UserDetailsPresenter presenter;
-    @Inject
-    BrowsePostsAdapter adapter;
+    @Inject UserDetailsAdapter adapter;
+    String username;
+
 
     public static Intent getUserDetailsIntent(Context context, String username) {
         Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -52,6 +48,8 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((RedditClientApplication) getApplication()).createUserDetailsComponent().inject(this);
         presenter.attachView(this);
+        Intent intent = getIntent();
+        username = intent.getStringExtra(EXTRA_USERNAME);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this);
@@ -59,9 +57,14 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         rvUserPosts.addItemDecoration(itemDecoration);
         rvUserPosts.setLayoutManager(linearLayoutManager);
         rvUserPosts.setAdapter(adapter);
+        rvUserPosts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore() {
+                Timber.d("on load more");
+                presenter.getUserPosts(username);
+            }
+        });
 
-        Intent intent = getIntent();
-        String username = intent.getStringExtra(EXTRA_USERNAME);
         toolbar.setTitle(username);
         presenter.getUserDetails(username);
         presenter.getUserPosts(username);
@@ -69,10 +72,8 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
 
     @Override
     public void showUserDetails(UserDetailsModel details) {
-        username.setText(details.name());
-        userPostCarma.setText(String.format(Locale.US,"Link Karma: %d Points",details.linkKarma()));
-        userCommentCarma.setText(String.format(Locale.US,"Comment Karma: %d Points",details.commentKarma()));
-        userJoinedAt.setText(details.convertUtcToLocalTime(details.createdUtc()));
+        adapter.addUserDetails(details);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

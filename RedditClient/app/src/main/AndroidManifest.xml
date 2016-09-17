@@ -20,11 +20,18 @@
         </activity>
         <activity
             android:name=".ui.feature.subredditDetails.SubredditDetailsActivity"
-            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity"></activity>
+            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity">
+
+        </activity>
         <activity
             android:name=".ui.feature.userDetails.UserDetailsActivity"
-            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity"></activity>
-        <activity android:name=".ui.feature.postDetails.PostDetailsActivity"></activity>
+            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity">
+
+        </activity>
+        <activity android:name=".ui.feature.postDetails.PostDetailsActivity"
+            android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity">
+
+        </activity>
     </application>
 
 </manifest>

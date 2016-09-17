@@ -60,9 +60,9 @@ public class RedditServiceImp implements RedditService{
     }
 
     @Override
-    public Observable<ListingResponse> getUserPosts(String username) {
+    public Observable<ListingResponse> getUserPosts(String username,String after) {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
-        return retrofit.create(RedditApi.class).getUserPosts(accessToken,username);
+        return retrofit.create(RedditApi.class).getUserPosts(accessToken,username,after);
     }
 
     @Override

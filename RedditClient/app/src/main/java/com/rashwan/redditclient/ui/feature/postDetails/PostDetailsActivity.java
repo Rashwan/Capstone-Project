@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
+import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.squareup.picasso.Picasso;
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class PostDetailsActivity extends AppCompatActivity implements PostDetailsView {
 
@@ -67,6 +69,12 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         rvPostComments.addItemDecoration(itemDecoration);
         rvPostComments.setLayoutManager(linearLayoutManager);
         rvPostComments.setAdapter(adapter);
+        rvPostComments.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore() {
+                Timber.d("load more");
+            }
+        });
         Intent intent = getIntent();
 
         presenter.getPostDetails(intent.getStringExtra(EXTRA_SUBREDDIT)
