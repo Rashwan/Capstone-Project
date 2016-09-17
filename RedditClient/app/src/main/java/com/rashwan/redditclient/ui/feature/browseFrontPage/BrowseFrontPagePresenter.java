@@ -21,9 +21,12 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     private Subscription postsSubscription;
     private Subscription subredditsSubscription;
     private Subscription searchPostsSubscription;
+    private String after;
+    private String oldSubreddit;
 
     public BrowseFrontPagePresenter(RedditService redditService) {
         this.redditService = redditService;
+        this.after = null;
     }
 
 
@@ -51,12 +54,19 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
 
     public void getSubredditPosts(String subreddit){
         checkViewAttached();
-        postsSubscription = redditService.getSubredditPosts(subreddit)
+        if (!subreddit.equals(oldSubreddit)){
+            Timber.d("different subreddit");
+            after = null;
+            oldSubreddit = subreddit;
+        }
+        postsSubscription = redditService.getSubredditPosts(subreddit,after)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
                             List<ListingKind> posts = listingResponse.data().children();
                             Timber.d(posts.get(0).getType());
+                            after = listingResponse.data().after();
+                            Timber.d(after);
                             getView().showPosts(posts);
                         }
                         ,Timber::d

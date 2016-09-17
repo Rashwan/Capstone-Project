@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
+import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
@@ -55,6 +56,13 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         rvBrowseFrontPage.addItemDecoration(itemDecoration);
         rvBrowseFrontPage.setLayoutManager(linearLayoutManager);
         rvBrowseFrontPage.setAdapter(postsAdapter);
+        rvBrowseFrontPage.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore() {
+                Timber.d("on load more");
+                presenter.getSubredditPosts(spinner.getSelectedItem().toString());
+            }
+        });
 
         arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
         arrayAdapter.add("All");
@@ -79,7 +87,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
 
     @Override
     public void showPosts(List<ListingKind> posts) {
-        postsAdapter.clearPosts();
+        int currentSize = postsAdapter.getItemCount();
         postsAdapter.addPosts(posts);
         postsAdapter.notifyDataSetChanged();
     }
@@ -114,6 +122,8 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String subreddit = (String) parent.getAdapter().getItem(position);
+        postsAdapter.clearPosts();
+        postsAdapter.notifyDataSetChanged();
         presenter.getSubredditPosts(subreddit);
         Timber.d(subreddit);
     }

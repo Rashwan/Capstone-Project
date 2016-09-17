@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
+import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
@@ -29,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SubredditDetailsActivity extends AppCompatActivity implements SubredditDetailsView {
 
@@ -59,6 +61,8 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         ButterKnife.bind(this);
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this);
@@ -66,10 +70,16 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         rvSubredditPosts.addItemDecoration(itemDecoration);
         rvSubredditPosts.setLayoutManager(linearLayoutManager);
         rvSubredditPosts.setAdapter(adapter);
+        rvSubredditPosts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore() {
+                Timber.d("on load more");
+                presenter.getSubredditPosts(subreddit);
+            }
+        });
 
         presenter.attachView(this);
-        Intent intent = getIntent();
-        String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
+
         presenter.getSubredditDetails(subreddit);
         presenter.getSubredditPosts(subreddit);
 

@@ -34,7 +34,8 @@ public interface RedditApi {
     @Headers(USER_AGENT)
     Observable<ListingResponse> getSubredditPosts(
             @Header("Authorization") String accessToken
-            ,@Path("subreddit") String subreddit);
+            ,@Path("subreddit") String subreddit
+            ,@Query("after") String after);
 
     @GET("r/{subreddit}/about")
     @Headers(USER_AGENT)
