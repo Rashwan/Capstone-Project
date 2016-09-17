@@ -43,8 +43,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.rv_subreddit_posts) RecyclerView rvSubredditPosts;
     @Inject SubredditDetailsPresenter presenter;
-    @Inject
-    BrowsePostsAdapter adapter;
+    @Inject BrowsePostsAdapter adapter;
     private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.ui.feature.subredditDetails.EXTRA_SUBREDDIT";
 
     public static Intent getSubredditDetailsIntent(Context context,String subreddit){
@@ -108,5 +107,11 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((RedditClientApplication)getApplication()).releaseSubredditDetailsComponent();
+        presenter.detachView();
 
+    }
 }

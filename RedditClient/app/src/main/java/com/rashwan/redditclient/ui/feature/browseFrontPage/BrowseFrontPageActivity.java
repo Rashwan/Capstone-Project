@@ -50,6 +50,21 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         presenter.attachView(this);
+
+        setupRecyclerView();
+        setupSpinner();
+
+        presenter.getPopularSubreddits();
+    }
+
+    private void setupSpinner() {
+        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
+        arrayAdapter.add("All");
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(this);
+    }
+
+    private void setupRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this);
         rvBrowseFrontPage.setHasFixedSize(true);
@@ -63,32 +78,16 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
                 presenter.getSubredditPosts(spinner.getSelectedItem().toString());
             }
         });
-
-        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
-        arrayAdapter.add("All");
-        spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(this);
-
-
-        presenter.getPopularSubreddits();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.attachView(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        presenter.detachView();
-    }
 
     @Override
     public void showPosts(List<ListingKind> posts) {
         int currentSize = postsAdapter.getItemCount();
+        Timber.d("current size: %d",currentSize);
+        Timber.d("posts size: %d",posts.size());
         postsAdapter.addPosts(posts);
+
         postsAdapter.notifyDataSetChanged();
     }
 
@@ -116,12 +115,15 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.detachView();
         ((RedditClientApplication)getApplication()).releaseBrowseFrontPageComponent();
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String subreddit = (String) parent.getAdapter().getItem(position);
+        presenter.cancelInFlightRequests();
         postsAdapter.clearPosts();
         postsAdapter.notifyDataSetChanged();
         presenter.getSubredditPosts(subreddit);
@@ -141,6 +143,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                presenter.cancelInFlightRequests();
                 presenter.searchPosts(query);
                 return true;
             }

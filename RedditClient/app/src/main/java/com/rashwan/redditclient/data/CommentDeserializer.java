@@ -31,10 +31,8 @@ public class CommentDeserializer implements JsonDeserializer<RedditCommentDataMo
         JsonElement repliesJson = json.getAsJsonObject().get("replies");
         RedditCommentDataModel comment = gson.fromJson(json,RedditCommentDataModel.class);
         if (!repliesJson.isJsonObject()){
-            Timber.d("replies are empty");
             comment.setReplies(null);
         }else {
-            Timber.d("we have replies");
             comment.setReplies(context.deserialize(repliesJson, ListingResponse.class));
         }
         return comment;

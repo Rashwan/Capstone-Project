@@ -103,4 +103,11 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         adapter.addComments(comments);
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((RedditClientApplication)getApplication()).releasePostDetailsComponent();
+        presenter.detachView();
+    }
 }

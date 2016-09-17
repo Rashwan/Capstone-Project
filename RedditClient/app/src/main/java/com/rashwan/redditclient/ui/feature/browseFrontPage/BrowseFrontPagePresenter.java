@@ -37,6 +37,10 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
         if (subredditsSubscription != null) subredditsSubscription.unsubscribe();
         if (searchPostsSubscription != null) searchPostsSubscription.unsubscribe();
     }
+    public void cancelInFlightRequests(){
+        if (postsSubscription != null) postsSubscription.unsubscribe();
+        if (searchPostsSubscription != null) searchPostsSubscription.unsubscribe();
+    }
 
     public void getPopularSubreddits(){
         checkViewAttached();

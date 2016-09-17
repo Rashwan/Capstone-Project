@@ -82,4 +82,11 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((RedditClientApplication)getApplication()).releaseUserDetailsComponent();
+        presenter.detachView();
+
+    }
 }
