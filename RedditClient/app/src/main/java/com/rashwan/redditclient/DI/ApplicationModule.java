@@ -7,11 +7,19 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
+import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
 import com.rashwan.redditclient.data.ListingDeserializer;
 import com.rashwan.redditclient.data.MyAdapterFactory;
+import com.rashwan.redditclient.data.RedditPostDBHelper;
+import com.rashwan.redditclient.data.RedditPostDeleteResolver;
+import com.rashwan.redditclient.data.RedditPostGetResolver;
+import com.rashwan.redditclient.data.RedditPostPutResolver;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;
 import com.rashwan.redditclient.service.RedditService;
@@ -121,4 +129,25 @@ public class ApplicationModule {
     public RedditService provideRedditService(Retrofit retrofit,SharedPreferences sp){
         return new RedditServiceImp(retrofit,sp);
     }
+
+    @Provides @Singleton
+    public RedditPostDBHelper provideRedditPostDBHelper(Application application){
+        return new RedditPostDBHelper(application);
+
+    }
+
+    @Provides @Singleton
+    public StorIOSQLite provideStorIOSQLite(RedditPostDBHelper redditPostDBHelper){
+        return DefaultStorIOSQLite.builder()
+                .sqliteOpenHelper(redditPostDBHelper)
+                .addTypeMapping(RedditPostDataModel.class
+                        , SQLiteTypeMapping.<RedditPostDataModel>builder()
+                        .putResolver(new RedditPostPutResolver())
+                        .getResolver(new RedditPostGetResolver())
+                        .deleteResolver(new RedditPostDeleteResolver())
+                        .build())
+                .build();
+    }
+
+
 }
