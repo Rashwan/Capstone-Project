@@ -26,6 +26,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 ext {
     supportLibraryVersion = '24.2.1'
@@ -61,6 +62,13 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    //DB
+    compile 'com.pushtorefresh.storio:sqlite:1.10.0'
+    compile 'com.pushtorefresh.storio:content-resolver:1.10.0'
+    compile 'com.pushtorefresh.storio:sqlite-annotations:1.10.0'
+
+    apt 'com.pushtorefresh.storio:sqlite-annotations-processor:1.10.0'
 
     //other
     compile 'com.jakewharton.timber:timber:4.3.0'
