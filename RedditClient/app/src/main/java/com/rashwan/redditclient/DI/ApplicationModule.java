@@ -17,7 +17,6 @@ import com.rashwan.redditclient.data.ListingDeserializer;
 import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.data.db.RedditPostDBHelper;
 import com.rashwan.redditclient.data.model.ListingKind;
-import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.service.AuthService;
@@ -142,8 +141,8 @@ public class ApplicationModule {
     public StorIOContentResolver provideStorIOContentResolver(){
         return DefaultStorIOContentResolver.builder()
                 .contentResolver(application.getContentResolver())
-                .addTypeMapping(RedditPostDataModel.class
-                    , ContentResolverTypeMapping.<RedditPostDataModel>builder()
+                .addTypeMapping(ListingKind.class
+                    , ContentResolverTypeMapping.<ListingKind>builder()
                     .putResolver(RedditPostMeta.PUT_RESOLVER)
                     .getResolver(RedditPostMeta.GET_RESOLVER)
                     .deleteResolver(RedditPostMeta.DELETE_RESOLVER)

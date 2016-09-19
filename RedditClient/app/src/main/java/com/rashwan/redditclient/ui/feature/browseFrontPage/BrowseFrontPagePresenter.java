@@ -9,7 +9,6 @@ import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.service.RedditService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -77,16 +76,15 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribe(listingResponse -> {
                             List<ListingKind> posts = listingResponse.data().children();
                             Timber.d(posts.get(0).getType());
-                            if (subreddit.equals("All") && listingResponse.data().before() == null){
+                            if (subreddit.equals("All") && listingResponse.data().before() == null) {
                                 Timber.d("Database Time!");
-                                List<RedditPostDataModel> postsModels = new ArrayList<>();
-                                for (ListingKind post: posts) {
-                                    RedditPostDataModel postModel = (RedditPostDataModel) post;
-                                    postsModels.add(postModel);
-                                }
-                                PutResults<RedditPostDataModel> putResults = storIOContentResolver.put().objects(postsModels).prepare()
-                                        .executeAsBlocking();
+
+                                PutResults<ListingKind> putResults = storIOContentResolver.put().objects(posts).prepare().executeAsBlocking();
                                 Timber.d(String.valueOf(putResults.numberOfInserts()));
+
+                                List<ListingKind> results = storIOContentResolver.get().listOfObjects(ListingKind.class).withQuery(Query.builder()
+                                        .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
+                                Timber.d(((RedditPostDataModel) results.get(0)).title());
                             }
                             List<RedditPostDataModel> results = storIOContentResolver.get()
                                     .listOfObjects(RedditPostDataModel.class).withQuery(
@@ -96,7 +94,6 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                             after = listingResponse.data().after();
                             Timber.d(after);
                             getView().showPosts(posts);
-
                         }
                         ,Timber::d
                         ,() -> Timber.d("completed subreddit posts"));
