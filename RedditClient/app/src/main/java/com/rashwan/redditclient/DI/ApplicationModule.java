@@ -7,6 +7,9 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
+import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
@@ -14,10 +17,11 @@ import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
 import com.rashwan.redditclient.data.ListingDeserializer;
 import com.rashwan.redditclient.data.MyAdapterFactory;
-import com.rashwan.redditclient.data.RedditPostDBHelper;
-import com.rashwan.redditclient.data.RedditPostDeleteResolver;
-import com.rashwan.redditclient.data.RedditPostGetResolver;
-import com.rashwan.redditclient.data.RedditPostPutResolver;
+import com.rashwan.redditclient.data.db.RedditPostDBHelper;
+import com.rashwan.redditclient.data.db.resolvers.RedditPostDeleteResolver;
+import com.rashwan.redditclient.data.db.resolvers.RedditPostGetResolver;
+import com.rashwan.redditclient.data.provider.RedditPostMeta;
+import com.rashwan.redditclient.data.db.resolvers.RedditPostPutResolver;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.service.AuthService;
@@ -146,6 +150,19 @@ public class ApplicationModule {
                         .getResolver(new RedditPostGetResolver())
                         .deleteResolver(new RedditPostDeleteResolver())
                         .build())
+                .build();
+    }
+
+    @Provides @Singleton
+    public StorIOContentResolver provideStorIOContentResolver(){
+        return DefaultStorIOContentResolver.builder()
+                .contentResolver(application.getContentResolver())
+                .addTypeMapping(RedditPostDataModel.class
+                    , ContentResolverTypeMapping.<RedditPostDataModel>builder()
+                    .putResolver(RedditPostMeta.PUT_RESOLVER)
+                    .getResolver(RedditPostMeta.GET_RESOLVER)
+                    .deleteResolver(RedditPostMeta.DELETE_RESOLVER)
+                    .build())
                 .build();
     }
 

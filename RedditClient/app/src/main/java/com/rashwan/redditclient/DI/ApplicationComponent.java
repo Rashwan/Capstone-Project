@@ -2,6 +2,7 @@ package com.rashwan.redditclient.DI;
 
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
+import com.rashwan.redditclient.data.provider.RedditPostContentProvider;
 import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageComponent;
 import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
 import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
@@ -21,6 +22,7 @@ import dagger.Component;
 public interface ApplicationComponent {
     void inject(RedditClientApplication target);
     void inject(TokenAuthenticator target);
+    void inject(RedditPostContentProvider target);
 
     BrowseFrontPageComponent plus(BrowseFrontPageModule browseFrontPageModule);
     SubredditDetailsComponent plus(SubredditDetailsModule subredditDetailsModule);
