@@ -31,10 +31,8 @@ import timber.log.Timber;
 
 public class BrowseFrontPageActivity extends AppCompatActivity implements BrowseFrontPageView,AdapterView.OnItemSelectedListener {
     @Inject BrowseFrontPagePresenter presenter;
-    @Inject
-    BrowsePostsAdapter postsAdapter;
-    @Inject
-    BrowsePostsAdapter searchAdapter;
+    @Inject BrowsePostsAdapter postsAdapter;
+    @Inject BrowsePostsAdapter searchAdapter;
 
 
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;

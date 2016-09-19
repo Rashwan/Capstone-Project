@@ -15,6 +15,7 @@ import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.InsertQuery;
 import com.pushtorefresh.storio.contentresolver.queries.UpdateQuery;
 import com.rashwan.redditclient.data.db.RedditPostTable;
+import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 
 import timber.log.Timber;
@@ -42,10 +43,10 @@ public class RedditPostMeta {
     public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POST).build();
 
     @NonNull
-    public static final PutResolver<RedditPostDataModel> PUT_RESOLVER = new DefaultPutResolver<RedditPostDataModel>() {
+    public static final PutResolver<ListingKind> PUT_RESOLVER = new DefaultPutResolver<ListingKind>() {
         @NonNull
         @Override
-        protected InsertQuery mapToInsertQuery(@NonNull RedditPostDataModel object) {
+        protected InsertQuery mapToInsertQuery(@NonNull ListingKind object) {
             return InsertQuery.builder()
                     .uri(CONTENT_URI)
                     .build();
@@ -53,35 +54,42 @@ public class RedditPostMeta {
 
         @NonNull
         @Override
-        protected UpdateQuery mapToUpdateQuery(@NonNull RedditPostDataModel object) {
-            return UpdateQuery.builder()
-                    .uri(CONTENT_URI)
-                    .where(RedditPostTable.COLUMN_ID + " = ?")
-                    .whereArgs(object.getId())
-                    .build();
+        protected UpdateQuery mapToUpdateQuery(@NonNull ListingKind object) {
+            if (object.getType().equals(RedditPostDataModel.class.getSimpleName())){
+                RedditPostDataModel post = (RedditPostDataModel) object;
+                return UpdateQuery.builder()
+                        .uri(CONTENT_URI)
+                        .where(RedditPostTable.COLUMN_ID + " = ?")
+                        .whereArgs(post.getId())
+                        .build();
+            }
+            return null;
+
         }
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull RedditPostDataModel object) {
+        protected ContentValues mapToContentValues(@NonNull ListingKind object) {
             ContentValues contentValues = new ContentValues();
-
-            contentValues.put(RedditPostTable.COLUMN_AUTHOR,object.author());
-            contentValues.put(RedditPostTable.COLUMN_SCORE,object.score());
-            contentValues.put(RedditPostTable.COLUMN_SUBREDDIT,object.subreddit());
-            contentValues.put(RedditPostTable.COLUMN_THUMBNAIL,object.thumbnail());
-            contentValues.put(RedditPostTable.COLUMN_TITLE,object.title());
-            contentValues.put(RedditPostTable.COLUMN_NUM_OF_COMMENTS,object.numOfComments());
+            if (object.getType().equals(RedditPostDataModel.class.getSimpleName())) {
+                RedditPostDataModel post = (RedditPostDataModel) object;
+                contentValues.put(RedditPostTable.COLUMN_AUTHOR, post.author());
+                contentValues.put(RedditPostTable.COLUMN_SCORE, post.score());
+                contentValues.put(RedditPostTable.COLUMN_SUBREDDIT, post.subreddit());
+                contentValues.put(RedditPostTable.COLUMN_THUMBNAIL, post.thumbnail());
+                contentValues.put(RedditPostTable.COLUMN_TITLE, post.title());
+                contentValues.put(RedditPostTable.COLUMN_NUM_OF_COMMENTS, post.numOfComments());
+            }
 
             return contentValues;
         }
     };
 
     @NonNull
-    public static final GetResolver<RedditPostDataModel> GET_RESOLVER = new DefaultGetResolver<RedditPostDataModel>() {
+    public static final GetResolver<ListingKind> GET_RESOLVER = new DefaultGetResolver<ListingKind>() {
         @NonNull
         @Override
-        public RedditPostDataModel mapFromCursor(@NonNull Cursor cursor) {
+        public ListingKind mapFromCursor(@NonNull Cursor cursor) {
 
             int id = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_ID));
             String author = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_AUTHOR));
@@ -99,15 +107,19 @@ public class RedditPostMeta {
     };
 
     @NonNull
-    public static final DeleteResolver<RedditPostDataModel> DELETE_RESOLVER = new DefaultDeleteResolver<RedditPostDataModel>() {
+    public static final DeleteResolver<ListingKind> DELETE_RESOLVER = new DefaultDeleteResolver<ListingKind>() {
         @NonNull
         @Override
-        protected DeleteQuery mapToDeleteQuery(@NonNull RedditPostDataModel object) {
-            return DeleteQuery.builder()
-                    .uri(CONTENT_URI)
-                    .where(RedditPostTable.COLUMN_ID + " = ?")
-                    .whereArgs(object.getId())
-                    .build();
+        protected DeleteQuery mapToDeleteQuery(@NonNull ListingKind object) {
+            if (object.getType().equals(RedditPostDataModel.class.getSimpleName())){
+                RedditPostDataModel post = (RedditPostDataModel) object;
+                return DeleteQuery.builder()
+                        .uri(CONTENT_URI)
+                        .where(RedditPostTable.COLUMN_ID + " = ?")
+                        .whereArgs(post.getId())
+                        .build();
+            }
+            return null;
         }
     };
 }
