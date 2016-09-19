@@ -34,6 +34,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
         this.redditService = redditService;
         this.storIOContentResolver = storIOContentResolver;
         this.after = null;
+        this.storIOContentResolver = storIOContentResolver;
     }
 
 
@@ -90,6 +91,16 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
 
                             after = listingResponse.data().after();
                             Timber.d(after);
+                            if (subreddit.equals("All") && listingResponse.data().before() == null) {
+                                Timber.d("Database Time!");
+
+                                PutResults<ListingKind> putResults = storIOContentResolver.put().objects(posts).prepare().executeAsBlocking();
+                                Timber.d(String.valueOf(putResults.numberOfInserts()));
+
+                                List<ListingKind> results = storIOContentResolver.get().listOfObjects(ListingKind.class).withQuery(Query.builder()
+                                        .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
+                                Timber.d(((RedditPostDataModel) results.get(0)).title());
+                            }
                             getView().showPosts(posts);
                         }
                         ,Timber::d

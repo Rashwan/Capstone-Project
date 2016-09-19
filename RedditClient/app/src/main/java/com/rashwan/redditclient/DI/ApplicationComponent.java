@@ -11,6 +11,13 @@ import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditD
 import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsModule;
 import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsComponent;
 import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsModule;
+import com.rashwan.redditclient.data.provider.RedditPostContentProvider;
+import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageComponent;
+import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
+import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
+import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsModule;
+import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsComponent;
+import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsModule;
 
 import javax.inject.Singleton;
 

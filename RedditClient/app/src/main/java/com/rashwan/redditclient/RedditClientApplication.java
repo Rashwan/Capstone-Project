@@ -19,6 +19,8 @@ import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsModu
 
 import javax.inject.Inject;
 
+import javax.inject.Inject;
+
 import timber.log.Timber;
 
 /**
@@ -31,6 +33,7 @@ public class RedditClientApplication extends Application {
     private SubredditDetailsComponent subredditDetailsComponent;
     private UserDetailsComponent userDetailsComponent;
     private PostDetailsComponent postDetailsComponent;
+    @Inject StorIOContentResolver storIOContentResolver;
     @Inject StorIOContentResolver storIOContentResolver;
 
     @Override

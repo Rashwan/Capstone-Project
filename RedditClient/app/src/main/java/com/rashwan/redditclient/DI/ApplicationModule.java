@@ -19,6 +19,7 @@ import com.rashwan.redditclient.data.db.RedditPostDBHelper;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
+import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;
 import com.rashwan.redditclient.service.RedditService;
