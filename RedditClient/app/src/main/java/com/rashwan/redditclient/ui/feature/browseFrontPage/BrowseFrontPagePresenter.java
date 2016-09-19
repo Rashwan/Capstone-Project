@@ -1,9 +1,15 @@
 package com.rashwan.redditclient.ui.feature.browseFrontPage;
 
+import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.operations.put.PutResults;
+import com.pushtorefresh.storio.contentresolver.queries.Query;
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
+import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.service.RedditService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -18,14 +24,16 @@ import timber.log.Timber;
 public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView> {
 
     private RedditService redditService;
+    private StorIOContentResolver storIOContentResolver;
     private Subscription postsSubscription;
     private Subscription subredditsSubscription;
     private Subscription searchPostsSubscription;
     private String after;
     private String oldSubreddit;
 
-    public BrowseFrontPagePresenter(RedditService redditService) {
+    public BrowseFrontPagePresenter(RedditService redditService,StorIOContentResolver storIOContentResolver) {
         this.redditService = redditService;
+        this.storIOContentResolver = storIOContentResolver;
         this.after = null;
     }
 
@@ -69,9 +77,26 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribe(listingResponse -> {
                             List<ListingKind> posts = listingResponse.data().children();
                             Timber.d(posts.get(0).getType());
+                            if (subreddit.equals("All") && listingResponse.data().before() == null){
+                                Timber.d("Database Time!");
+                                List<RedditPostDataModel> postsModels = new ArrayList<>();
+                                for (ListingKind post: posts) {
+                                    RedditPostDataModel postModel = (RedditPostDataModel) post;
+                                    postsModels.add(postModel);
+                                }
+                                PutResults<RedditPostDataModel> putResults = storIOContentResolver.put().objects(postsModels).prepare()
+                                        .executeAsBlocking();
+                                Timber.d(String.valueOf(putResults.numberOfInserts()));
+                            }
+                            List<RedditPostDataModel> results = storIOContentResolver.get()
+                                    .listOfObjects(RedditPostDataModel.class).withQuery(
+                                    Query.builder().uri(RedditPostMeta.CONTENT_URI)
+                                            .build()).prepare().executeAsBlocking();
+                            Timber.d(results.get(0).title());
                             after = listingResponse.data().after();
                             Timber.d(after);
                             getView().showPosts(posts);
+
                         }
                         ,Timber::d
                         ,() -> Timber.d("completed subreddit posts"));

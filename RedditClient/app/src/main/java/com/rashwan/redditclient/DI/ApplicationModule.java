@@ -10,21 +10,15 @@ import com.google.gson.GsonBuilder;
 import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
-import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
-import com.pushtorefresh.storio.sqlite.StorIOSQLite;
-import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
 import com.rashwan.redditclient.data.CommentDeserializer;
 import com.rashwan.redditclient.data.ListingDeserializer;
 import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.data.db.RedditPostDBHelper;
-import com.rashwan.redditclient.data.db.resolvers.RedditPostDeleteResolver;
-import com.rashwan.redditclient.data.db.resolvers.RedditPostGetResolver;
-import com.rashwan.redditclient.data.provider.RedditPostMeta;
-import com.rashwan.redditclient.data.db.resolvers.RedditPostPutResolver;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
+import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.service.AuthService;
 import com.rashwan.redditclient.service.AuthServiceImp;
@@ -145,19 +139,6 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public StorIOSQLite provideStorIOSQLite(RedditPostDBHelper redditPostDBHelper){
-        return DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(redditPostDBHelper)
-                .addTypeMapping(RedditPostDataModel.class
-                        , SQLiteTypeMapping.<RedditPostDataModel>builder()
-                        .putResolver(new RedditPostPutResolver())
-                        .getResolver(new RedditPostGetResolver())
-                        .deleteResolver(new RedditPostDeleteResolver())
-                        .build())
-                .build();
-    }
-
-    @Provides @Singleton
     public StorIOContentResolver provideStorIOContentResolver(){
         return DefaultStorIOContentResolver.builder()
                 .contentResolver(application.getContentResolver())
@@ -168,6 +149,7 @@ public class ApplicationModule {
                     .deleteResolver(RedditPostMeta.DELETE_RESOLVER)
                     .build())
                 .build();
+
     }
 
 
