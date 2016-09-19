@@ -1,5 +1,6 @@
 package com.rashwan.redditclient.feature.browseFrontPage.injection;
 
+import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.rashwan.redditclient.feature.common.BrowsePostsAdapter;
 import com.rashwan.redditclient.feature.browseFrontPage.BrowseFrontPagePresenter;
 import com.rashwan.redditclient.service.RedditService;
@@ -14,8 +15,8 @@ import dagger.Provides;
 public class BrowseFrontPageModule {
 
     @Provides
-    public BrowseFrontPagePresenter provideBrowseFrontPagePresenter(RedditService redditService){
-        return new BrowseFrontPagePresenter(redditService);
+    public BrowseFrontPagePresenter provideBrowseFrontPagePresenter(RedditService redditService, StorIOContentResolver storIOContentResolver){
+        return new BrowseFrontPagePresenter(redditService,storIOContentResolver);
     }
 
     @Provides
