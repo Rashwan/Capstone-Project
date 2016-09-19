@@ -14,7 +14,6 @@ import com.google.gson.annotations.SerializedName;
 public abstract class RedditPostDataModel extends ListingKind{
     public abstract String author();
     public abstract String score();
-    @Nullable public abstract String domain();
     @Nullable public abstract String id();
     @Nullable public abstract String domain();
     public abstract String subreddit();
@@ -38,11 +37,6 @@ public abstract class RedditPostDataModel extends ListingKind{
         ,title,null,false,null,null,null,numOfComments);
     }
 
-    public static RedditPostDataModel create(String author,String score,String subreddit
-            ,String thumbnail,String title,int numOfComments){
-        return new AutoValue_RedditPostDataModel(author,score,"w",subreddit,"e",thumbnail
-        ,title,false,"f","g","h",numOfComments);
-    }
 
     @Override
     public String getType() {
