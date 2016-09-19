@@ -76,6 +76,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribe(listingResponse -> {
                             List<ListingKind> posts = listingResponse.data().children();
                             Timber.d(posts.get(0).getType());
+                            Timber.d(listingResponse.data().before());
                             if (subreddit.equals("All") && listingResponse.data().before() == null) {
                                 Timber.d("Database Time!");
 
@@ -86,11 +87,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                                         .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
                                 Timber.d(((RedditPostDataModel) results.get(0)).title());
                             }
-                            List<RedditPostDataModel> results = storIOContentResolver.get()
-                                    .listOfObjects(RedditPostDataModel.class).withQuery(
-                                    Query.builder().uri(RedditPostMeta.CONTENT_URI)
-                                            .build()).prepare().executeAsBlocking();
-                            Timber.d(results.get(0).title());
+
                             after = listingResponse.data().after();
                             Timber.d(after);
                             getView().showPosts(posts);

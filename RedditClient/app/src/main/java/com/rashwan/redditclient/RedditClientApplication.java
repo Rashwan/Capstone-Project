@@ -8,8 +8,6 @@ import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.rashwan.redditclient.DI.ApplicationComponent;
 import com.rashwan.redditclient.DI.ApplicationModule;
 import com.rashwan.redditclient.DI.DaggerApplicationComponent;
-import com.rashwan.redditclient.data.provider.RedditPostMeta;
-import com.rashwan.redditclient.data.db.RedditPostTable;
 import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageComponent;
 import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageModule;
 import com.rashwan.redditclient.ui.feature.postDetails.injection.PostDetailsComponent;
@@ -18,14 +16,6 @@ import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditD
 import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsModule;
 import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsComponent;
 import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsModule;
-import com.rashwan.redditclient.data.RedditPostTable;
-import com.rashwan.redditclient.data.model.RedditPostDataModel;
-import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageComponent;
-import com.rashwan.redditclient.feature.browseFrontPage.injection.BrowseFrontPageModule;
-import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsComponent;
-import com.rashwan.redditclient.feature.subredditDetails.injection.SubredditDetailsModule;
-import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsComponent;
-import com.rashwan.redditclient.feature.userDetails.injection.UserDetailsModule;
 
 import javax.inject.Inject;
 
@@ -41,7 +31,6 @@ public class RedditClientApplication extends Application {
     private SubredditDetailsComponent subredditDetailsComponent;
     private UserDetailsComponent userDetailsComponent;
     private PostDetailsComponent postDetailsComponent;
-    @Inject StorIOSQLite storIOSQLite;
     @Inject StorIOContentResolver storIOContentResolver;
 
     @Override

@@ -15,13 +15,12 @@ public abstract class RedditPostDataModel extends ListingKind{
     public abstract String author();
     public abstract String score();
     @Nullable public abstract String domain();
+    @Nullable public abstract String id();
     public abstract String subreddit();
     @Nullable public abstract String name();
-    public abstract String name();
-    public abstract String id();
     public abstract String thumbnail();
     public abstract String title();
-    @SerializedName("selftext") public abstract String body();
+    @Nullable @SerializedName("selftext") public abstract String body();
     @SerializedName("over_18") public abstract boolean nsfw();
     @Nullable @SerializedName("subreddit_id") public abstract String subredditId();
     @Nullable @SerializedName("post_hint") public abstract String postHint();
@@ -34,8 +33,8 @@ public abstract class RedditPostDataModel extends ListingKind{
 
     public static RedditPostDataModel create(String author,String score,String subreddit
             ,String thumbnail,String title,int numOfComments){
-        return new AutoValue_RedditPostDataModel(author,score,"w",subreddit,"e",thumbnail
-        ,title,false,"f","g","h",numOfComments);
+        return new AutoValue_RedditPostDataModel(author,score,null,null,subreddit,null,thumbnail
+        ,title,null,false,null,null,null,numOfComments);
     }
 
     @Override
