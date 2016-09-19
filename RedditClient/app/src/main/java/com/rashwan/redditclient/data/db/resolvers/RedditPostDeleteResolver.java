@@ -1,9 +1,10 @@
-package com.rashwan.redditclient.data;
+package com.rashwan.redditclient.data.db.resolvers;
 
 import android.support.annotation.NonNull;
 
 import com.pushtorefresh.storio.sqlite.operations.delete.DefaultDeleteResolver;
 import com.pushtorefresh.storio.sqlite.queries.DeleteQuery;
+import com.rashwan.redditclient.data.db.RedditPostTable;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 
 /**

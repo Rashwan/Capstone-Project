@@ -24,7 +24,7 @@ public class TokenAuthenticator implements Authenticator {
     @Inject SharedPreferences sp;
 
     public TokenAuthenticator() {
-        RedditClientApplication.getApplicationComponent().inject(this);
+        RedditClientApplication.applicationComponent.inject(this);
     }
 
     @Override

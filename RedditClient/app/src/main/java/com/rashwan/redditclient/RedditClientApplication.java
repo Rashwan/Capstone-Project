@@ -1,12 +1,18 @@
 package com.rashwan.redditclient;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.operations.put.PutResult;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.Query;
 import com.rashwan.redditclient.DI.ApplicationComponent;
 import com.rashwan.redditclient.DI.ApplicationModule;
 import com.rashwan.redditclient.DI.DaggerApplicationComponent;
+import com.rashwan.redditclient.data.provider.RedditPostMeta;
+import com.rashwan.redditclient.data.db.RedditPostTable;
 import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageComponent;
 import com.rashwan.redditclient.ui.feature.browseFrontPage.injection.BrowseFrontPageModule;
 import com.rashwan.redditclient.ui.feature.postDetails.injection.PostDetailsComponent;
@@ -41,6 +47,7 @@ public class RedditClientApplication extends Application {
     private UserDetailsComponent userDetailsComponent;
     private PostDetailsComponent postDetailsComponent;
     @Inject StorIOSQLite storIOSQLite;
+    @Inject StorIOContentResolver storIOContentResolver;
 
     @Override
     public void onCreate() {
@@ -56,8 +63,8 @@ public class RedditClientApplication extends Application {
         });
         RedditPostDataModel redditPostDataModel = RedditPostDataModel.create("author","score"
         ,"subreddit","thumbnail","title",5);
-        RedditPostDataModel redditPostDataModel2 = RedditPostDataModel.create("author","score"
-        ,"subreddit","thumbnail","title",5);
+        RedditPostDataModel redditPostDataModel2 = RedditPostDataModel.create("author2","score2"
+        ,"subreddit2","thumbnail2","title2",5);
          storIOSQLite.put().object(redditPostDataModel)
                 .prepare().executeAsBlocking();
         storIOSQLite.put().object(redditPostDataModel2)
@@ -71,8 +78,25 @@ public class RedditClientApplication extends Application {
             Timber.d(String.valueOf(post.getId()));
         }
 
-//        int rowsDeleted = storIOSQLite.delete().object(redditPostDataModel).prepare().executeAsBlocking().numberOfRowsDeleted();
-//        Timber.d(String.valueOf(rowsDeleted));
+        RedditPostDataModel redditPostDataModel3 = RedditPostDataModel.create("author3","score3"
+                ,"subreddit3","thumbnail3","title3",5);
+        PutResult putResult = storIOContentResolver.put().object(redditPostDataModel3).prepare()
+                .executeAsBlocking();
+        Timber.d(String.valueOf(putResult.numberOfRowsUpdated()));
+        List<RedditPostDataModel> redditPostDataModel4 = storIOContentResolver.get().listOfObjects(RedditPostDataModel.class).withQuery(
+                com.pushtorefresh.storio.contentresolver.queries.Query.builder()
+                        .uri(RedditPostMeta.CONTENT_URI)
+                        .build()
+        ).prepare().executeAsBlocking();
+
+        for (RedditPostDataModel post: redditPostDataModel4) {
+            Timber.d(String.valueOf(post.title()));
+        }
+
+    }
+    @NonNull
+    public static RedditClientApplication get(@NonNull Context context) {
+        return (RedditClientApplication) context.getApplicationContext();
     }
 
     private ApplicationComponent createAppComponent() {
@@ -111,7 +135,11 @@ public class RedditClientApplication extends Application {
         postDetailsComponent = null;
     }
 
-    public static ApplicationComponent getApplicationComponent() {
+    public ApplicationComponent getApplicationComponent() {
+        if (applicationComponent == null){
+            applicationComponent = createAppComponent();
+        }
         return applicationComponent;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.data;
+package com.rashwan.redditclient.data.db;
 
 import android.support.annotation.NonNull;
 

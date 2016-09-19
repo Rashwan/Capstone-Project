@@ -32,6 +32,11 @@
             android:parentActivityName=".ui.feature.browseFrontPage.BrowseFrontPageActivity">
 
         </activity>
+        <provider
+            android:authorities="com.rashwan.redditclient"
+            android:name=".data.provider.RedditPostContentProvider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
 
 </manifest>

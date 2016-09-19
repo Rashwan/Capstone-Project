@@ -1,4 +1,4 @@
-package com.rashwan.redditclient.data;
+package com.rashwan.redditclient.data.db.resolvers;
 
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.pushtorefresh.storio.sqlite.operations.put.DefaultPutResolver;
 import com.pushtorefresh.storio.sqlite.queries.InsertQuery;
 import com.pushtorefresh.storio.sqlite.queries.UpdateQuery;
+import com.rashwan.redditclient.data.db.RedditPostTable;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 
 /**
