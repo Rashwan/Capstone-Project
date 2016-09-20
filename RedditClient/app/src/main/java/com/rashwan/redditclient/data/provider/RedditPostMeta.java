@@ -73,12 +73,17 @@ public class RedditPostMeta {
             ContentValues contentValues = new ContentValues();
             if (object.getType().equals(RedditPostDataModel.class.getSimpleName())) {
                 RedditPostDataModel post = (RedditPostDataModel) object;
+                Timber.d(post.thumbnail());
+
                 contentValues.put(RedditPostTable.COLUMN_AUTHOR, post.author());
                 contentValues.put(RedditPostTable.COLUMN_SCORE, post.score());
                 contentValues.put(RedditPostTable.COLUMN_SUBREDDIT, post.subreddit());
                 contentValues.put(RedditPostTable.COLUMN_THUMBNAIL, post.thumbnail());
                 contentValues.put(RedditPostTable.COLUMN_TITLE, post.title());
                 contentValues.put(RedditPostTable.COLUMN_NUM_OF_COMMENTS, post.numOfComments());
+                if (!post.thumbnail().contains("http")){
+                    contentValues.putNull(RedditPostTable.COLUMN_THUMBNAIL);
+                }
             }
 
             return contentValues;
@@ -97,6 +102,7 @@ public class RedditPostMeta {
             String score = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_SCORE));
             String title = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_TITLE));
             String thumbnail = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_THUMBNAIL));
+            Timber.d(thumbnail);
             int numOfComments = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_NUM_OF_COMMENTS));
             RedditPostDataModel post = RedditPostDataModel.create(author, score, subreddit
                     , thumbnail, title, numOfComments);

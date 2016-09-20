@@ -35,8 +35,19 @@
         <provider
             android:authorities="com.rashwan.redditclient"
             android:name=".data.provider.RedditPostContentProvider"
-            android:exported="false"
+            android:exported="true"
             android:syncable="true"/>
+        <receiver android:name=".widget.RedditClientWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/reddit_client_provider_info"/>
+        </receiver>
+        <service
+            android:name=".widget.RedditClientWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>

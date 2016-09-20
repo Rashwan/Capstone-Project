@@ -41,7 +41,7 @@ public class RedditPostTable {
                 + COLUMN_TITLE  + " TEXT NOT NULL ,"
                 + COLUMN_SCORE  + " TEXT ,"
                 + COLUMN_SUBREDDIT + " TEXT NOT NULL ,"
-                + COLUMN_THUMBNAIL + " TEXT NOT NULL ,"
+                + COLUMN_THUMBNAIL + " TEXT ,"
                 + COLUMN_NUM_OF_COMMENTS + " INTEGER"
                 + ");";
     }

@@ -25,6 +25,7 @@ public interface ApplicationComponent {
     void inject(RedditClientApplication target);
     void inject(TokenAuthenticator target);
     void inject(RedditPostContentProvider target);
+//    void inject(WidgetRemoteViewsFactorys target);
 
     BrowseFrontPageComponent plus(BrowseFrontPageModule browseFrontPageModule);
     SubredditDetailsComponent plus(SubredditDetailsModule subredditDetailsModule);
