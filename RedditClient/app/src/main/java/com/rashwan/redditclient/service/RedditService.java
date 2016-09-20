@@ -15,8 +15,8 @@ public interface RedditService {
     Observable<ListingResponse> getPopularSubreddits();
     Observable<ListingResponse> searchPosts(String query);
     Observable<ListingKind> getSubredditDetails(String subreddit);
-    Observable<ListingResponse> getSubredditPosts(String subreddit,String after);
+    Observable<ListingResponse> getSubredditPosts(String subreddit,String after,int count);
     Observable<ListingKind> getUserDetails(String username);
-    Observable<ListingResponse> getUserPosts(String username,String after);
+    Observable<ListingResponse> getUserPosts(String username,String after,int count);
     Observable<List<ListingResponse>> getPostDetails(String subreddit,String postId);
 }

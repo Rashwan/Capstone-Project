@@ -21,6 +21,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     private Subscription detailsSubscription;
     private Subscription postsSubscription;
     private String after;
+    private int count;
 
     public UserDetailsPresenter(RedditService redditService) {
         this.redditService = redditService;
@@ -53,13 +54,14 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void getUserPosts(String username){
         checkViewAttached();
-        postsSubscription = redditService.getUserPosts(username,after)
+        postsSubscription = redditService.getUserPosts(username,after,count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
                     List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
                     after = listingResponse.data().after();
+                    count = posts.size();
                     Timber.d(after);
                     getView().showUserPosts(posts);
                 }

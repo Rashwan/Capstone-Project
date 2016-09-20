@@ -29,6 +29,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     private Subscription searchPostsSubscription;
     private String after;
     private String oldSubreddit;
+    private int count;
 
     public BrowseFrontPagePresenter(RedditService redditService,StorIOContentResolver storIOContentResolver) {
         this.redditService = redditService;
@@ -70,29 +71,20 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
             Timber.d("different subreddit");
             after = null;
             oldSubreddit = subreddit;
+            count = 0;
         }
-        postsSubscription = redditService.getSubredditPosts(subreddit,after)
+        postsSubscription = redditService.getSubredditPosts(subreddit,after,count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
                             List<ListingKind> posts = listingResponse.data().children();
+                            after = listingResponse.data().after();
+                            count = posts.size();
                             Timber.d(posts.get(0).getType());
                             Timber.d(listingResponse.data().before());
-                            if (subreddit.equals("All") && listingResponse.data().before() == null) {
-                                Timber.d("Database Time!");
-
-                                PutResults<ListingKind> putResults = storIOContentResolver.put().objects(posts).prepare().executeAsBlocking();
-                                Timber.d(String.valueOf(putResults.numberOfInserts()));
-
-                                List<ListingKind> results = storIOContentResolver.get().listOfObjects(ListingKind.class).withQuery(Query.builder()
-                                        .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
-                                Timber.d(((RedditPostDataModel) results.get(0)).title());
-                            }
-
-                            after = listingResponse.data().after();
                             Timber.d(after);
+
                             if (subreddit.equals("All") && listingResponse.data().before() == null) {
-                                Timber.d("Database Time!");
 
                                 PutResults<ListingKind> putResults = storIOContentResolver.put().objects(posts).prepare().executeAsBlocking();
                                 Timber.d(String.valueOf(putResults.numberOfInserts()));
@@ -101,6 +93,9 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                                         .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
                                 Timber.d(((RedditPostDataModel) results.get(0)).title());
                             }
+
+
+
                             getView().showPosts(posts);
                         }
                         ,Timber::d

@@ -35,7 +35,8 @@ public interface RedditApi {
     Observable<ListingResponse> getSubredditPosts(
             @Header("Authorization") String accessToken
             ,@Path("subreddit") String subreddit
-            ,@Query("after") String after);
+            ,@Query("after") String after
+            ,@Query("count") int count);
 
     @GET("r/{subreddit}/about")
     @Headers(USER_AGENT)
@@ -55,7 +56,8 @@ public interface RedditApi {
     Observable<ListingResponse> getUserPosts(
             @Header("Authorization") String accessToken
             ,@Path("username") String username
-            ,@Query("after") String after);
+            ,@Query("after") String after
+            ,@Query("count") int count);
 
     @GET("r/{subreddit}/comments/{postId}?showmore=false?depth=2")
     @Headers(USER_AGENT)
