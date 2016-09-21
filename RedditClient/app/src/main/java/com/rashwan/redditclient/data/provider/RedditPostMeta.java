@@ -18,8 +18,6 @@ import com.rashwan.redditclient.data.db.RedditPostTable;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 
-import timber.log.Timber;
-
 /**
  * Created by rashwan on 9/19/16.
  */
@@ -73,8 +71,6 @@ public class RedditPostMeta {
             ContentValues contentValues = new ContentValues();
             if (object.getType().equals(RedditPostDataModel.class.getSimpleName())) {
                 RedditPostDataModel post = (RedditPostDataModel) object;
-                Timber.d(post.thumbnail());
-
                 contentValues.put(RedditPostTable.COLUMN_AUTHOR, post.author());
                 contentValues.put(RedditPostTable.COLUMN_SCORE, post.score());
                 contentValues.put(RedditPostTable.COLUMN_SUBREDDIT, post.subreddit());
@@ -102,12 +98,10 @@ public class RedditPostMeta {
             String score = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_SCORE));
             String title = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_TITLE));
             String thumbnail = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_THUMBNAIL));
-            Timber.d(thumbnail);
             int numOfComments = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_NUM_OF_COMMENTS));
             RedditPostDataModel post = RedditPostDataModel.create(author, score, subreddit
                     , thumbnail, title, numOfComments);
             post.setId(id);
-            Timber.d(post.toString());
             return post;
         }
     };

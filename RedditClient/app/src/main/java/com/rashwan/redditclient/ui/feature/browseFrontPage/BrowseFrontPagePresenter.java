@@ -1,7 +1,9 @@
 package com.rashwan.redditclient.ui.feature.browseFrontPage;
 
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.operations.delete.DeleteResult;
 import com.pushtorefresh.storio.contentresolver.operations.put.PutResults;
+import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.ListingKind;
@@ -85,6 +87,11 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                             Timber.d(after);
 
                             if (subreddit.equals("All") && listingResponse.data().before() == null) {
+
+                                DeleteResult deleteResult = storIOContentResolver.delete().byQuery(DeleteQuery.builder()
+                                        .uri(RedditPostMeta.CONTENT_URI).build())
+                                        .prepare().executeAsBlocking();
+                                Timber.d(String.valueOf(deleteResult.numberOfRowsDeleted()));
 
                                 PutResults<ListingKind> putResults = storIOContentResolver.put().objects(posts).prepare().executeAsBlocking();
                                 Timber.d(String.valueOf(putResults.numberOfInserts()));
