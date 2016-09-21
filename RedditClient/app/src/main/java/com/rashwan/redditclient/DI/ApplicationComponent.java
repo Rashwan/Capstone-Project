@@ -11,6 +11,7 @@ import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditD
 import com.rashwan.redditclient.ui.feature.subredditDetails.injection.SubredditDetailsModule;
 import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsComponent;
 import com.rashwan.redditclient.ui.feature.userDetails.injection.UserDetailsModule;
+import com.rashwan.redditclient.widget.WidgetRemoteViewsFactory;
 
 import javax.inject.Singleton;
 
@@ -25,7 +26,7 @@ public interface ApplicationComponent {
     void inject(RedditClientApplication target);
     void inject(TokenAuthenticator target);
     void inject(RedditPostContentProvider target);
-//    void inject(WidgetRemoteViewsFactorys target);
+    void inject(WidgetRemoteViewsFactory target);
 
     BrowseFrontPageComponent plus(BrowseFrontPageModule browseFrontPageModule);
     SubredditDetailsComponent plus(SubredditDetailsModule subredditDetailsModule);
