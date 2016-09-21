@@ -13,6 +13,7 @@ import com.rashwan.redditclient.service.RedditService;
 
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -79,34 +80,49 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
-                            List<ListingKind> posts = listingResponse.data().children();
-                            after = listingResponse.data().after();
-                            count = posts.size();
-                            Timber.d(posts.get(0).getType());
-                            Timber.d(listingResponse.data().before());
-                            Timber.d(after);
+                    List<ListingKind> posts = listingResponse.data().children();
+                    after = listingResponse.data().after();
+                    count = posts.size();
+                    Timber.d(posts.get(0).getType());
+                    Timber.d(listingResponse.data().before());
+                    Timber.d(after);
 
-                            if (subreddit.equals("All") && listingResponse.data().before() == null) {
+                    if (subreddit.equals("All") && listingResponse.data().before() == null) {
+                        Observable<List<ListingKind>> getObservable = storIOContentResolver.get()
+                                .listOfObjects(ListingKind.class).withQuery(Query.builder()
+                                        .uri(RedditPostMeta.CONTENT_URI).build()).prepare()
+                                .asRxObservable().observeOn(AndroidSchedulers.mainThread())
+                                .take(1).doOnNext(listingKinds -> {
+                                    Timber.d(((RedditPostDataModel)listingKinds.get(0)).title());
+                                }).doOnCompleted(() ->Timber.d("completed DB chain"));
 
-                                DeleteResult deleteResult = storIOContentResolver.delete().byQuery(DeleteQuery.builder()
-                                        .uri(RedditPostMeta.CONTENT_URI).build())
-                                        .prepare().executeAsBlocking();
-                                Timber.d(String.valueOf(deleteResult.numberOfRowsDeleted()));
+                        Observable<PutResults<ListingKind>> putObservable = storIOContentResolver
+                                .put()
+                                .objects(posts).prepare().asRxObservable()
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .take(1).doOnNext(putResults
+                                        -> Timber.d("inserted %d rows"
+                                        ,putResults.numberOfInserts()))
+                                .doOnCompleted(getObservable::subscribe);
 
-                                PutResults<ListingKind> putResults = storIOContentResolver.put().objects(posts).prepare().executeAsBlocking();
-                                Timber.d(String.valueOf(putResults.numberOfInserts()));
+                        Observable<DeleteResult> deleteObservable = storIOContentResolver.delete()
+                                .byQuery(DeleteQuery.builder()
+                                .uri(RedditPostMeta.CONTENT_URI).build())
+                                .prepare().asRxObservable()
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .take(1).doOnNext(deleteResult
+                                    -> Timber.d("deleted %d rows"
+                                        ,deleteResult.numberOfRowsDeleted()))
+                                .doOnCompleted(putObservable::subscribe);
 
-                                List<ListingKind> results = storIOContentResolver.get().listOfObjects(ListingKind.class).withQuery(Query.builder()
-                                        .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
-                                Timber.d(((RedditPostDataModel) results.get(0)).title());
-                            }
+                        deleteObservable.subscribe();
 
+                    }
 
-
-                            getView().showPosts(posts);
-                        }
-                        ,Timber::d
-                        ,() -> Timber.d("completed subreddit posts"));
+                    getView().showPosts(posts);
+                }
+                ,Timber::d
+                ,() -> Timber.d("completed subreddit posts"));
     }
 
     public void searchPosts(String query){
