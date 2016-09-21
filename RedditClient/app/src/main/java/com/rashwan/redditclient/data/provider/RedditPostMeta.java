@@ -71,6 +71,7 @@ public class RedditPostMeta {
             ContentValues contentValues = new ContentValues();
             if (object.getType().equals(RedditPostDataModel.class.getSimpleName())) {
                 RedditPostDataModel post = (RedditPostDataModel) object;
+                contentValues.put(RedditPostTable.COLUMN_POST_ID,post.id());
                 contentValues.put(RedditPostTable.COLUMN_AUTHOR, post.author());
                 contentValues.put(RedditPostTable.COLUMN_SCORE, post.score());
                 contentValues.put(RedditPostTable.COLUMN_SUBREDDIT, post.subreddit());
@@ -93,13 +94,14 @@ public class RedditPostMeta {
         public ListingKind mapFromCursor(@NonNull Cursor cursor) {
 
             int id = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_ID));
+            String postId = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_POST_ID));
             String author = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_AUTHOR));
             String subreddit = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_SUBREDDIT));
             String score = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_SCORE));
             String title = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_TITLE));
             String thumbnail = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_THUMBNAIL));
             int numOfComments = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_NUM_OF_COMMENTS));
-            RedditPostDataModel post = RedditPostDataModel.create(author, score, subreddit
+            RedditPostDataModel post = RedditPostDataModel.create(postId,author, score, subreddit
                     , thumbnail, title, numOfComments);
             post.setId(id);
             return post;

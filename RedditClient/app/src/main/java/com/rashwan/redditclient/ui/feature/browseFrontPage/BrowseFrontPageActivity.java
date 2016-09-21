@@ -35,7 +35,6 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Inject BrowsePostsAdapter postsAdapter;
     @Inject BrowsePostsAdapter searchAdapter;
 
-
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;
     @BindView(R.id.toolbar_browse_front_page) Toolbar toolbar;
     @BindView(R.id.spinner_subreddits) Spinner spinner;

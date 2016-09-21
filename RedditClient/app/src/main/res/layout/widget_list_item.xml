@@ -5,7 +5,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:id="@+id/widget_layout_item">
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"

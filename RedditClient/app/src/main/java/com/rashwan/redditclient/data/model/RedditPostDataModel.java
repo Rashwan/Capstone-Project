@@ -31,9 +31,9 @@ public abstract class RedditPostDataModel extends ListingKind{
         return new AutoValue_RedditPostDataModel.GsonTypeAdapter(gson);
     }
 
-    public static RedditPostDataModel create(String author,String score,String subreddit
+    public static RedditPostDataModel create(String postId,String author,String score,String subreddit
             ,String thumbnail,String title,int numOfComments){
-        return new AutoValue_RedditPostDataModel(author,score,null,null,subreddit,null,thumbnail
+        return new AutoValue_RedditPostDataModel(author,score,postId,null,subreddit,null,thumbnail
         ,title,null,false,null,null,null,numOfComments);
     }
 

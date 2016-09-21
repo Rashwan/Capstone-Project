@@ -11,6 +11,7 @@ public class RedditPostTable {
     public static final String TABLE = "posts";
 
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_POST_ID = "postId";
     public static final String COLUMN_AUTHOR = "author";
     public static final String COLUMN_TITLE =  "title";
     public static final String COLUMN_SCORE =  "score";
@@ -18,13 +19,6 @@ public class RedditPostTable {
     public static final String COLUMN_THUMBNAIL = "thumbnail";
     public static final String COLUMN_NUM_OF_COMMENTS = "numberOfComments";
 
-    public static final String COLUMN_ID_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_ID;
-    public static final String COLUMN_AUTHOR_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_AUTHOR;
-    public static final String COLUMN_TITLE_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_TITLE;
-    public static final String COLUMN_SCORE_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_SCORE;
-    public static final String COLUMN_SUBREDDIT_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_SUBREDDIT;
-    public static final String COLUMN_THUMBNAIL_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_THUMBNAIL;
-    public static final String COLUMN_NUM_OF_COMMENTS_WITH_TABLE_PREFIX = TABLE + "." + COLUMN_NUM_OF_COMMENTS;
 
     // This is just class with Meta Data, we don't need instances
     private RedditPostTable() {
@@ -37,6 +31,7 @@ public class RedditPostTable {
     public static String getCreateTableQuery() {
         return "CREATE TABLE " + TABLE + "("
                 + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,"
+                + COLUMN_POST_ID + " TEXT NOT NULL ,"
                 + COLUMN_AUTHOR + " TEXT NOT NULL ,"
                 + COLUMN_TITLE  + " TEXT NOT NULL ,"
                 + COLUMN_SCORE  + " TEXT ,"

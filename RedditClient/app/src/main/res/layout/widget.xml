@@ -13,13 +13,13 @@
         android:textSize="16sp"
         android:background="@color/colorPrimaryDark"
         android:padding="8dp"
-        android:id="@+id/text_widget_title">
+        android:id="@+id/widget_tv_app_name">
     </TextView>
     <ListView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         tools:listitem="@layout/widget_list_item"
-        android:id="@+id/list_view_widget"
+        android:id="@+id/widget_list_view"
        >
 
     </ListView>

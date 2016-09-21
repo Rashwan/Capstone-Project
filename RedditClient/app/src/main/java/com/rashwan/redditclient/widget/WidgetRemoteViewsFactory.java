@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -92,6 +93,12 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Bundle bundle = new Bundle();
+        bundle.putString(RedditClientWidgetProvider.EXTRA_POST_ID,post.id());
+        bundle.putString(RedditClientWidgetProvider.EXTRA_SUBREDDIT,post.subreddit());
+        Intent detailsIntent = new Intent();
+        detailsIntent.putExtras(bundle);
+        rv.setOnClickFillInIntent(R.id.widget_layout_item,detailsIntent);
         return rv;
     }
 
