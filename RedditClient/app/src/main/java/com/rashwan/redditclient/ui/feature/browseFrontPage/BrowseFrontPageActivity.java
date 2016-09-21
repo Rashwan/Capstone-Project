@@ -120,6 +120,12 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String subreddit = (String) parent.getAdapter().getItem(position);
         presenter.cancelInFlightRequests();

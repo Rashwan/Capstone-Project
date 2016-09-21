@@ -60,7 +60,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
                     List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
                     after = listingResponse.data().after();
-                    count = posts.size();
+                    count += posts.size();
                     Timber.d(after);
                     getView().showSubredditPosts(posts);
                 }

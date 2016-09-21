@@ -82,7 +82,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribe(listingResponse -> {
                     List<ListingKind> posts = listingResponse.data().children();
                     after = listingResponse.data().after();
-                    count = posts.size();
+                    count += posts.size();
                     Timber.d(posts.get(0).getType());
                     Timber.d(listingResponse.data().before());
                     Timber.d(after);
