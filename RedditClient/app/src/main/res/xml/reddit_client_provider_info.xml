@@ -2,11 +2,10 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:minHeight="280dp"
-    android:minWidth="210dp"
-    android:minResizeHeight="530dp"
+    android:minWidth="280dp"
     android:updatePeriodMillis="3600000"
     android:initialLayout="@layout/widget"
-    android:resizeMode="vertical"
+    android:resizeMode="vertical|horizontal"
     android:widgetCategory="home_screen">>
 
 </appwidget-provider>

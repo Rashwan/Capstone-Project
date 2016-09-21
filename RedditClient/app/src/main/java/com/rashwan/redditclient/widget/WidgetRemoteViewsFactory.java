@@ -83,8 +83,12 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         rv.setTextViewText(R.id.widget_tv_title,post.title());
 
         try {
-            Bitmap bitmap = Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).get();
-            rv.setImageViewBitmap(R.id.widget_iv_thumbnail,bitmap);
+            Bitmap bitmap = Picasso.with(context).load(post.thumbnail()).error(R.drawable.ic_reddit_logo_and_wordmark).get();
+            if (bitmap != null){
+                rv.setImageViewBitmap(R.id.widget_iv_thumbnail,bitmap);
+            }else {
+                rv.setImageViewResource(R.id.widget_iv_thumbnail,R.drawable.ic_reddit_logo_and_wordmark);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
