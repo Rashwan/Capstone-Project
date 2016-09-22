@@ -57,11 +57,15 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         rvUserPosts.addItemDecoration(itemDecoration);
         rvUserPosts.setLayoutManager(linearLayoutManager);
         rvUserPosts.setAdapter(adapter);
-        rvUserPosts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        rvUserPosts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager,true) {
             @Override
             public void onLoadMore() {
-                Timber.d("on load more");
-                presenter.getUserPosts(username);
+                if (adapter.getItemCount() != 1) {
+                    Timber.d("on load more");
+                    presenter.getUserPosts(username);
+                }else {
+                    Timber.d("this is an empty list with only one item as the header");
+                }
             }
         });
 

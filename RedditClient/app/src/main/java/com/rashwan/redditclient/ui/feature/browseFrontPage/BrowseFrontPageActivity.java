@@ -70,7 +70,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         rvBrowseFrontPage.addItemDecoration(itemDecoration);
         rvBrowseFrontPage.setLayoutManager(linearLayoutManager);
         rvBrowseFrontPage.setAdapter(postsAdapter);
-        rvBrowseFrontPage.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        rvBrowseFrontPage.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager,false) {
             @Override
             public void onLoadMore() {
                 Timber.d("on load more");

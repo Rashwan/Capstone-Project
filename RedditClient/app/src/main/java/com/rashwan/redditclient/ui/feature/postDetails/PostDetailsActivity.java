@@ -69,7 +69,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         rvPostComments.addItemDecoration(itemDecoration);
         rvPostComments.setLayoutManager(linearLayoutManager);
         rvPostComments.setAdapter(adapter);
-        rvPostComments.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        rvPostComments.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager,false) {
             @Override
             public void onLoadMore() {
                 Timber.d("load more");

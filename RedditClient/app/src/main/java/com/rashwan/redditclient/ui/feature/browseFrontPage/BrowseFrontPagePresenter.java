@@ -69,6 +69,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     }
 
     public void getSubredditPosts(String subreddit){
+
         checkViewAttached();
         if (!subreddit.equals(oldSubreddit)){
             Timber.d("different subreddit");

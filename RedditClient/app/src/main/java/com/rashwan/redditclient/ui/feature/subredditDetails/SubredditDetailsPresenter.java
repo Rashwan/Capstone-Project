@@ -22,6 +22,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
     private Subscription postsSubscription;
     private String after;
     private int count;
+    private boolean firstRequest = true;
 
     public SubredditDetailsPresenter(RedditService redditService) {
         this.redditService = redditService;
@@ -52,6 +53,10 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
     }
 
     public void getSubredditPosts(String subreddit){
+        if (!firstRequest && after == null){
+            Timber.d("we have all the user posts");
+            return;
+        }
         checkViewAttached();
         postsSubscription = redditService.getSubredditPosts(subreddit,after,count)
                 .subscribeOn(Schedulers.io())
@@ -61,6 +66,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
                     Timber.d(posts.get(0).getType());
                     after = listingResponse.data().after();
                     count += posts.size();
+                    firstRequest = false;
                     Timber.d(after);
                     getView().showSubredditPosts(posts);
                 }

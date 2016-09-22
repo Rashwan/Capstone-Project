@@ -69,7 +69,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         rvSubredditPosts.addItemDecoration(itemDecoration);
         rvSubredditPosts.setLayoutManager(linearLayoutManager);
         rvSubredditPosts.setAdapter(adapter);
-        rvSubredditPosts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        rvSubredditPosts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager,false) {
             @Override
             public void onLoadMore() {
                 Timber.d("on load more");
