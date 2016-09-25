@@ -19,9 +19,11 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,6 +33,15 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class BrowseFrontPageActivity extends AppCompatActivity implements BrowseFrontPageView,AdapterView.OnItemSelectedListener {
+    private static final String KEY_SEARCH_RESULT = "SEARCH";
+    private static final String KEY_SEARCH_MODE = "SEARCH_MODE";
+    private static final String KEY_SEARCH_QUERY = "SEARCH_QUERY";
+    private static final String KEY_POSTS = "POSTS";
+    private static final String KEY_POSTS_COUNT = "POSTS_COUNT";
+    private static final String KEY_POSTS_AFTER = "POSTS_AFTER";
+    private static final String KEY_SUBREDDIT = "SUBREDDIT";
+    private static final String KEY_POPULAR_SUBREDDIT = "POPULAR_SUBREDDIT";
+
     @Inject BrowseFrontPagePresenter presenter;
     @Inject BrowsePostsAdapter postsAdapter;
     @Inject BrowsePostsAdapter searchAdapter;
@@ -39,6 +50,15 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @BindView(R.id.toolbar_browse_front_page) Toolbar toolbar;
     @BindView(R.id.spinner_subreddits) Spinner spinner;
     private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<RedditPostDataModel> posts;
+    private String currentSubreddit = "All";
+    private ArrayList<String> popularSubreddits = new ArrayList<>();
+    private String searchQuery;
+    private boolean isInSearchMode = false;
+    private ArrayList<RedditPostDataModel> searchResults = new ArrayList<>();
+    private SearchView searchView;
+
+
 
 
     @Override
@@ -49,18 +69,41 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         presenter.attachView(this);
-
+        if (savedInstanceState != null){
+            posts = savedInstanceState.getParcelableArrayList(KEY_POSTS);
+            String after = savedInstanceState.getString(KEY_POSTS_AFTER);
+            int count = savedInstanceState.getInt(KEY_POSTS_COUNT);
+            currentSubreddit = savedInstanceState.getString(KEY_SUBREDDIT,"All");
+            popularSubreddits = savedInstanceState.getStringArrayList(KEY_POPULAR_SUBREDDIT);
+            isInSearchMode = savedInstanceState.getBoolean(KEY_SEARCH_MODE,false);
+            if (isInSearchMode){
+                searchQuery = savedInstanceState.getString(KEY_SEARCH_QUERY);
+                searchResults = savedInstanceState.getParcelableArrayList(KEY_SEARCH_RESULT);
+            }
+            presenter.setCurrentAfter(after);
+            presenter.setCurrentCount(count);
+            presenter.setOldSubreddit(currentSubreddit
+            );
+        }
         setupRecyclerView();
         setupSpinner();
 
-        presenter.getPopularSubreddits();
     }
 
     private void setupSpinner() {
         arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
         arrayAdapter.add("All");
+
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
+        if (popularSubreddits.isEmpty()){
+            presenter.getPopularSubreddits();
+        }else {
+            arrayAdapter.addAll(popularSubreddits);
+            arrayAdapter.notifyDataSetChanged();
+            spinner.setSelection(arrayAdapter.getPosition(currentSubreddit));
+
+        }
     }
 
     private void setupRecyclerView() {
@@ -81,30 +124,28 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
 
 
     @Override
-    public void showPosts(List<ListingKind> posts) {
-        int currentSize = postsAdapter.getItemCount();
-        Timber.d("current size: %d",currentSize);
+    public void showPosts(List<RedditPostDataModel> posts) {
         Timber.d("posts size: %d",posts.size());
         postsAdapter.addPosts(posts);
-
         postsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showPopularSubreddits(List<ListingKind> subreddits) {
         SubredditDetailsModel subredditDetails;
-
         for (ListingKind subreddit: subreddits) {
             if (subreddit.getType().equals(SubredditDetailsModel.class.getSimpleName())){
                 subredditDetails = (SubredditDetailsModel) subreddit;
                 arrayAdapter.add(subredditDetails.name());
+                popularSubreddits.add(subredditDetails.name());
+
             }
         }
         arrayAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showSearchResults(List<ListingKind> posts) {
+    public void showSearchResults(List<RedditPostDataModel> posts) {
         searchAdapter.clearPosts();
         searchAdapter.addPosts(posts);
         searchAdapter.notifyDataSetChanged();
@@ -122,8 +163,18 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
+        outState.putParcelableArrayList(KEY_SEARCH_RESULT,searchAdapter.getPosts());
+        outState.putParcelableArrayList(KEY_POSTS,postsAdapter.getPosts());
+        outState.putString(KEY_POSTS_AFTER,presenter.getCurrentAfter());
+        outState.putInt(KEY_POSTS_COUNT,presenter.getCurrentCount());
+        outState.putString(KEY_SUBREDDIT, currentSubreddit);
+        outState.putStringArrayList(KEY_POPULAR_SUBREDDIT,popularSubreddits);
+        outState.putBoolean(KEY_SEARCH_MODE,isInSearchMode);
+        outState.putString(KEY_SEARCH_QUERY,searchView.getQuery().toString());
+
         super.onSaveInstanceState(outState);
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -131,8 +182,12 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         presenter.cancelInFlightRequests();
         postsAdapter.clearPosts();
         postsAdapter.notifyDataSetChanged();
-        presenter.getSubredditPosts(subreddit);
-        Timber.d(subreddit);
+        if (posts != null && currentSubreddit.equals(subreddit)){
+            showPosts(posts);
+        }else {
+            currentSubreddit = subreddit;
+            presenter.getSubredditPosts(subreddit);
+        }
     }
 
     @Override
@@ -144,17 +199,23 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_browse_front_page,menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 presenter.cancelInFlightRequests();
-                presenter.searchPosts(query);
+                if (!searchResults.isEmpty() && query.equals(searchQuery)){
+                    showSearchResults(searchResults);
+                }else {
+                    presenter.searchPosts(query);
+                }
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Timber.d("search query changed");
+
                 return false;
             }
         });
@@ -162,6 +223,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 Timber.d("search view expanded");
+                isInSearchMode = true;
                 searchAdapter.clearPosts();
                 rvBrowseFrontPage.swapAdapter(searchAdapter,true);
                 return true;
@@ -170,10 +232,16 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 Timber.d("search view collapsed");
+                isInSearchMode = false;
+                searchQuery = "";
                 rvBrowseFrontPage.swapAdapter(postsAdapter,true);
                 return true;
             }
         });
+        if (isInSearchMode){
+            menuItem.expandActionView();
+            searchView.setQuery(searchQuery,true);
+        }
 
 
         return true;

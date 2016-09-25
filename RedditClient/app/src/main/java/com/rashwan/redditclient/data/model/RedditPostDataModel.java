@@ -1,5 +1,6 @@
 package com.rashwan.redditclient.data.model;
 
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -11,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by rashwan on 9/8/16.
  */
 @AutoValue
-public abstract class RedditPostDataModel extends ListingKind{
+public abstract class RedditPostDataModel extends ListingKind implements Parcelable{
     public abstract String author();
     public abstract String score();
     @Nullable public abstract String id();

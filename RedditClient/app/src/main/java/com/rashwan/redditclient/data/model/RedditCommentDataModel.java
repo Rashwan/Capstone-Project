@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by rashwan on 9/14/16.
  */
 @AutoValue
-public abstract class RedditCommentDataModel extends ListingKind{
+public abstract class RedditCommentDataModel extends ListingKind {
 
     public abstract String author();
     public abstract String score();

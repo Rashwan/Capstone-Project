@@ -103,7 +103,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
 
     @Override
     public void showSubredditPosts(List<ListingKind> posts) {
-        adapter.addPosts(posts);
+//        adapter.addPosts(posts);
         adapter.notifyDataSetChanged();
     }
 

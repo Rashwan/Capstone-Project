@@ -31,7 +31,7 @@ import butterknife.OnClick;
  */
 
 public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<ListingKind> posts;
+    private ArrayList<RedditPostDataModel> posts;
     private Context context;
 
 
@@ -80,10 +80,13 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return this.posts.size();
     }
 
-    public void addPosts(List<ListingKind> posts){
+    public void addPosts(List<RedditPostDataModel> posts){
         this.posts.addAll(posts);
     }
 
+    public ArrayList<RedditPostDataModel> getPosts() {
+        return posts;
+    }
 
     public void clearPosts(){
         this.posts.clear();
@@ -118,11 +121,6 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Intent intent = UserDetailsActivity.getUserDetailsIntent(context,view.getText().toString());
             context.startActivity(intent);
         }
-//        @OnClick(R.id.constraint_layout)
-//        void onPostClicked(View view){
-//            Intent intent = PostDetailsActivity.getPostDetailsIntent(context,"androiddev","52kvqk");
-//            context.startActivity(intent);
-//        }
 
     }
 

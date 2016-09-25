@@ -11,6 +11,7 @@ import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.service.RedditService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -30,17 +31,41 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     private Subscription postsSubscription;
     private Subscription subredditsSubscription;
     private Subscription searchPostsSubscription;
-    private String after;
+    private String currentAfter;
     private String oldSubreddit;
-    private int count;
+    private int currentCount;
 
     public BrowseFrontPagePresenter(RedditService redditService,StorIOContentResolver storIOContentResolver) {
         this.redditService = redditService;
         this.storIOContentResolver = storIOContentResolver;
-        this.after = null;
         this.storIOContentResolver = storIOContentResolver;
     }
 
+    public void setCurrentAfter(String currentAfter) {
+        this.currentAfter = currentAfter;
+    }
+
+    public void setCurrentCount(int currentCount) {
+        this.currentCount = currentCount;
+    }
+
+    public void setOldSubreddit(String oldSubreddit) {
+        this.oldSubreddit = oldSubreddit;
+    }
+
+    public String getCurrentAfter() {
+        return currentAfter;
+    }
+
+    public int getCurrentCount() {
+        return currentCount;
+    }
+
+    @Override
+    public void attachView(BrowseFrontPageView view) {
+        super.attachView(view);
+
+    }
 
     @Override
     public void detachView() {
@@ -69,24 +94,25 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
     }
 
     public void getSubredditPosts(String subreddit){
-
         checkViewAttached();
+        Timber.d("old subreddit: %s",oldSubreddit);
+        Timber.d("method subreddit: %s",subreddit);
         if (!subreddit.equals(oldSubreddit)){
             Timber.d("different subreddit");
-            after = null;
+            currentAfter = null;
             oldSubreddit = subreddit;
-            count = 0;
+            currentCount = 0;
         }
-        postsSubscription = redditService.getSubredditPosts(subreddit,after,count)
+        postsSubscription = redditService.getSubredditPosts(subreddit,currentAfter,currentCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingResponse -> {
                     List<ListingKind> posts = listingResponse.data().children();
-                    after = listingResponse.data().after();
-                    count += posts.size();
+                    currentAfter = listingResponse.data().after();
+                    currentCount += posts.size();
                     Timber.d(posts.get(0).getType());
                     Timber.d(listingResponse.data().before());
-                    Timber.d(after);
+                    Timber.d(currentAfter);
 
                     if (subreddit.equals("All") && listingResponse.data().before() == null) {
                         Observable<List<ListingKind>> getObservable = storIOContentResolver.get()
@@ -119,8 +145,11 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                         deleteObservable.subscribe();
 
                     }
-
-                    getView().showPosts(posts);
+                    ArrayList<RedditPostDataModel> convertedPosts = new ArrayList<>();
+                    for (ListingKind kind: posts) {
+                        convertedPosts.add((RedditPostDataModel) kind);
+                    }
+                    getView().showPosts(convertedPosts);
                 }
                 ,Timber::d
                 ,() -> Timber.d("completed subreddit posts"));
@@ -134,7 +163,11 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                 .subscribe(listingResponse -> {
                     List<ListingKind> posts = listingResponse.data().children();
                     Timber.d(posts.get(0).getType());
-                    getView().showSearchResults(posts);
+                    ArrayList<RedditPostDataModel> convertedPosts = new ArrayList<>();
+                    for (ListingKind post: posts) {
+                        convertedPosts.add((RedditPostDataModel) post);
+                    }
+                    getView().showSearchResults(convertedPosts);
                 }
                 ,Timber::d
                 ,() -> Timber.d("completed searching posts"));

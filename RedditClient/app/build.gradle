@@ -28,6 +28,12 @@ android {
     }
 
 }
+repositories {
+    mavenCentral()
+    mavenLocal()
+    jcenter()
+    maven {url "https://clojars.org/repo/"}
+}
 ext {
     supportLibraryVersion = '24.2.1'
 }
@@ -74,6 +80,7 @@ dependencies {
     apt 'com.ryanharter.auto.value:auto-value-parcel:0.2.4-rc2'
     apt 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
+
 
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

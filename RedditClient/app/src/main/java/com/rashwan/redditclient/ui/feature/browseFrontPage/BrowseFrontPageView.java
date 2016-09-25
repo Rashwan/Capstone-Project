@@ -2,6 +2,7 @@ package com.rashwan.redditclient.ui.feature.browseFrontPage;
 
 import com.rashwan.redditclient.common.MvpView;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 
 public interface BrowseFrontPageView extends MvpView{
-    void showPosts(List<ListingKind> posts);
+    void showPosts(List<RedditPostDataModel> posts);
     void showPopularSubreddits(List<ListingKind> subreddits);
-    void showSearchResults(List<ListingKind> posts);
+    void showSearchResults(List<RedditPostDataModel> posts);
 }
