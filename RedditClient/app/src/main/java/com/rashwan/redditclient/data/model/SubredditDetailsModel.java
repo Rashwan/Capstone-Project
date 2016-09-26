@@ -1,5 +1,7 @@
 package com.rashwan.redditclient.data.model;
 
+import android.os.Parcelable;
+
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by rashwan on 9/10/16.
  */
 @AutoValue
-public abstract class SubredditDetailsModel extends ListingKind{
+public abstract class SubredditDetailsModel extends ListingKind implements Parcelable{
 
     @SerializedName("title") public abstract String description();
     @SerializedName("display_name") public abstract String name();
