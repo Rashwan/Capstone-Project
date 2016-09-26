@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
-import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
 import com.rashwan.redditclient.ui.feature.postDetails.PostDetailsActivity;
@@ -19,7 +18,6 @@ import com.rashwan.redditclient.ui.feature.subredditDetails.SubredditDetailsActi
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -31,7 +29,7 @@ import butterknife.OnClick;
  */
 
 public class UserDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<ListingKind> posts;
+    private ArrayList<RedditPostDataModel> posts;
     private UserDetailsModel userDetails;
     private Context context;
     private final int VIEW_TYPE_HEADER = 0;
@@ -63,29 +61,23 @@ public class UserDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Context context = holder.itemView.getContext();
         if (holder instanceof BrowsePostsVH) {
 
-            ListingKind listingKind = getPost(position);
-            String type = listingKind.getType();
-            if (type.equals(RedditPostDataModel.class.getSimpleName())) {
-                RedditPostDataModel post = (RedditPostDataModel) listingKind;
-                BrowsePostsVH browsePostsVH = (BrowsePostsVH) holder;
-                browsePostsVH.title.setText(post.title());
-                browsePostsVH.points.setText(String.format("%s Points", post.score()));
-                browsePostsVH.comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
-                browsePostsVH.author.setText(post.author());
-                browsePostsVH.subreddit.setText(post.subreddit());
-                if (!post.thumbnail().isEmpty()) {
-                    Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowsePostsVH) holder).thumb);
-                }
-
-                browsePostsVH.constraintLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = PostDetailsActivity.getPostDetailsIntent(context,
-                                post.subreddit(), post.id());
-                        context.startActivity(intent);
-                    }
-                });
+            RedditPostDataModel post = posts.get(position);
+            BrowsePostsVH browsePostsVH = (BrowsePostsVH) holder;
+            browsePostsVH.title.setText(post.title());
+            browsePostsVH.points.setText(String.format("%s Points", post.score()));
+            browsePostsVH.comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
+            browsePostsVH.author.setText(post.author());
+            browsePostsVH.subreddit.setText(post.subreddit());
+            if (!post.thumbnail().isEmpty()) {
+                Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowsePostsVH) holder).thumb);
             }
+
+            browsePostsVH.constraintLayout.setOnClickListener(v -> {
+                Intent intent = PostDetailsActivity.getPostDetailsIntent(context,
+                        post.subreddit(), post.id());
+                context.startActivity(intent);
+            });
+
         }else if (holder instanceof UserDetailsVH){
             if (userDetails != null) {
                 UserDetailsVH userDetailsVH = (UserDetailsVH) holder;
@@ -114,15 +106,23 @@ public class UserDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
-    private ListingKind getPost(int position) {
+    private RedditPostDataModel getPost(int position) {
         return posts.get(position - 1);
     }
 
-    public void addPosts(List<ListingKind> posts){
+    public void addPosts(ArrayList<RedditPostDataModel> posts){
         this.posts.addAll(posts);
     }
     public void addUserDetails(UserDetailsModel userDetails){
         this.userDetails = userDetails;
+    }
+
+    public UserDetailsModel getUserDetails() {
+        return userDetails;
+    }
+
+    public ArrayList<RedditPostDataModel> getPosts() {
+        return posts;
     }
 
     public void clearPosts(){

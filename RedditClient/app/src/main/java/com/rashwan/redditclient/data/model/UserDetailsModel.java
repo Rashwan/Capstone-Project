@@ -1,5 +1,7 @@
 package com.rashwan.redditclient.data.model;
 
+import android.os.Parcelable;
+
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -15,7 +17,7 @@ import timber.log.Timber;
  * Created by rashwan on 9/11/16.
  */
 @AutoValue
-public abstract class UserDetailsModel extends ListingKind{
+public abstract class UserDetailsModel extends ListingKind implements Parcelable{
 
     public abstract String name();
     @SerializedName("created_utc") public abstract long createdUtc();

@@ -1,10 +1,10 @@
 package com.rashwan.redditclient.ui.feature.userDetails;
 
 import com.rashwan.redditclient.common.MvpView;
-import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by rashwan on 9/11/16.
@@ -12,5 +12,5 @@ import java.util.List;
 
 public interface UserDetailsView extends MvpView{
     void showUserDetails(UserDetailsModel details);
-    void showUserPosts(List<ListingKind> posts);
+    void showUserPosts(ArrayList<RedditPostDataModel> posts);
 }

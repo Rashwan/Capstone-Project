@@ -2,9 +2,11 @@ package com.rashwan.redditclient.ui.feature.userDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
 import com.rashwan.redditclient.service.RedditService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -27,6 +29,22 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     public UserDetailsPresenter(RedditService redditService) {
         this.redditService = redditService;
         this.after = null;
+    }
+
+    public String getAfter() {
+        return after;
+    }
+
+    public void setAfter(String after) {
+        this.after = after;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     @Override
@@ -69,7 +87,11 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                     count += posts.size();
                     firstRequest = false;
                     Timber.d(after);
-                    getView().showUserPosts(posts);
+                    ArrayList<RedditPostDataModel> convertedPosts = new ArrayList<>();
+                    for (ListingKind post : posts) {
+                        convertedPosts.add((RedditPostDataModel) post);
+                    }
+                    getView().showUserPosts(convertedPosts);
                 }
                 ,Timber::d
                 ,() -> Timber.d("completed getting user posts"));

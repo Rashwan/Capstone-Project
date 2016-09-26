@@ -52,8 +52,6 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     @Inject BrowsePostsAdapter adapter;
 
     private ArrayList<RedditPostDataModel> posts;
-    private String after;
-    private int count;
     private SubredditDetailsModel subredditDetails;
 
 
@@ -77,8 +75,8 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
 
         if (savedInstanceState != null){
             posts = savedInstanceState.getParcelableArrayList(KEY_POSTS);
-            after = savedInstanceState.getString(KEY_POSTS_AFTER);
-            count = savedInstanceState.getInt(KEY_POSTS_COUNT);
+            String after = savedInstanceState.getString(KEY_POSTS_AFTER);
+            int count = savedInstanceState.getInt(KEY_POSTS_COUNT);
             subredditDetails = savedInstanceState.getParcelable(KEY_SUBREDDIT_DETAILS);
             presenter.setAfter(after);
             presenter.setCount(count);
