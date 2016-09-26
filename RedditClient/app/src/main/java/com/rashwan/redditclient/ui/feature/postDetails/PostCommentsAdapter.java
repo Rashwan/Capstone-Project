@@ -10,12 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
-import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.ui.feature.userDetails.UserDetailsActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +27,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private Context context;
-    private List<ListingKind> comments;
+    private ArrayList<RedditCommentDataModel> comments;
 
     public PostCommentsAdapter() {
         this.comments = new ArrayList<>();
@@ -45,33 +43,30 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ListingKind listingKind = comments.get(position);
-        String type = listingKind.getType();
-        if (type.equals(RedditCommentDataModel.class.getSimpleName())) {
-            RedditCommentDataModel comment = (RedditCommentDataModel) listingKind;
 
-            PostCommentsAdapter.PostCommentsVH postsCommentsVH = (PostCommentsVH) holder;
-            postsCommentsVH.body.setText(comment.body());
-            postsCommentsVH.points.setText(String.format("%s Points", comment.score()));
-            postsCommentsVH.author.setText(comment.author());
-            if (comment.getReplies()!=null){
-                RedditCommentDataModel firstReply = (RedditCommentDataModel) comment.getReplies()
-                        .data().children().get(0);
-                postsCommentsVH.firstReplyLayout.setVisibility(View.VISIBLE);
-                postsCommentsVH.firstReplyAuthor.setText(firstReply.author());
-                postsCommentsVH.firstReplyBody.setText(firstReply.body());
-                postsCommentsVH.firstReplyPoints.setText(String.format("%s Points", firstReply.score()));
+        RedditCommentDataModel comment = comments.get(position);
 
-                if (comment.getReplies().data().children().size() > 1){
-                    RedditCommentDataModel secondReply = (RedditCommentDataModel) comment.getReplies()
-                            .data().children().get(1);
-                    postsCommentsVH.secondReplyLayout.setVisibility(View.VISIBLE);
-                    postsCommentsVH.secondReplyAuthor.setText(secondReply.author());
-                    postsCommentsVH.secondReplyBody.setText(secondReply.body());
-                    postsCommentsVH.secondReplyPoints.setText(String.format("%s Points", secondReply.score()));
-                }
+        PostCommentsAdapter.PostCommentsVH postsCommentsVH = (PostCommentsVH) holder;
+        postsCommentsVH.body.setText(comment.body());
+        postsCommentsVH.points.setText(String.format("%s Points", comment.score()));
+        postsCommentsVH.author.setText(comment.author());
+        if (comment.getReplies()!=null){
+            RedditCommentDataModel firstReply = (RedditCommentDataModel) comment.getReplies()
+                    .data().children().get(0);
+            postsCommentsVH.firstReplyLayout.setVisibility(View.VISIBLE);
+            postsCommentsVH.firstReplyAuthor.setText(firstReply.author());
+            postsCommentsVH.firstReplyBody.setText(firstReply.body());
+            postsCommentsVH.firstReplyPoints.setText(String.format("%s Points", firstReply.score()));
 
+            if (comment.getReplies().data().children().size() > 1){
+                RedditCommentDataModel secondReply = (RedditCommentDataModel) comment.getReplies()
+                        .data().children().get(1);
+                postsCommentsVH.secondReplyLayout.setVisibility(View.VISIBLE);
+                postsCommentsVH.secondReplyAuthor.setText(secondReply.author());
+                postsCommentsVH.secondReplyBody.setText(secondReply.body());
+                postsCommentsVH.secondReplyPoints.setText(String.format("%s Points", secondReply.score()));
             }
+
         }
     }
 
@@ -80,8 +75,12 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return comments.size();
     }
 
-    public void addComments(List<ListingKind> comments){
+    public void addComments(ArrayList<RedditCommentDataModel> comments){
         this.comments.addAll(comments);
+    }
+
+    public ArrayList<RedditCommentDataModel> getComments() {
+        return comments;
     }
 
     public void clearComments(){

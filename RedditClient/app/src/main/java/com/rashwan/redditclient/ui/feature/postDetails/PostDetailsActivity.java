@@ -13,21 +13,24 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
-import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
-import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class PostDetailsActivity extends AppCompatActivity implements PostDetailsView {
+
+    private static final String KEY_COMMENTS = "COMMENTS";
+    private static final String KEY_POST_DETAILS = "POST_DETAILS";
+    private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_SUBREDDIT";
+    private static final String EXTRA_POST_ID = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_POST_ID";
 
 
     @BindView(R.id.toolbar_post_details) Toolbar toolbar;
@@ -36,14 +39,13 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     @BindView(R.id.tv_body) TextView body;
     @BindView(R.id.tv_author) TextView author;
     @BindView(R.id.tv_subreddit) TextView subreddit;
-    @BindView(R.id.tv_comments) TextView comments;
+    @BindView(R.id.tv_comments) TextView noOfComments;
     @BindView(R.id.rv_post_comments) RecyclerView rvPostComments;
-    private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_SUBREDDIT";
-    private static final String EXTRA_POST_ID = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_POST_ID";
-
-
     @Inject PostDetailsPresenter presenter;
     @Inject PostCommentsAdapter adapter;
+
+    private ArrayList<RedditCommentDataModel> comments;
+    private RedditPostDataModel postDetails;
 
     public static Intent getPostDetailsIntent(Context context, String subreddit,String postId){
         Intent intent = new Intent(context,PostDetailsActivity.class);
@@ -63,26 +65,37 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter.attachView(this);
+        Intent intent = getIntent();
+
+        if (savedInstanceState != null){
+            postDetails = savedInstanceState.getParcelable(KEY_POST_DETAILS);
+            comments = savedInstanceState.getParcelableArrayList(KEY_COMMENTS);
+        }
+
+        setupRecyclerView();
+        if (postDetails == null || comments == null){
+            presenter.getPostDetails(intent.getStringExtra(EXTRA_SUBREDDIT)
+                    ,intent.getStringExtra(EXTRA_POST_ID));
+        }else {
+            showPost(postDetails);
+            showPostComments(comments);
+        }
+
+    }
+
+    private void setupRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this);
         rvPostComments.setHasFixedSize(true);
         rvPostComments.addItemDecoration(itemDecoration);
         rvPostComments.setLayoutManager(linearLayoutManager);
         rvPostComments.setAdapter(adapter);
-        rvPostComments.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager,false) {
-            @Override
-            public void onLoadMore() {
-                Timber.d("load more");
-            }
-        });
-        Intent intent = getIntent();
 
-        presenter.getPostDetails(intent.getStringExtra(EXTRA_SUBREDDIT)
-                ,intent.getStringExtra(EXTRA_POST_ID));
     }
 
     @Override
     public void showPost(RedditPostDataModel post) {
+        postDetails = post;
         if (post.body().isEmpty()){
             body.setText(post.title());
         }else {
@@ -90,7 +103,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         }
         toolbar.setTitle(post.title());
         points.setText(String.format("%s Points", post.score()));
-        comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
+        noOfComments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
         author.setText(post.author());
         subreddit.setText(post.subreddit());
         if (!post.thumbnail().isEmpty()) {
@@ -99,7 +112,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     }
 
     @Override
-    public void showPostComments(List<ListingKind> comments) {
+    public void showPostComments(ArrayList<RedditCommentDataModel> comments) {
         adapter.addComments(comments);
         adapter.notifyDataSetChanged();
     }
@@ -109,5 +122,12 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         super.onDestroy();
         ((RedditClientApplication)getApplication()).releasePostDetailsComponent();
         presenter.detachView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(KEY_COMMENTS, adapter.getComments());
+        outState.putParcelable(KEY_POST_DETAILS,postDetails);
+        super.onSaveInstanceState(outState);
     }
 }

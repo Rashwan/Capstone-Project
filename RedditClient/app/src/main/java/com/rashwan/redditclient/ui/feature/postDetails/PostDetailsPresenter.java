@@ -2,9 +2,11 @@ package com.rashwan.redditclient.ui.feature.postDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
 import com.rashwan.redditclient.data.model.ListingKind;
+import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.service.RedditService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -41,7 +43,11 @@ public class PostDetailsPresenter extends BasePresenter<PostDetailsView> {
                     Timber.d(post.title());
                     getView().showPost(post);
                     List<ListingKind> comments = listingResponses.get(1).data().children();
-                    getView().showPostComments(comments);
+                    ArrayList<RedditCommentDataModel> convertedComments = new ArrayList<>();
+                    for (ListingKind comment: comments) {
+                        convertedComments.add((RedditCommentDataModel) comment);
+                    }
+                    getView().showPostComments(convertedComments);
                 }
                 ,Timber::d
                 ,() -> Timber.d("completed getting post details"));
