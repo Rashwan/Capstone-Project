@@ -13,7 +13,6 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
     private boolean loading = true;
 
     private final RecyclerView.LayoutManager mLayoutManager;
-    private boolean withHeader;
 
     public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager,boolean withHeader) {
         this.mLayoutManager = layoutManager;
@@ -63,5 +62,10 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     // Defines the process for actually loading more data based on page
     public abstract void onLoadMore();
+
+    public void reset(){
+        previousTotalItemCount = 0;
+        loading = true;
+    }
 
 }

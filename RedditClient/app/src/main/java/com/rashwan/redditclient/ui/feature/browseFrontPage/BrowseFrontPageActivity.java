@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -19,6 +20,7 @@ import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
+import com.rashwan.redditclient.common.utilities.Utilities;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
@@ -31,6 +33,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class BrowseFrontPageActivity extends AppCompatActivity implements BrowseFrontPageView,AdapterView.OnItemSelectedListener {
@@ -51,6 +54,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @BindView(R.id.toolbar_browse_front_page) Toolbar toolbar;
     @BindView(R.id.spinner_subreddits) Spinner spinner;
     @BindView(R.id.progressBar_browse_posts) ProgressBar progressBar;
+    @BindView(R.id.layout_offline) LinearLayout offlineLayout;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<RedditPostDataModel> posts;
     private String currentSubreddit = "All";
@@ -59,7 +63,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     private boolean isInSearchMode = false;
     private ArrayList<RedditPostDataModel> searchResults = new ArrayList<>();
     private SearchView searchView;
-
+    private EndlessRecyclerViewScrollListener scrollListener;
 
 
 
@@ -115,13 +119,15 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         rvBrowseFrontPage.addItemDecoration(itemDecoration);
         rvBrowseFrontPage.setLayoutManager(linearLayoutManager);
         rvBrowseFrontPage.setAdapter(postsAdapter);
-        rvBrowseFrontPage.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager,false) {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager,false) {
             @Override
             public void onLoadMore() {
                 Timber.d("on load more");
-                presenter.getSubredditPosts(spinner.getSelectedItem().toString());
-            }
-        });
+                if (!isInSearchMode) {
+                    presenter.getSubredditPosts(spinner.getSelectedItem().toString());
+                }
+            }};
+        rvBrowseFrontPage.addOnScrollListener(scrollListener);
     }
 
 
@@ -162,6 +168,22 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showOfflineLayout() {
+        offlineLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideOfflineLayout() {
+        offlineLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void clearScreen() {
+        progressBar.setVisibility(View.GONE);
+        offlineLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -246,7 +268,14 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
                 Timber.d("search view collapsed");
                 isInSearchMode = false;
                 searchQuery = "";
-                rvBrowseFrontPage.swapAdapter(postsAdapter,true);
+                scrollListener.reset();
+                if (!postsAdapter.isEmpty()){
+                    hideOfflineLayout();
+                    rvBrowseFrontPage.swapAdapter(postsAdapter,true);
+                }else {
+                    rvBrowseFrontPage.swapAdapter(postsAdapter,true);
+                    presenter.getSubredditPosts(currentSubreddit);
+                }
                 return true;
             }
         });
@@ -255,7 +284,16 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
             searchView.setQuery(searchQuery,true);
         }
 
-
         return true;
+    }
+    @OnClick(R.id.button_refresh)
+    void onRefreshClicked(){
+        if (Utilities.isNetworkAvailable(this.getApplication())){
+            presenter.getPopularSubreddits();
+            presenter.getSubredditPosts(currentSubreddit);
+            if (isInSearchMode){
+                presenter.searchPosts(searchView.getQuery().toString());
+            }
+        }
     }
 }

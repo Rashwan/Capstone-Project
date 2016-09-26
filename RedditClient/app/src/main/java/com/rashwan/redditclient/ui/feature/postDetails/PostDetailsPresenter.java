@@ -1,6 +1,7 @@
 package com.rashwan.redditclient.ui.feature.postDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
+import com.rashwan.redditclient.common.utilities.Exceptions.NoInternetException;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
@@ -51,7 +52,15 @@ public class PostDetailsPresenter extends BasePresenter<PostDetailsView> {
                     }
                     getView().showPostComments(convertedComments);
                 }
-                ,Timber::d
+                , throwable -> {
+                    if (throwable instanceof NoInternetException) {
+                        NoInternetException exception = (NoInternetException) throwable;
+                        Timber.d("Error retrieving movies: %s . First page: %s"
+                                , exception.message, exception.firstPage);
+                        getView().hideProgress();
+                        getView().showOfflineLayout();
+                    }
+                }
                 ,() -> Timber.d("completed getting post details"));
 
     }

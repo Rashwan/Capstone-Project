@@ -6,6 +6,7 @@ import com.pushtorefresh.storio.contentresolver.operations.put.PutResults;
 import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
 import com.rashwan.redditclient.common.BasePresenter;
+import com.rashwan.redditclient.common.utilities.Exceptions;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
@@ -95,8 +96,10 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
 
     public void getSubredditPosts(String subreddit){
         checkViewAttached();
+        getView().clearScreen();
         Timber.d("old subreddit: %s",oldSubreddit);
         Timber.d("method subreddit: %s",subreddit);
+        getView().hideOfflineLayout();
         if (!subreddit.equals(oldSubreddit)){
             Timber.d("different subreddit");
             currentAfter = null;
@@ -155,12 +158,27 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                     getView().hideProgress();
                     getView().showPosts(convertedPosts);
                 }
-                ,Timber::d
+                ,throwable -> {
+                    if (throwable instanceof Exceptions.NoInternetException) {
+                        Exceptions.NoInternetException exception = (Exceptions.NoInternetException) throwable;
+                        Timber.d("Error retrieving posts: %s . First page: %s"
+                                , exception.message, exception.firstPage);
+                        if (exception.firstPage){
+                            getView().hideProgress();
+                            getView().showOfflineLayout();
+                        }else {
+                            Timber.d("Not first !");
+                        }
+
+                    }
+                }
                 ,() -> Timber.d("completed subreddit posts"));
     }
 
     public void searchPosts(String query){
         checkViewAttached();
+        getView().clearScreen();
+        getView().hideOfflineLayout();
         getView().showProgress();
         searchPostsSubscription = redditService.searchPosts(query)
                 .subscribeOn(Schedulers.io())
@@ -175,7 +193,14 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                     getView().hideProgress();
                     getView().showSearchResults(convertedPosts);
                 }
-                ,Timber::d
+                ,throwable -> {
+                            if (throwable instanceof Exceptions.NoInternetException) {
+                                Exceptions.NoInternetException exception = (Exceptions.NoInternetException) throwable;
+                                Timber.d("Error retrieving posts: %s .", exception.message);
+                                getView().hideProgress();
+                                getView().showOfflineLayout();
+                            }
+                        }
                 ,() -> Timber.d("completed searching posts"));
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     @BindView(R.id.rv_post_comments) RecyclerView rvPostComments;
     @BindView(R.id.progressBar_post_details) ProgressBar progressBarPostDetails;
     @BindView(R.id.progressBar_post_comments) ProgressBar progressBarPostComments;
+    @BindView(R.id.layout_offline) LinearLayout offlineLayout;
     @Inject PostDetailsPresenter presenter;
     @Inject PostCommentsAdapter adapter;
 
@@ -131,6 +133,16 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     public void hideProgress() {
         progressBarPostComments.setVisibility(View.GONE);
         progressBarPostDetails.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showOfflineLayout() {
+        offlineLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideOfflineLayout() {
+        offlineLayout.setVisibility(View.GONE);
     }
 
     @Override

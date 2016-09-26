@@ -15,4 +15,6 @@ public interface PostDetailsView extends MvpView{
     void showPostComments(ArrayList<RedditCommentDataModel> comments);
     void showProgress();
     void hideProgress();
+    void showOfflineLayout();
+    void hideOfflineLayout();
 }
