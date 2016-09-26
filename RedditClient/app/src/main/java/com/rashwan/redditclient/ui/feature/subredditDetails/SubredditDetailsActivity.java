@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
 import com.rashwan.redditclient.common.utilities.RoundedTransformation;
+import com.rashwan.redditclient.common.utilities.Utilities;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
 import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
@@ -33,6 +37,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class SubredditDetailsActivity extends AppCompatActivity implements SubredditDetailsView {
@@ -52,11 +57,15 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     @BindView(R.id.rv_subreddit_posts) RecyclerView rvSubredditPosts;
     @BindView(R.id.progressBar_subreddit_details) ProgressBar progressBarSubredditDetails;
     @BindView(R.id.progressBar_subreddit_posts) ProgressBar progressBarSubredditPosts;
+    @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.layout_offline) LinearLayout offlineLayout;
     @Inject SubredditDetailsPresenter presenter;
     @Inject BrowsePostsAdapter adapter;
 
     private ArrayList<RedditPostDataModel> posts;
     private SubredditDetailsModel subredditDetails;
+    private String subreddit;
+    private Snackbar snackbar;
 
 
     public static Intent getSubredditDetailsIntent(Context context,String subreddit){
@@ -74,7 +83,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
+        subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
         presenter.attachView(this);
 
         if (savedInstanceState != null){
@@ -160,6 +169,33 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     }
 
     @Override
+    public void showOfflineLayout() {
+        offlineLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideOfflineLayout() {
+        offlineLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void clearScreen() {
+        progressBarSubredditDetails.setVisibility(View.GONE);
+        progressBarSubredditPosts.setVisibility(View.GONE);
+        offlineLayout.setVisibility(View.GONE);
+        if (snackbar != null){
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
+    public void showOfflineSnackBar() {
+        snackbar = Snackbar.make(coordinatorLayout,"Please check your internet connection",Snackbar.LENGTH_INDEFINITE)
+                .setAction("refresh", view -> presenter.getSubredditPosts(subreddit));
+        snackbar.show();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         ((RedditClientApplication)getApplication()).releaseSubredditDetailsComponent();
@@ -174,5 +210,13 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         outState.putInt(KEY_POSTS_COUNT,presenter.getCount());
         outState.putParcelable(KEY_SUBREDDIT_DETAILS,subredditDetails);
         super.onSaveInstanceState(outState);
+    }
+
+    @OnClick(R.id.button_refresh)
+    void onRefreshClicked(){
+        if (Utilities.isNetworkAvailable(this.getApplication())){
+            presenter.getSubredditPosts(subreddit);
+            presenter.getSubredditDetails(subreddit);
+        }
     }
 }

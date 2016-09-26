@@ -17,4 +17,8 @@ public interface SubredditDetailsView extends MvpView {
     void hideSubredditPostsProgress();
     void showSubredditInfoProgress();
     void hideSubredditInfoProgress();
+    void showOfflineLayout();
+    void hideOfflineLayout();
+    void clearScreen();
+    void showOfflineSnackBar();
 }

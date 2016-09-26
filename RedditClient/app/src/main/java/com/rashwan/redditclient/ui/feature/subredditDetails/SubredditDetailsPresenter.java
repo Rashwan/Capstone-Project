@@ -1,6 +1,7 @@
 package com.rashwan.redditclient.ui.feature.subredditDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
+import com.rashwan.redditclient.common.utilities.Exceptions;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.SubredditDetailsModel;
@@ -78,7 +79,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
             return;
         }
         checkViewAttached();
-
+        getView().clearScreen();
         if (count == 0){
             getView().showSubredditPostsProgress();
         }
@@ -99,7 +100,19 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
                     getView().hideSubredditPostsProgress();
                     getView().showSubredditPosts(convertedPosts);
                 }
-                ,Timber::d
+                ,throwable -> {
+                        if (throwable instanceof Exceptions.NoInternetException) {
+                            Exceptions.NoInternetException exception = (Exceptions.NoInternetException) throwable;
+                            Timber.d("Error retrieving posts: %s . First page: %s"
+                                    , exception.message, exception.firstPage);
+                            if (exception.firstPage) {
+                                getView().hideSubredditPostsProgress();
+                                getView().showOfflineLayout();
+                            } else {
+                                getView().showOfflineSnackBar();
+                            }
+                        }
+                    }
                 ,() -> Timber.d("completed subreddit posts"));
     }
 }
