@@ -16,5 +16,5 @@ public interface PostDetailsView extends MvpView{
     void showProgress();
     void hideProgress();
     void showOfflineLayout();
-    void hideOfflineLayout();
+    void clearScreen();
 }

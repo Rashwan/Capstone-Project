@@ -1,7 +1,7 @@
 package com.rashwan.redditclient.ui.feature.postDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
-import com.rashwan.redditclient.common.utilities.Exceptions.NoInternetException;
+import com.rashwan.redditclient.common.utilities.Exceptions;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
@@ -35,6 +35,7 @@ public class PostDetailsPresenter extends BasePresenter<PostDetailsView> {
 
     void getPostDetails(String subreddit, String postId){
         checkViewAttached();
+        getView().clearScreen();
         getView().showProgress();
         postDetailsSubscription = redditService.getPostDetails(subreddit,postId)
                 .subscribeOn(Schedulers.io())
@@ -53,10 +54,9 @@ public class PostDetailsPresenter extends BasePresenter<PostDetailsView> {
                     getView().showPostComments(convertedComments);
                 }
                 , throwable -> {
-                    if (throwable instanceof NoInternetException) {
-                        NoInternetException exception = (NoInternetException) throwable;
-                        Timber.d("Error retrieving movies: %s . First page: %s"
-                                , exception.message, exception.firstPage);
+                    if (throwable instanceof Exceptions.NoInternetException) {
+                        Exceptions.NoInternetException exception = (Exceptions.NoInternetException) throwable;
+                        Timber.d("Error retrieving posts: %s .", exception.message);
                         getView().hideProgress();
                         getView().showOfflineLayout();
                     }

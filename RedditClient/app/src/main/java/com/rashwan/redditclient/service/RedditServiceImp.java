@@ -88,6 +88,9 @@ public class RedditServiceImp implements RedditService{
     @Override
     public Observable<List<ListingResponse>> getPostDetails(String subreddit, String postId) {
         accessToken = sp.getString(KEY_ACCESS_TOKEN,STUB_ACCESS_TOKEN);
+        if (!Utilities.isNetworkAvailable(application)){
+            return Observable.error(new Exceptions.NoInternetException("No internet connection"));
+        }
         return retrofit.create(RedditApi.class).getPostDetails(accessToken,subreddit,postId);
     }
 }

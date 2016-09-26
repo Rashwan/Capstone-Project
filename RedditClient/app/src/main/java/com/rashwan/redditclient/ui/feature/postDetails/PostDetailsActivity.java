@@ -3,6 +3,7 @@ package com.rashwan.redditclient.ui.feature.postDetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
+import com.rashwan.redditclient.common.utilities.Utilities;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.squareup.picasso.Picasso;
@@ -27,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PostDetailsActivity extends AppCompatActivity implements PostDetailsView {
 
@@ -34,7 +37,6 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     private static final String KEY_POST_DETAILS = "POST_DETAILS";
     private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_SUBREDDIT";
     private static final String EXTRA_POST_ID = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_POST_ID";
-
 
     @BindView(R.id.toolbar_post_details) Toolbar toolbar;
     @BindView(R.id.iv_thumbnail) ImageView thumbnail;
@@ -52,6 +54,9 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
 
     private ArrayList<RedditCommentDataModel> comments;
     private RedditPostDataModel postDetails;
+    private Snackbar snackbar;
+    private String subredditName;
+    private String postId;
 
     public static Intent getPostDetailsIntent(Context context, String subreddit,String postId){
         Intent intent = new Intent(context,PostDetailsActivity.class);
@@ -72,6 +77,8 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter.attachView(this);
         Intent intent = getIntent();
+        subredditName = intent.getStringExtra(EXTRA_SUBREDDIT);
+        postId = intent.getStringExtra(EXTRA_POST_ID);
 
         if (savedInstanceState != null){
             postDetails = savedInstanceState.getParcelable(KEY_POST_DETAILS);
@@ -80,8 +87,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
 
         setupRecyclerView();
         if (postDetails == null || comments == null){
-            presenter.getPostDetails(intent.getStringExtra(EXTRA_SUBREDDIT)
-                    ,intent.getStringExtra(EXTRA_POST_ID));
+            presenter.getPostDetails(subredditName,postId);
         }else {
             showPost(postDetails);
             showPostComments(comments);
@@ -141,9 +147,12 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     }
 
     @Override
-    public void hideOfflineLayout() {
+    public void clearScreen() {
+        progressBarPostDetails.setVisibility(View.GONE);
+        progressBarPostComments.setVisibility(View.GONE);
         offlineLayout.setVisibility(View.GONE);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -157,5 +166,12 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         outState.putParcelableArrayList(KEY_COMMENTS, adapter.getComments());
         outState.putParcelable(KEY_POST_DETAILS,postDetails);
         super.onSaveInstanceState(outState);
+    }
+
+    @OnClick(R.id.button_refresh)
+    void onRefreshClicked(){
+        if (Utilities.isNetworkAvailable(this.getApplication())){
+            presenter.getPostDetails(subredditName,postId);
+        }
     }
 }

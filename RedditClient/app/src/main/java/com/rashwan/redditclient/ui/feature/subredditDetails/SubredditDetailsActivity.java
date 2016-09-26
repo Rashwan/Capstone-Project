@@ -174,11 +174,6 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     }
 
     @Override
-    public void hideOfflineLayout() {
-        offlineLayout.setVisibility(View.GONE);
-    }
-
-    @Override
     public void clearScreen() {
         progressBarSubredditDetails.setVisibility(View.GONE);
         progressBarSubredditPosts.setVisibility(View.GONE);
