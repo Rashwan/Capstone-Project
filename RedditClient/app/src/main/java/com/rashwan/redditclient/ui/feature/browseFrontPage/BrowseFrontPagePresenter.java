@@ -167,7 +167,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                             getView().hideProgress();
                             getView().showOfflineLayout();
                         }else {
-                            Timber.d("Not first !");
+                            getView().showOfflineSnackBar();
                         }
 
                     }

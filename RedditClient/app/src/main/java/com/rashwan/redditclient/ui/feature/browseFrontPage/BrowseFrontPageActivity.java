@@ -1,6 +1,8 @@
 package com.rashwan.redditclient.ui.feature.browseFrontPage;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +57,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @BindView(R.id.spinner_subreddits) Spinner spinner;
     @BindView(R.id.progressBar_browse_posts) ProgressBar progressBar;
     @BindView(R.id.layout_offline) LinearLayout offlineLayout;
+    @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<RedditPostDataModel> posts;
     private String currentSubreddit = "All";
@@ -64,7 +67,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     private ArrayList<RedditPostDataModel> searchResults = new ArrayList<>();
     private SearchView searchView;
     private EndlessRecyclerViewScrollListener scrollListener;
-
+    private Snackbar snackbar;
 
 
     @Override
@@ -184,6 +187,16 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     public void clearScreen() {
         progressBar.setVisibility(View.GONE);
         offlineLayout.setVisibility(View.GONE);
+        if(snackbar != null){
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
+    public void showOfflineSnackBar() {
+        snackbar = Snackbar.make(coordinatorLayout,"Please check your internet connection",Snackbar.LENGTH_INDEFINITE)
+                .setAction("refresh", view -> presenter.getSubredditPosts(currentSubreddit));
+        snackbar.show();
     }
 
     @Override

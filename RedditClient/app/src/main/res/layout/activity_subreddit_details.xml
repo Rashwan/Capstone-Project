@@ -95,9 +95,8 @@
         android:id="@+id/rv_subreddit_posts"
         tools:listitem="@layout/item_post"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        />
 
-    </android.support.v7.widget.RecyclerView>
     <ProgressBar
         android:id="@+id/progressBar_subreddit_posts"
         android:layout_width="wrap_content"
@@ -105,4 +104,34 @@
         android:layout_gravity="center"
         android:visibility="gone"
         />
+    <LinearLayout
+        android:id="@+id/layout_offline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_cloud_off"
+            android:layout_margin="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please Check Your Internet Connection"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:padding="16dp"
+            />
+        <Button
+            android:id="@+id/button_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Refresh"
+            android:padding="16dp"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

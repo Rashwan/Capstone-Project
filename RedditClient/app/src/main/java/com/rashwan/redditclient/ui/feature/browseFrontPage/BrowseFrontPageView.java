@@ -19,4 +19,5 @@ public interface BrowseFrontPageView extends MvpView{
     void showOfflineLayout();
     void hideOfflineLayout();
     void clearScreen();
+    void showOfflineSnackBar();
 }
