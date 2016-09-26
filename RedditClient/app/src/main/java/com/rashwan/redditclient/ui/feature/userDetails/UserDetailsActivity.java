@@ -3,17 +3,21 @@ package com.rashwan.redditclient.ui.feature.userDetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.EndlessRecyclerViewScrollListener;
+import com.rashwan.redditclient.common.utilities.Utilities;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
 
@@ -23,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class UserDetailsActivity extends AppCompatActivity implements UserDetailsView {
@@ -36,10 +41,14 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     @BindView(R.id.toolbar_user_details) Toolbar toolbar;
     @BindView(R.id.rv_user_posts) RecyclerView rvUserPosts;
     @BindView(R.id.progressBar_user_details) ProgressBar progressBar;
+    @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.layout_offline) LinearLayout offlineLayout;
     @Inject UserDetailsPresenter presenter;
     @Inject UserDetailsAdapter adapter;
     private ArrayList<RedditPostDataModel> posts;
     private UserDetailsModel userDetails;
+    private Snackbar snackbar;
+    private String username;
 
 
     public static Intent getUserDetailsIntent(Context context, String username) {
@@ -58,7 +67,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         ((RedditClientApplication) getApplication()).createUserDetailsComponent().inject(this);
         presenter.attachView(this);
         Intent intent = getIntent();
-        String username = intent.getStringExtra(EXTRA_USERNAME);
+        username = intent.getStringExtra(EXTRA_USERNAME);
 
         setupRecyclerView(username);
         toolbar.setTitle(username);
@@ -127,6 +136,27 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     }
 
     @Override
+    public void showOfflineLayout() {
+        offlineLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showOfflineSnackBar() {
+        snackbar = Snackbar.make(coordinatorLayout,"Please check your internet connection",Snackbar.LENGTH_INDEFINITE)
+                .setAction("refresh", view -> presenter.getUserPosts(username));
+        snackbar.show();
+    }
+
+    @Override
+    public void clearScreen() {
+        progressBar.setVisibility(View.GONE);
+        offlineLayout.setVisibility(View.GONE);
+        if (snackbar != null){
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         ((RedditClientApplication)getApplication()).releaseUserDetailsComponent();
@@ -142,5 +172,13 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
         outState.putParcelable(KEY_USER_DETAILS,adapter.getUserDetails());
 
         super.onSaveInstanceState(outState);
+    }
+    @OnClick(R.id.button_refresh)
+    void onRefreshClicked(){
+        if (Utilities.isNetworkAvailable(this.getApplication())){
+            presenter.getUserPosts(username);
+            presenter.getUserDetails(username);
+
+        }
     }
 }

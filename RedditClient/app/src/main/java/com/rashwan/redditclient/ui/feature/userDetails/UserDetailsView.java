@@ -15,4 +15,7 @@ public interface UserDetailsView extends MvpView{
     void showUserPosts(ArrayList<RedditPostDataModel> posts);
     void showProgress();
     void hideProgress();
+    void showOfflineLayout();
+    void showOfflineSnackBar();
+    void clearScreen();
 }

@@ -1,6 +1,7 @@
 package com.rashwan.redditclient.ui.feature.userDetails;
 
 import com.rashwan.redditclient.common.BasePresenter;
+import com.rashwan.redditclient.common.utilities.Exceptions;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.model.UserDetailsModel;
@@ -77,6 +78,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
             return;
         }
         checkViewAttached();
+        getView().clearScreen();
         if (count == 0){
             getView().showProgress();
         }
@@ -97,7 +99,20 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                     getView().hideProgress();
                     getView().showUserPosts(convertedPosts);
                 }
-                ,Timber::d
+                ,throwable -> {
+                    if (throwable instanceof Exceptions.NoInternetException) {
+                        Exceptions.NoInternetException exception = (Exceptions.NoInternetException) throwable;
+                        Timber.d("Error retrieving posts: %s . First page: %s"
+                                , exception.message, exception.firstPage);
+                        if (exception.firstPage){
+                            getView().hideProgress();
+                            getView().showOfflineLayout();
+                        }else {
+                            getView().showOfflineSnackBar();
+                        }
+
+                    }
+                }
                 ,() -> Timber.d("completed getting user posts"));
     }
 }
