@@ -14,4 +14,6 @@ public interface BrowseFrontPageView extends MvpView{
     void showPosts(List<RedditPostDataModel> posts);
     void showPopularSubreddits(List<ListingKind> subreddits);
     void showSearchResults(List<RedditPostDataModel> posts);
+    void showProgress();
+    void hideProgress();
 }

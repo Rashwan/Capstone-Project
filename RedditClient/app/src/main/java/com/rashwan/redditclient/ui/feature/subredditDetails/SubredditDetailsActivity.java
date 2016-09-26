@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
@@ -48,6 +50,8 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     @BindView(R.id.toolbar_subreddit_details) Toolbar toolbar;
     @BindView(R.id.collapsing_toolbar_subreddit_details) CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.rv_subreddit_posts) RecyclerView rvSubredditPosts;
+    @BindView(R.id.progressBar_subreddit_details) ProgressBar progressBarSubredditDetails;
+    @BindView(R.id.progressBar_subreddit_posts) ProgressBar progressBarSubredditPosts;
     @Inject SubredditDetailsPresenter presenter;
     @Inject BrowsePostsAdapter adapter;
 
@@ -133,6 +137,26 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     public void showSubredditPosts(List<RedditPostDataModel> posts) {
         adapter.addPosts(posts);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showSubredditPostsProgress() {
+        progressBarSubredditPosts.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSubredditPostsProgress() {
+        progressBarSubredditPosts.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showSubredditInfoProgress() {
+        progressBarSubredditDetails.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSubredditInfoProgress() {
+        progressBarSubredditDetails.setVisibility(View.GONE);
     }
 
     @Override

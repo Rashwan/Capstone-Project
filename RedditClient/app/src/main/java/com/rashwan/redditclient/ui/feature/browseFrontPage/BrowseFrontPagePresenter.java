@@ -103,6 +103,9 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
             oldSubreddit = subreddit;
             currentCount = 0;
         }
+        if (currentCount == 0){
+            getView().showProgress();
+        }
         postsSubscription = redditService.getSubredditPosts(subreddit,currentAfter,currentCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -149,6 +152,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                     for (ListingKind kind: posts) {
                         convertedPosts.add((RedditPostDataModel) kind);
                     }
+                    getView().hideProgress();
                     getView().showPosts(convertedPosts);
                 }
                 ,Timber::d
@@ -157,6 +161,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
 
     public void searchPosts(String query){
         checkViewAttached();
+        getView().showProgress();
         searchPostsSubscription = redditService.searchPosts(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -167,6 +172,7 @@ public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView>
                     for (ListingKind post: posts) {
                         convertedPosts.add((RedditPostDataModel) post);
                     }
+                    getView().hideProgress();
                     getView().showSearchResults(convertedPosts);
                 }
                 ,Timber::d

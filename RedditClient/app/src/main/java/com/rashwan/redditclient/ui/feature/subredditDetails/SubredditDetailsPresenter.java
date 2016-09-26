@@ -56,12 +56,14 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
 
     public void getSubredditDetails(String subreddit){
         checkViewAttached();
+        getView().showSubredditInfoProgress();
         detailsSubscription = redditService.getSubredditDetails(subreddit)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listingKind -> {
                     if (listingKind.getType().equals(SubredditDetailsModel.class.getSimpleName())){
                         SubredditDetailsModel subredditDetails = (SubredditDetailsModel) listingKind;
                         Timber.d(subredditDetails.name());
+                        getView().hideSubredditInfoProgress();
                         getView().showSubredditInfo(subredditDetails);
                     }
 
@@ -76,6 +78,10 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
             return;
         }
         checkViewAttached();
+
+        if (count == 0){
+            getView().showSubredditPostsProgress();
+        }
         postsSubscription = redditService.getSubredditPosts(subreddit,after,count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -90,6 +96,7 @@ public class SubredditDetailsPresenter extends BasePresenter<SubredditDetailsVie
                     for (ListingKind post : posts) {
                         convertedPosts.add((RedditPostDataModel) post);
                     }
+                    getView().hideSubredditPostsProgress();
                     getView().showSubredditPosts(convertedPosts);
                 }
                 ,Timber::d

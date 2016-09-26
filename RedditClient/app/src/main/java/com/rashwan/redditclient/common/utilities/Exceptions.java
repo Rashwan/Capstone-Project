@@ -10,4 +10,24 @@ public final class Exceptions {
             super("Please call Presenter.attachView(MvpView) before requesting data to the Presenter");
         }
     }
+    public static class NoInternetException extends Exception {
+        public Boolean firstPage;
+        public String message;
+        public NoInternetException(Boolean firstPage,String message){
+            this.firstPage = firstPage;
+            this.message = message;
+        }
+
+        public NoInternetException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String toString() {
+            return "NoInternetException{" +
+                    "firstPage=" + firstPage +
+                    ", message='" + message + '\'' +
+                    '}';
+        }
+    }
 }

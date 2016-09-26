@@ -77,6 +77,9 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
             return;
         }
         checkViewAttached();
+        if (count == 0){
+            getView().showProgress();
+        }
         postsSubscription = redditService.getUserPosts(username,after,count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -91,6 +94,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                     for (ListingKind post : posts) {
                         convertedPosts.add((RedditPostDataModel) post);
                     }
+                    getView().hideProgress();
                     getView().showUserPosts(convertedPosts);
                 }
                 ,Timber::d

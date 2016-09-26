@@ -13,4 +13,8 @@ import java.util.List;
 public interface SubredditDetailsView extends MvpView {
     void showSubredditInfo(SubredditDetailsModel details);
     void showSubredditPosts(List<RedditPostDataModel> posts);
+    void showSubredditPostsProgress();
+    void hideSubredditPostsProgress();
+    void showSubredditInfoProgress();
+    void hideSubredditInfoProgress();
 }

@@ -61,7 +61,7 @@ public class UserDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Context context = holder.itemView.getContext();
         if (holder instanceof BrowsePostsVH) {
 
-            RedditPostDataModel post = posts.get(position);
+            RedditPostDataModel post = getPost(position);
             BrowsePostsVH browsePostsVH = (BrowsePostsVH) holder;
             browsePostsVH.title.setText(post.title());
             browsePostsVH.points.setText(String.format("%s Points", post.score()));

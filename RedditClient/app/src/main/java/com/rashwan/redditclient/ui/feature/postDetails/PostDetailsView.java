@@ -13,4 +13,6 @@ import java.util.ArrayList;
 public interface PostDetailsView extends MvpView{
     void showPost(RedditPostDataModel post);
     void showPostComments(ArrayList<RedditCommentDataModel> comments);
+    void showProgress();
+    void hideProgress();
 }

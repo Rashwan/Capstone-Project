@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.rashwan.redditclient.R;
@@ -49,6 +50,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @BindView(R.id.rv_browse_front_page) RecyclerView rvBrowseFrontPage;
     @BindView(R.id.toolbar_browse_front_page) Toolbar toolbar;
     @BindView(R.id.spinner_subreddits) Spinner spinner;
+    @BindView(R.id.progressBar_browse_posts) ProgressBar progressBar;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<RedditPostDataModel> posts;
     private String currentSubreddit = "All";
@@ -150,6 +152,16 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
         searchAdapter.addPosts(posts);
         searchAdapter.notifyDataSetChanged();
         rvBrowseFrontPage.swapAdapter(searchAdapter,true);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

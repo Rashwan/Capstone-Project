@@ -17,7 +17,6 @@ import com.rashwan.redditclient.data.ListingDeserializer;
 import com.rashwan.redditclient.data.MyAdapterFactory;
 import com.rashwan.redditclient.data.db.RedditPostDBHelper;
 import com.rashwan.redditclient.data.model.ListingKind;
-import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
 import com.rashwan.redditclient.service.AuthService;
@@ -128,8 +127,8 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public RedditService provideRedditService(Retrofit retrofit,SharedPreferences sp){
-        return new RedditServiceImp(retrofit,sp);
+    public RedditService provideRedditService(Application application,Retrofit retrofit,SharedPreferences sp){
+        return new RedditServiceImp(application,retrofit,sp);
     }
 
     @Provides @Singleton

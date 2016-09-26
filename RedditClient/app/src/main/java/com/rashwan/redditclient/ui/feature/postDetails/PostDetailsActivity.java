@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rashwan.redditclient.R;
@@ -41,6 +43,8 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     @BindView(R.id.tv_subreddit) TextView subreddit;
     @BindView(R.id.tv_comments) TextView noOfComments;
     @BindView(R.id.rv_post_comments) RecyclerView rvPostComments;
+    @BindView(R.id.progressBar_post_details) ProgressBar progressBarPostDetails;
+    @BindView(R.id.progressBar_post_comments) ProgressBar progressBarPostComments;
     @Inject PostDetailsPresenter presenter;
     @Inject PostCommentsAdapter adapter;
 
@@ -115,6 +119,18 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     public void showPostComments(ArrayList<RedditCommentDataModel> comments) {
         adapter.addComments(comments);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showProgress() {
+        progressBarPostComments.setVisibility(View.VISIBLE);
+        progressBarPostDetails.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBarPostComments.setVisibility(View.GONE);
+        progressBarPostDetails.setVisibility(View.GONE);
     }
 
     @Override

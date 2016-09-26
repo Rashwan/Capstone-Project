@@ -34,6 +34,7 @@ public class PostDetailsPresenter extends BasePresenter<PostDetailsView> {
 
     void getPostDetails(String subreddit, String postId){
         checkViewAttached();
+        getView().showProgress();
         postDetailsSubscription = redditService.getPostDetails(subreddit,postId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,6 +42,7 @@ public class PostDetailsPresenter extends BasePresenter<PostDetailsView> {
                     RedditPostDataModel post = (RedditPostDataModel) listingResponses.get(0).data()
                             .children().get(0);
                     Timber.d(post.title());
+                    getView().hideProgress();
                     getView().showPost(post);
                     List<ListingKind> comments = listingResponses.get(1).data().children();
                     ArrayList<RedditCommentDataModel> convertedComments = new ArrayList<>();

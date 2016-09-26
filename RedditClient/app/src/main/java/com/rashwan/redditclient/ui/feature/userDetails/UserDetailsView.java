@@ -13,4 +13,6 @@ import java.util.ArrayList;
 public interface UserDetailsView extends MvpView{
     void showUserDetails(UserDetailsModel details);
     void showUserPosts(ArrayList<RedditPostDataModel> posts);
+    void showProgress();
+    void hideProgress();
 }
