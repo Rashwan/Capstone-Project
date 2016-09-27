@@ -2,6 +2,7 @@ package com.rashwan.redditclient.ui.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
@@ -21,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,10 +36,13 @@ import butterknife.OnClick;
 public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<RedditPostDataModel> posts;
     private Context context;
+    private FirebaseAnalytics firebaseAnalytics;
+
 
 
     public BrowsePostsAdapter() {
         this.posts = new ArrayList<>();
+
     }
 
     @Override
@@ -44,6 +50,8 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_post, parent, false);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
         return new BrowsePostsVH(view);
     }
 
@@ -63,14 +71,12 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (!post.thumbnail().isEmpty()) {
                 Picasso.with(context).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(((BrowsePostsVH) holder).thumb);
             }
+            browsePostsVH.constraintLayout.setOnClickListener(v -> {
+                browsePostsVH.logEventToFA("post",post.title());
+                Intent intent = PostDetailsActivity.getPostDetailsIntent(context,
+                        post.subreddit(), post.id());
 
-            browsePostsVH.constraintLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = PostDetailsActivity.getPostDetailsIntent(context,
-                            post.subreddit(), post.id());
-                    context.startActivity(intent);
-                }
+                context.startActivity(intent);
             });
         }
     }
@@ -112,15 +118,29 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @OnClick(R.id.tv_subreddit)
         void onSubredditClicked(TextView view){
+            logEventToFA("subreddit",view.getText().toString());
+
             Intent intent = SubredditDetailsActivity
                     .getSubredditDetailsIntent(context,view.getText().toString());
             context.startActivity(intent);
         }
         @OnClick(R.id.tv_author)
         void onAuthorClicked(TextView view){
-            Intent intent = UserDetailsActivity.getUserDetailsIntent(context,view.getText().toString());
+            logEventToFA("user",view.getText().toString());
+
+            Intent intent = UserDetailsActivity.getUserDetailsIntent(context
+                    ,view.getText().toString());
             context.startActivity(intent);
         }
+
+        private void logEventToFA(String contentType, String itemName) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, UUID.randomUUID().toString());
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,itemName);
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,contentType);
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle);
+        }
+
 
     }
 

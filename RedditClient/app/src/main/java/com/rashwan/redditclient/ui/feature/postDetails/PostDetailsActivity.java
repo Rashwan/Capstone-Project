@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
@@ -31,6 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -67,6 +69,8 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     private String postId;
     private MenuItem openLinkItem;
     private String url;
+    private FirebaseAnalytics firebaseAnalytics;
+
 
 
     public static Intent getPostDetailsIntent(Context context, String subreddit,String postId){
@@ -84,7 +88,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         ((RedditClientApplication)getApplication()).createPostDetailsComponent().inject(this);
         ButterKnife.bind(this);
         MobileAds.initialize(getApplicationContext(),"ca-app-pub-3940256099942544~3347511713");
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter.attachView(this);
@@ -205,6 +209,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_open_link:
+                logEventToFA("open in chrome",url);
                 Uri uri = Uri.parse(url);
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 builder.setToolbarColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
@@ -213,5 +218,12 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
                 break;
         }
         return true;
+    }
+    private void logEventToFA(String contentType, String itemName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, UUID.randomUUID().toString());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,itemName);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,contentType);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle);
     }
 }
