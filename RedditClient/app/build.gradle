@@ -80,6 +80,8 @@ dependencies {
     apt 'com.ryanharter.auto.value:auto-value-parcel:0.2.4-rc2'
     apt 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
+    compile "com.android.support:customtabs:$supportLibraryVersion"
+
 
 
 

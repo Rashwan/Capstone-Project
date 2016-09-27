@@ -2,12 +2,16 @@ package com.rashwan.redditclient.ui.feature.postDetails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class PostDetailsActivity extends AppCompatActivity implements PostDetailsView {
 
@@ -54,9 +59,11 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
 
     private ArrayList<RedditCommentDataModel> comments;
     private RedditPostDataModel postDetails;
-    private Snackbar snackbar;
     private String subredditName;
     private String postId;
+    private MenuItem openLinkItem;
+    private String url;
+
 
     public static Intent getPostDetailsIntent(Context context, String subreddit,String postId){
         Intent intent = new Intent(context,PostDetailsActivity.class);
@@ -67,6 +74,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Timber.d("ON CREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
         ((RedditClientApplication)getApplication()).createPostDetailsComponent().inject(this);
@@ -121,6 +129,10 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         if (!post.thumbnail().isEmpty()) {
             Picasso.with(this).load(post.thumbnail()).placeholder(R.drawable.ic_reddit_logo_and_wordmark).into(thumbnail);
         }
+        if (!post.isSelf()){
+            openLinkItem.setVisible(true);
+            url = post.postUrl();
+        }
     }
 
     @Override
@@ -173,5 +185,27 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         if (Utilities.isNetworkAvailable(this.getApplication())){
             presenter.getPostDetails(subredditName,postId);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Timber.d("ON CREATE MENU");
+        getMenuInflater().inflate(R.menu.activity_post_details,menu);
+        openLinkItem = menu.findItem(R.id.action_open_link);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_open_link:
+                Uri uri = Uri.parse(url);
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this,uri);
+                break;
+        }
+        return true;
     }
 }

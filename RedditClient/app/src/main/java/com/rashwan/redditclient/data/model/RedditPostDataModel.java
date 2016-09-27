@@ -27,6 +27,7 @@ public abstract class RedditPostDataModel extends ListingKind implements Parcela
     @Nullable @SerializedName("post_hint") public abstract String postHint();
     @Nullable @SerializedName("url") public abstract String postUrl();
     @SerializedName("num_comments") public abstract int numOfComments();
+    @SerializedName("is_self") public abstract boolean isSelf();
     private int id;
     public static TypeAdapter<RedditPostDataModel> typeAdapter(Gson gson) {
         return new AutoValue_RedditPostDataModel.GsonTypeAdapter(gson);
@@ -35,7 +36,7 @@ public abstract class RedditPostDataModel extends ListingKind implements Parcela
     public static RedditPostDataModel create(String postId,String author,String score,String subreddit
             ,String thumbnail,String title,int numOfComments){
         return new AutoValue_RedditPostDataModel(author,score,postId,null,subreddit,null,thumbnail
-        ,title,null,false,null,null,null,numOfComments);
+        ,title,null,false,null,null,null,numOfComments,false);
     }
 
 
