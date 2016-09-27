@@ -2,7 +2,9 @@ package com.rashwan.redditclient.ui.feature.postDetails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.text.util.LinkifyCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         PostCommentsAdapter.PostCommentsVH postsCommentsVH = (PostCommentsVH) holder;
         postsCommentsVH.body.setText(comment.body());
+        LinkifyCompat.addLinks(postsCommentsVH.body, Linkify.WEB_URLS);
         postsCommentsVH.points.setText(String.format("%s Points", comment.score()));
         postsCommentsVH.author.setText(comment.author());
         if (comment.getReplies()!=null){
@@ -56,6 +59,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             postsCommentsVH.firstReplyLayout.setVisibility(View.VISIBLE);
             postsCommentsVH.firstReplyAuthor.setText(firstReply.author());
             postsCommentsVH.firstReplyBody.setText(firstReply.body());
+            LinkifyCompat.addLinks(postsCommentsVH.firstReplyBody,Linkify.WEB_URLS);
             postsCommentsVH.firstReplyPoints.setText(String.format("%s Points", firstReply.score()));
 
             if (comment.getReplies().data().children().size() > 1){
@@ -64,6 +68,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 postsCommentsVH.secondReplyLayout.setVisibility(View.VISIBLE);
                 postsCommentsVH.secondReplyAuthor.setText(secondReply.author());
                 postsCommentsVH.secondReplyBody.setText(secondReply.body());
+                LinkifyCompat.addLinks(postsCommentsVH.secondReplyBody,Linkify.WEB_URLS);
                 postsCommentsVH.secondReplyPoints.setText(String.format("%s Points", secondReply.score()));
             }
 
