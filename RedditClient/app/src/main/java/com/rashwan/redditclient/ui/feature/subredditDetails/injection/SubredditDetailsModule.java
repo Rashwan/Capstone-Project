@@ -1,5 +1,6 @@
 package com.rashwan.redditclient.ui.feature.subredditDetails.injection;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
 import com.rashwan.redditclient.ui.feature.subredditDetails.SubredditDetailsPresenter;
 import com.rashwan.redditclient.service.RedditService;
@@ -18,7 +19,7 @@ public class SubredditDetailsModule {
         return new SubredditDetailsPresenter(redditService);
     }
     @Provides
-    BrowsePostsAdapter provideBrowsePostsAdapter(){
-        return new BrowsePostsAdapter();
+    BrowsePostsAdapter provideBrowsePostsAdapter(FirebaseAnalytics firebaseAnalytics){
+        return new BrowsePostsAdapter(firebaseAnalytics);
     }
 }

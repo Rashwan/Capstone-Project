@@ -36,13 +36,13 @@ import butterknife.OnClick;
 public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<RedditPostDataModel> posts;
     private Context context;
-    private FirebaseAnalytics firebaseAnalytics;
+    private final FirebaseAnalytics firebaseAnalytics;
 
 
 
-    public BrowsePostsAdapter() {
+    public BrowsePostsAdapter(FirebaseAnalytics firebaseAnalytics) {
         this.posts = new ArrayList<>();
-
+        this.firebaseAnalytics = firebaseAnalytics;
     }
 
     @Override
@@ -50,7 +50,6 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_post, parent, false);
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         return new BrowsePostsVH(view);
     }

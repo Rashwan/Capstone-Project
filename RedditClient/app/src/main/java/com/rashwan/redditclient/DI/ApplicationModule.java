@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Base64;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
@@ -149,6 +150,11 @@ public class ApplicationModule {
                     .build())
                 .build();
 
+    }
+
+    @Provides @Singleton
+    public FirebaseAnalytics provideFirebaseAnalytics(){
+        return FirebaseAnalytics.getInstance(this.application);
     }
 
 

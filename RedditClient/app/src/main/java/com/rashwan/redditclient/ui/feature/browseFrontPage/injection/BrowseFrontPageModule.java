@@ -1,5 +1,6 @@
 package com.rashwan.redditclient.ui.feature.browseFrontPage.injection;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.rashwan.redditclient.service.RedditService;
 import com.rashwan.redditclient.ui.common.BrowsePostsAdapter;
@@ -20,8 +21,8 @@ public class BrowseFrontPageModule {
     }
 
     @Provides
-    public BrowsePostsAdapter provideBrowsePostsAdapter(){
-        return new BrowsePostsAdapter();
+    public BrowsePostsAdapter provideBrowsePostsAdapter(FirebaseAnalytics firebaseAnalytics){
+        return new BrowsePostsAdapter(firebaseAnalytics);
     }
 
 }

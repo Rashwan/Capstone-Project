@@ -62,6 +62,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     @BindView(R.id.adView) AdView adView;
     @Inject PostDetailsPresenter presenter;
     @Inject PostCommentsAdapter adapter;
+    @Inject FirebaseAnalytics firebaseAnalytics;
 
     private ArrayList<RedditCommentDataModel> comments;
     private RedditPostDataModel postDetails;
@@ -69,7 +70,6 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     private String postId;
     private MenuItem openLinkItem;
     private String url;
-    private FirebaseAnalytics firebaseAnalytics;
 
 
 
@@ -88,7 +88,6 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         ((RedditClientApplication)getApplication()).createPostDetailsComponent().inject(this);
         ButterKnife.bind(this);
         MobileAds.initialize(getApplicationContext(),"ca-app-pub-3940256099942544~3347511713");
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter.attachView(this);
