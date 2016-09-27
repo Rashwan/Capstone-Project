@@ -207,6 +207,10 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case android.R.id.home:
+                Timber.d("up clicked");
+                finish();
+                return true;
             case R.id.action_open_link:
                 logEventToFA("open in chrome",url);
                 Uri uri = Uri.parse(url);
@@ -214,9 +218,9 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
                 builder.setToolbarColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
                 CustomTabsIntent customTabsIntent = builder.build();
                 customTabsIntent.launchUrl(this,uri);
-                break;
+                return true;
         }
-        return true;
+        return false;
     }
     private void logEventToFA(String contentType, String itemName) {
         Bundle bundle = new Bundle();

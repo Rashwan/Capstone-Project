@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -213,5 +214,16 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
             presenter.getSubredditPosts(subreddit);
             presenter.getSubredditDetails(subreddit);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Timber.d("up clicked");
+                finish();
+                return true;
+        }
+        return false;
     }
 }
