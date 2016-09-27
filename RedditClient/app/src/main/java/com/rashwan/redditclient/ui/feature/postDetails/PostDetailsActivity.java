@@ -6,12 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.text.util.LinkifyCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
 import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
@@ -56,6 +57,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     @BindView(R.id.progressBar_post_details) ProgressBar progressBarPostDetails;
     @BindView(R.id.progressBar_post_comments) ProgressBar progressBarPostComments;
     @BindView(R.id.layout_offline) LinearLayout offlineLayout;
+    @BindView(R.id.adView) AdView adView;
     @Inject PostDetailsPresenter presenter;
     @Inject PostCommentsAdapter adapter;
 
@@ -80,8 +82,8 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
         ((RedditClientApplication)getApplication()).createPostDetailsComponent().inject(this);
-
         ButterKnife.bind(this);
+        MobileAds.initialize(getApplicationContext(),"ca-app-pub-3940256099942544~3347511713");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,6 +104,8 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
             showPost(postDetails);
             showPostComments(comments);
         }
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
     }
 

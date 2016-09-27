@@ -4,4 +4,6 @@
     <string name="reddit_auth_base_url">https://www.reddit.com/api/v1/</string>
     <string name="reddit_api_client_id">j8R8fYjet2a6wQ</string>
     <string name="sp_device_id_key">deviceId</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

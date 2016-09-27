@@ -1,185 +1,199 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context=".ui.feature.postDetails.PostDetailsActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_post_details"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@android:color/white"
-        app:layout_behavior="pin"/>
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
         >
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_post_details"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:titleTextColor="@android:color/white"
+            app:layout_behavior="pin"/>
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardBackgroundColor="#E6E6E6"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardElevation="8dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_margin="8dp"
-                >
-                <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/relative_layout"
-                    android:padding="8dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitCenter"
-                        android:id="@+id/iv_thumbnail"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        app:srcCompat="@drawable/ic_reddit_logo_and_wordmark"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginEnd="8dp"/>
-
-                    <TextView
-                        tools:text="300 Points"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/iv_thumbnail"
-                        android:layout_toEndOf="@+id/iv_thumbnail"
-                        android:id="@+id/tv_points"
-                        android:textAppearance="@android:style/TextAppearance.Small"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="70dp"
-                        android:id="@+id/tv_body"
-                        tools:text="Hi everyone,\n\nI have been working on and off for the past 2 months on creating a cloud-based service to bring iMessage functionality to Android users.\n\nWhat I have accomplished so far:\n\nServer-side ability to send and receive individual messages, group chat messages, and attachments (images and movies). Others like PieMessage have accomplished single user messages, but it does not support group messages or attachments. The big breakthrough was figuring out how to support group iMessages as Applescript for Messages does not support multiple-user messages.\n\nMy goal is to introduce a cloud-based service that enables anyone to use iMessage without the requirement of dedicating an at-home Mac to act as an iMessage server.\n\nI need your help! I have never made an Android application and would love someone to help me launch this product! An ideal candidate would have experience building a messaging app, dealing with JSON APIs, and Firecloud Messaging for notifications.\n\nI have made a Slack channel (imessageonandroid.slack.com) for those that want to participate. I look forward to seeing you there, or continuing the conversation on this thread!"
-                        android:layout_below="@+id/tv_points"
-                        android:layout_toRightOf="@+id/iv_thumbnail"
-                        android:layout_toEndOf="@+id/iv_thumbnail"
-                        android:layout_marginTop="8dp"
-                        android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-                    <TextView
-                        android:text="By"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_body"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="8dp"
-                        android:id="@+id/tv_by"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        tools:text="/user/rashwan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignBaseline="@id/tv_by"
-                        android:layout_toRightOf="@+id/tv_by"
-                        android:layout_toEndOf="@+id/tv_by"
-                        android:layout_marginRight="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:id="@+id/tv_author"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorPrimary"/>
-
-                    <TextView
-                        android:text="In"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tv_author"
-                        android:layout_toEndOf="@id/tv_author"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignBaseline="@id/tv_author"
-                        android:layout_marginRight="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:id="@+id/tv_in"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        tools:text="/r/androiddev"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toRightOf="@+id/tv_in"
-                        android:layout_toEndOf="@+id/tv_in"
-                        android:id="@+id/tv_subreddit"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorPrimary"/>
-
-                    <TextView
-                        tools:text="500 comments"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_alignBaseline="@id/tv_by"
-                        android:id="@+id/tv_comments"
-                        android:textAppearance="@android:style/TextAppearance.Small"
-                        android:textSize="16sp"/>
-
-
-                </RelativeLayout>
-                <ProgressBar
-                    android:id="@+id/progressBar_post_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"/>
-            </android.support.v7.widget.CardView>
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_marginTop="8dp"
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rv_post_comments"
-                    tools:listitem="@layout/item_comment"
-                    />
-                <ProgressBar
-                    android:id="@+id/progressBar_post_comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                   />
-                <include layout="@layout/offline_layout"/>
-            </FrameLayout>
+                    card_view:cardBackgroundColor="#E6E6E6"
+                    card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="8dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_margin="8dp"
+                    >
+                    <RelativeLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/relative_layout"
+                        android:padding="8dp">
 
-        </LinearLayout>
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:scaleType="fitCenter"
+                            android:id="@+id/iv_thumbnail"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            app:srcCompat="@drawable/ic_reddit_logo_and_wordmark"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginEnd="8dp"/>
 
-    </android.support.v4.widget.NestedScrollView>
+                        <TextView
+                            tools:text="300 Points"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/iv_thumbnail"
+                            android:layout_toEndOf="@+id/iv_thumbnail"
+                            android:id="@+id/tv_points"
+                            android:textAppearance="@android:style/TextAppearance.Small"
+                            android:textSize="16sp"/>
 
-</LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="70dp"
+                            android:id="@+id/tv_body"
+                            tools:text="Hi everyone,\n\nI have been working on and off for the past 2 months on creating a cloud-based service to bring iMessage functionality to Android users.\n\nWhat I have accomplished so far:\n\nServer-side ability to send and receive individual messages, group chat messages, and attachments (images and movies). Others like PieMessage have accomplished single user messages, but it does not support group messages or attachments. The big breakthrough was figuring out how to support group iMessages as Applescript for Messages does not support multiple-user messages.\n\nMy goal is to introduce a cloud-based service that enables anyone to use iMessage without the requirement of dedicating an at-home Mac to act as an iMessage server.\n\nI need your help! I have never made an Android application and would love someone to help me launch this product! An ideal candidate would have experience building a messaging app, dealing with JSON APIs, and Firecloud Messaging for notifications.\n\nI have made a Slack channel (imessageonandroid.slack.com) for those that want to participate. I look forward to seeing you there, or continuing the conversation on this thread!"
+                            android:layout_below="@+id/tv_points"
+                            android:layout_toRightOf="@+id/iv_thumbnail"
+                            android:layout_toEndOf="@+id/iv_thumbnail"
+                            android:layout_marginTop="8dp"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
 
+                        <TextView
+                            android:text="By"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_body"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/tv_by"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            tools:text="/user/rashwan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignBaseline="@id/tv_by"
+                            android:layout_toRightOf="@+id/tv_by"
+                            android:layout_toEndOf="@+id/tv_by"
+                            android:layout_marginRight="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:id="@+id/tv_author"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorPrimary"/>
+
+                        <TextView
+                            android:text="In"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/tv_author"
+                            android:layout_toEndOf="@id/tv_author"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignBaseline="@id/tv_author"
+                            android:layout_marginRight="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:id="@+id/tv_in"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            tools:text="/r/androiddev"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_toRightOf="@+id/tv_in"
+                            android:layout_toEndOf="@+id/tv_in"
+                            android:id="@+id/tv_subreddit"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorPrimary"/>
+
+                        <TextView
+                            tools:text="500 comments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_alignBaseline="@id/tv_by"
+                            android:id="@+id/tv_comments"
+                            android:textAppearance="@android:style/TextAppearance.Small"
+                            android:textSize="16sp"/>
+
+
+                    </RelativeLayout>
+                    <ProgressBar
+                        android:id="@+id/progressBar_post_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+
+                </android.support.v7.widget.CardView>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rv_post_comments"
+                        tools:listitem="@layout/item_comment"
+                        />
+                    <ProgressBar
+                        android:id="@+id/progressBar_post_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                       />
+                    <include layout="@layout/offline_layout"/>
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
+</FrameLayout>
