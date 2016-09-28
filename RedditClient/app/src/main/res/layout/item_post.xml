@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -8,14 +9,15 @@
     android:id="@+id/constraint_layout"
     android:padding="8dp">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="fitCenter"
-            android:id="@+id/iv_thumbnail"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:srcCompat="@drawable/ic_reddit_logo_and_wordmark"/>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:id="@+id/iv_thumbnail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/ic_reddit_logo_and_wordmark"
+        android:contentDescription="@string/content_description_post_thumbnail" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="By "
+            android:text="@string/text_view_by_author"
             android:id="@+id/tv_by"
             app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -72,7 +74,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  In "
+            android:text="@string/text_view_in_subreddit"
             android:id="@+id/tv_in"
             app:layout_constraintLeft_toRightOf="@id/tv_author"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_author"

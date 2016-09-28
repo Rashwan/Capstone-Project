@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="By "
+            android:text="@string/text_view_by_author"
             android:id="@+id/tv_by"
             android:layout_marginTop="8dp"
             android:textAppearance="@android:style/TextAppearance.Medium"
@@ -66,7 +66,7 @@
         android:id="@+id/first_reply_layout"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@color/color_first_reply"
+        android:background="@color/color_reply"
         android:visibility="gone">
 
         <TextView
@@ -97,7 +97,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="By "
+                android:text="@string/text_view_by_author"
                 android:id="@+id/tv_first_reply_by"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
@@ -121,7 +121,7 @@
         android:id="@+id/second_reply_layout"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@color/color_first_reply"
+        android:background="@color/color_reply"
         android:visibility="gone">
 
         <TextView
@@ -152,7 +152,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="By "
+                android:text="@string/text_view_by_author"
                 android:id="@+id/tv_second_reply_by"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"

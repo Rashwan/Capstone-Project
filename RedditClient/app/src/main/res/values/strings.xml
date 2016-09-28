@@ -5,5 +5,15 @@
     <string name="reddit_api_client_id">j8R8fYjet2a6wQ</string>
     <string name="sp_device_id_key">deviceId</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="content_description_post_thumbnail">Reddit post thumbnail</string>
+    <string name="text_view_by_author">By\u0020</string>
+    <string name="text_view_in_subreddit">\u0020In\u0020 </string>
+    <string name="content_description_subreddit_icon">Subreddit icon</string>
+    <string name="content_description_post_carma_icon">Reddit post carma icon</string>
+    <string name="content_description_comment_carma_icon">Reddit comment carma icon</string>
+    <string name="content_description_joined_at_icon">User joined at icon</string>
+    <string name="content_description_no_internet_image">No internet connection image</string>
+    <string name="offline_layout_check_connection">Please Check Your Internet Connection</string>
+    <string name="offline_layout_button_refresh">Refresh</string>
 
 </resources>

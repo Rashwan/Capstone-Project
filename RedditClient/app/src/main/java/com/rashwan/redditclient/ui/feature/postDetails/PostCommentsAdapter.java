@@ -116,7 +116,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ButterKnife.bind(this,itemView);
         }
 
-        @OnClick(R.id.tv_author)
+        @OnClick({R.id.tv_author,R.id.tv_first_reply_author,R.id.tv_second_reply_author})
         void onAuthorClicked(TextView view){
             Intent intent = UserDetailsActivity.getUserDetailsIntent(context,view.getText().toString());
             context.startActivity(intent);

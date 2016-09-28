@@ -39,7 +39,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     private static final String KEY_USER_DETAILS = "USER_DETAILS";
     private static final String EXTRA_USERNAME = "com.rashwan.redditclient.ui.feature.userDetails.EXTRA_USERNAME";
 
-    @BindView(R.id.toolbar_user_details) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.rv_user_posts) RecyclerView rvUserPosts;
     @BindView(R.id.progressBar_user_details) ProgressBar progressBar;
     @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;

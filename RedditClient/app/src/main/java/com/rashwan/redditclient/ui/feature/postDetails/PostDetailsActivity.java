@@ -28,6 +28,8 @@ import com.rashwan.redditclient.common.utilities.DividerItemDecoration;
 import com.rashwan.redditclient.common.utilities.Utilities;
 import com.rashwan.redditclient.data.model.RedditCommentDataModel;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
+import com.rashwan.redditclient.ui.feature.subredditDetails.SubredditDetailsActivity;
+import com.rashwan.redditclient.ui.feature.userDetails.UserDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     private static final String EXTRA_SUBREDDIT = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_SUBREDDIT";
     private static final String EXTRA_POST_ID = "com.rashwan.redditclient.ui.feature.postDetails.EXTRA_POST_ID";
 
-    @BindView(R.id.toolbar_post_details) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.iv_thumbnail) ImageView thumbnail;
     @BindView(R.id.tv_points) TextView points;
     @BindView(R.id.tv_body) TextView body;
@@ -228,5 +230,17 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,itemName);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,contentType);
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle);
+    }
+    @OnClick(R.id.tv_author)
+    void onAuthorClicked(TextView view){
+        Intent userDetailsIntent = UserDetailsActivity
+                .getUserDetailsIntent(this, view.getText().toString());
+        startActivity(userDetailsIntent);
+    }
+    @OnClick(R.id.tv_subreddit)
+    void onSubredditClicked(TextView view){
+        Intent subredditDetailsIntent = SubredditDetailsActivity
+                .getSubredditDetailsIntent(this, view.getText().toString());
+        startActivity(subredditDetailsIntent);
     }
 }

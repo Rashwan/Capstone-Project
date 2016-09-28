@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_cloud_off"
         android:layout_margin="16dp"
-        />
+        android:contentDescription="@string/content_description_no_internet_image" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please Check Your Internet Connection"
+        android:text="@string/offline_layout_check_connection"
         android:textSize="20sp"
         android:gravity="center"
         android:textColor="@android:color/black"
@@ -28,7 +28,7 @@
         android:id="@+id/button_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Refresh"
+        android:text="@string/offline_layout_button_refresh"
         android:padding="16dp"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 </LinearLayout>
