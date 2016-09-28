@@ -45,31 +45,6 @@ public class RedditClientApplication extends Application {
                 return super.createStackElementTag(element) + ':' + element.getLineNumber();
             }
         });
-//        RedditPostDataModel redditPostDataModel = RedditPostDataModel.create("author","score"
-//        ,"subreddit","thumbnail","title",5);
-//        RedditPostDataModel redditPostDataModel2 = RedditPostDataModel.create("author2","score2"
-//        ,"subreddit2","thumbnail2","title2",5);
-//
-//        RedditPostDataModel redditPostDataModel3 = RedditPostDataModel.create("author3","score3"
-//                ,"subreddit3","thumbnail3","title3",5);
-//
-//        storIOContentResolver.put().object(redditPostDataModel).prepare()
-//                .executeAsBlocking();
-//        storIOContentResolver.put().object(redditPostDataModel2).prepare()
-//                .executeAsBlocking();
-//        storIOContentResolver.put().object(redditPostDataModel3).prepare()
-//                .executeAsBlocking();
-//
-//        List<RedditPostDataModel> redditPostDataModel4 = storIOContentResolver.get().listOfObjects(RedditPostDataModel.class).withQuery(
-//                com.pushtorefresh.storio.contentresolver.queries.Query.builder()
-//                        .uri(RedditPostMeta.CONTENT_URI)
-//                        .build()
-//        ).prepare().executeAsBlocking();
-//
-//        for (RedditPostDataModel post: redditPostDataModel4) {
-//            Timber.d(String.valueOf(post.title()));
-//        }
-
     }
     @NonNull
     public static RedditClientApplication get(@NonNull Context context) {

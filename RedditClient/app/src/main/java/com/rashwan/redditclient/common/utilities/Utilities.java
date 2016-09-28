@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
  */
 
 public final class Utilities {
+
     public static Boolean isScreenSW(int smallestWidthDp){
         Configuration config = Resources.getSystem().getConfiguration();
         return config.smallestScreenWidthDp >= smallestWidthDp;
@@ -22,4 +23,5 @@ public final class Utilities {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
 }

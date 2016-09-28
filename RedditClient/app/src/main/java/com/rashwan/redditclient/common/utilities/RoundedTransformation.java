@@ -17,24 +17,20 @@ public class RoundedTransformation implements com.squareup.picasso.Transformatio
     public RoundedTransformation(int color) {
 
         this.color = color;
-        key =  "rounded";
+        key =  "rounded " + String.valueOf(Math.random());
     }
 
     @Override
     public Bitmap transform(final Bitmap source) {
         int borderWidth = 5;
-        int size = Math.min(source.getWidth(),source.getHeight());
 
-        int x = (source.getWidth() - size) /2 ;
-        int y = (source.getHeight() - size) /2 ;
-
-        final int width = source.getWidth() + borderWidth;
-        final int height = source.getHeight() + borderWidth;
+        int width = source.getWidth() + borderWidth;
+        int height = source.getHeight() + borderWidth;
 
         float radius = width > height ? ((float) height) / 2f : ((float) width) / 2f;
 
 
-        final Paint paint = new Paint();
+        Paint paint = new Paint();
         paint.setAntiAlias(true);
         Shader shader = new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         paint.setShader(shader);

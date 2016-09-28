@@ -25,7 +25,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     private Subscription postsSubscription;
     private String after;
     private int count;
-    boolean firstRequest = true;
+    private boolean firstRequest = true;
 
     public UserDetailsPresenter(RedditService redditService) {
         this.redditService = redditService;

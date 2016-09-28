@@ -47,6 +47,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     private static final String KEY_POSTS_AFTER = "POSTS_AFTER";
     private static final String KEY_SUBREDDIT = "SUBREDDIT";
     private static final String KEY_POPULAR_SUBREDDIT = "POPULAR_SUBREDDIT";
+    private static final String SUBREDDIT_ALL = "All";
 
     @Inject BrowseFrontPagePresenter presenter;
     @Inject BrowsePostsAdapter postsAdapter;
@@ -58,9 +59,10 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
     @BindView(R.id.progressBar_browse_posts) ProgressBar progressBar;
     @BindView(R.id.layout_offline) LinearLayout offlineLayout;
     @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
+
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<RedditPostDataModel> posts;
-    private String currentSubreddit = "All";
+    private String currentSubreddit = SUBREDDIT_ALL;
     private ArrayList<String> popularSubreddits = new ArrayList<>();
     private String searchQuery;
     private boolean isInSearchMode = false;
@@ -82,7 +84,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
             posts = savedInstanceState.getParcelableArrayList(KEY_POSTS);
             String after = savedInstanceState.getString(KEY_POSTS_AFTER);
             int count = savedInstanceState.getInt(KEY_POSTS_COUNT);
-            currentSubreddit = savedInstanceState.getString(KEY_SUBREDDIT,"All");
+            currentSubreddit = savedInstanceState.getString(KEY_SUBREDDIT,SUBREDDIT_ALL);
             popularSubreddits = savedInstanceState.getStringArrayList(KEY_POPULAR_SUBREDDIT);
             isInSearchMode = savedInstanceState.getBoolean(KEY_SEARCH_MODE,false);
             if (isInSearchMode){
@@ -101,7 +103,7 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
 
     private void setupSpinner() {
         arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
-        arrayAdapter.add("All");
+        arrayAdapter.add(SUBREDDIT_ALL);
 
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -194,7 +196,8 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
 
     @Override
     public void showOfflineSnackBar() {
-        snackbar = Snackbar.make(coordinatorLayout,"Please check your internet connection",Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(coordinatorLayout, R.string.msg_snackbar_no_internet
+                ,Snackbar.LENGTH_INDEFINITE)
                 .setAction("refresh", view -> presenter.getSubredditPosts(currentSubreddit));
         snackbar.show();
     }
@@ -261,7 +264,6 @@ public class BrowseFrontPageActivity extends AppCompatActivity implements Browse
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Timber.d("search query changed");
 
                 return false;
             }

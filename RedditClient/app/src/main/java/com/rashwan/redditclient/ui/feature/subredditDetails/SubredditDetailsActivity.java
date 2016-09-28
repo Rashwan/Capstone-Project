@@ -186,7 +186,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
 
     @Override
     public void showOfflineSnackBar() {
-        snackbar = Snackbar.make(coordinatorLayout,"Please check your internet connection",Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(coordinatorLayout,R.string.msg_snackbar_no_internet,Snackbar.LENGTH_INDEFINITE)
                 .setAction("refresh", view -> presenter.getSubredditPosts(subreddit));
         snackbar.show();
     }
@@ -220,7 +220,6 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Timber.d("up clicked");
                 finish();
                 return true;
         }

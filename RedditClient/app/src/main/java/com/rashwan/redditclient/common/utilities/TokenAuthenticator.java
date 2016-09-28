@@ -13,6 +13,7 @@ import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
+import timber.log.Timber;
 
 /**
  * Created by rashwan on 9/8/16.
@@ -29,8 +30,8 @@ public class TokenAuthenticator implements Authenticator {
 
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-        System.out.println("Authenticating for response: " + response);
-        System.out.println("Challenges: " + response.challenges());
+        Timber.d("Authenticating for response: " + response);
+        Timber.d("Challenges: " + response.challenges());
         String accessToken = authService.getAccessToken().toBlocking().first().accessToken();
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(KEY_ACCESS_TOKEN,"bearer " + accessToken).apply();

@@ -23,6 +23,7 @@ public class RedditClientWidgetProvider extends AppWidgetProvider{
     private static final String  ACTION_BROWSE_POSTS = "ACTION_BROWSE_POSTS";
     @Override
     public void onReceive(Context context, Intent intent) {
+
         if (intent.getAction().equals(ACTION_POST_DETAILS)){
             String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
             String postId = intent.getStringExtra(EXTRA_POST_ID);
@@ -31,6 +32,7 @@ public class RedditClientWidgetProvider extends AppWidgetProvider{
             postDetailsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             postDetailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(postDetailsIntent);
+
         }else if (intent.getAction().equals(ACTION_BROWSE_POSTS)){
             Intent browsePosts = new Intent(context, BrowseFrontPageActivity.class);
             browsePosts.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -44,8 +46,7 @@ public class RedditClientWidgetProvider extends AppWidgetProvider{
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int widgetId: appWidgetIds) {
 
-            // Set up the intent that starts the StackViewService, which will
-            // provide the views for this collection.
+
             Intent intent = new Intent(context, RedditClientWidgetService.class);
             // Add the app widget ID to the intent extras.
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);

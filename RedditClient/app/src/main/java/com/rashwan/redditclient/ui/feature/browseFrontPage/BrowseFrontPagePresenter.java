@@ -27,7 +27,7 @@ import timber.log.Timber;
 
 public class BrowseFrontPagePresenter extends BasePresenter<BrowseFrontPageView> {
 
-    private RedditService redditService;
+    private final RedditService redditService;
     private StorIOContentResolver storIOContentResolver;
     private Subscription postsSubscription;
     private Subscription subredditsSubscription;

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.rashwan.redditclient.RedditClientApplication;
@@ -21,14 +22,11 @@ import javax.inject.Inject;
 public class RedditPostContentProvider extends ContentProvider{
     private static final int URI_MATCHER_CODE_POSTS = 1;
     private static final UriMatcher URI_MATCHER = new UriMatcher(1);
-
+    @Inject RedditPostDBHelper redditPostDBHelper;
     static {
         URI_MATCHER.addURI(RedditPostMeta.CONTENT_AUTHORITY, RedditPostMeta.PATH_POST
                 , URI_MATCHER_CODE_POSTS);
     }
-
-    @Inject
-    RedditPostDBHelper redditPostDBHelper;
 
 
     @Override
@@ -39,7 +37,7 @@ public class RedditPostContentProvider extends ContentProvider{
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         switch (URI_MATCHER.match(uri)){
             case URI_MATCHER_CODE_POSTS:
                 return redditPostDBHelper.getReadableDatabase()
@@ -60,13 +58,13 @@ public class RedditPostContentProvider extends ContentProvider{
 
     @Nullable
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         return null;
     }
 
     @Nullable
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         long insertedId;
         switch (URI_MATCHER.match(uri)){
             case URI_MATCHER_CODE_POSTS:
@@ -86,7 +84,7 @@ public class RedditPostContentProvider extends ContentProvider{
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         int numberOfRowsDeleted;
 
         switch (URI_MATCHER.match(uri)) {
@@ -112,7 +110,7 @@ public class RedditPostContentProvider extends ContentProvider{
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         int numberOfRowsAffected;
 

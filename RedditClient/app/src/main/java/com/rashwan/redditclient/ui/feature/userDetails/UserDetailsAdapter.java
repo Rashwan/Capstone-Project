@@ -29,7 +29,7 @@ import butterknife.OnClick;
  */
 
 public class UserDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<RedditPostDataModel> posts;
+    private final ArrayList<RedditPostDataModel> posts;
     private UserDetailsModel userDetails;
     private Context context;
     private final int VIEW_TYPE_HEADER = 0;

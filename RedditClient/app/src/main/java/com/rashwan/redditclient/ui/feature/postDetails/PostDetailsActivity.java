@@ -41,7 +41,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 public class PostDetailsActivity extends AppCompatActivity implements PostDetailsView {
 
@@ -84,12 +83,11 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Timber.d("ON CREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
         ((RedditClientApplication)getApplication()).createPostDetailsComponent().inject(this);
         ButterKnife.bind(this);
-        MobileAds.initialize(getApplicationContext(),"ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(getApplicationContext(),getString(R.string.ad_mob_device_id));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter.attachView(this);
@@ -200,7 +198,6 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Timber.d("ON CREATE MENU");
         getMenuInflater().inflate(R.menu.activity_post_details,menu);
         openLinkItem = menu.findItem(R.id.action_open_link);
         return true;
@@ -210,7 +207,6 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Timber.d("up clicked");
                 finish();
                 return true;
             case R.id.action_open_link:
@@ -224,13 +220,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         }
         return false;
     }
-    private void logEventToFA(String contentType, String itemName) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, UUID.randomUUID().toString());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,itemName);
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,contentType);
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle);
-    }
+
     @OnClick(R.id.tv_author)
     void onAuthorClicked(TextView view){
         Intent userDetailsIntent = UserDetailsActivity
@@ -242,5 +232,12 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         Intent subredditDetailsIntent = SubredditDetailsActivity
                 .getSubredditDetailsIntent(this, view.getText().toString());
         startActivity(subredditDetailsIntent);
+    }
+    private void logEventToFA(String contentType, String itemName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, UUID.randomUUID().toString());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,itemName);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,contentType);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle);
     }
 }

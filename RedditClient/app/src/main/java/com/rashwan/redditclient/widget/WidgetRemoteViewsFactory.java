@@ -32,12 +32,11 @@ import timber.log.Timber;
  * Created by rashwan on 9/20/16.
  */
 public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-//    private Context context;
     private int widgetId;
     private List<ListingKind> posts;
     @Inject StorIOContentResolver storIOContentResolver;
     @Inject RedditService redditService;
-    private Context context;
+    private final Context context;
 
     public WidgetRemoteViewsFactory(Context context, Intent intent) {
         this.context = context;

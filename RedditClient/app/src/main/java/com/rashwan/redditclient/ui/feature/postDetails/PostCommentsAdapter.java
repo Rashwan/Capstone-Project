@@ -29,7 +29,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private Context context;
-    private ArrayList<RedditCommentDataModel> comments;
+    private final ArrayList<RedditCommentDataModel> comments;
 
     public PostCommentsAdapter() {
         this.comments = new ArrayList<>();

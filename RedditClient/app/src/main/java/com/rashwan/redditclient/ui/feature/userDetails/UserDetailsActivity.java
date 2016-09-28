@@ -46,6 +46,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     @BindView(R.id.layout_offline) LinearLayout offlineLayout;
     @Inject UserDetailsPresenter presenter;
     @Inject UserDetailsAdapter adapter;
+
     private ArrayList<RedditPostDataModel> posts;
     private UserDetailsModel userDetails;
     private Snackbar snackbar;
@@ -143,7 +144,7 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
 
     @Override
     public void showOfflineSnackBar() {
-        snackbar = Snackbar.make(coordinatorLayout,"Please check your internet connection",Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(coordinatorLayout,R.string.msg_snackbar_no_internet,Snackbar.LENGTH_INDEFINITE)
                 .setAction("refresh", view -> presenter.getUserPosts(username));
         snackbar.show();
     }
@@ -186,7 +187,6 @@ public class UserDetailsActivity extends AppCompatActivity implements UserDetail
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Timber.d("up clicked");
                 finish();
                 return true;
         }

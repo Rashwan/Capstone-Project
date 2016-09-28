@@ -34,10 +34,9 @@ import butterknife.OnClick;
  */
 
 public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<RedditPostDataModel> posts;
+    private final ArrayList<RedditPostDataModel> posts;
     private Context context;
     private final FirebaseAnalytics firebaseAnalytics;
-
 
 
     public BrowsePostsAdapter(FirebaseAnalytics firebaseAnalytics) {
