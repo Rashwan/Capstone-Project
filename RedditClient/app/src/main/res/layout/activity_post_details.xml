@@ -54,7 +54,7 @@
                             android:contentDescription="@string/content_description_post_thumbnail" />
 
                         <TextView
-                            tools:text="300 Points"
+                            tools:text="@string/placeholder_reddit_post_points"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
@@ -69,7 +69,7 @@
                             android:layout_height="wrap_content"
                             android:minHeight="70dp"
                             android:id="@+id/tv_body"
-                            tools:text="Hi everyone,\n\nI have been working on and off for the past 2 months on creating a cloud-based service to bring iMessage functionality to Android users.\n\nWhat I have accomplished so far:\n\nServer-side ability to send and receive individual messages, group chat messages, and attachments (images and movies). Others like PieMessage have accomplished single user messages, but it does not support group messages or attachments. The big breakthrough was figuring out how to support group iMessages as Applescript for Messages does not support multiple-user messages.\n\nMy goal is to introduce a cloud-based service that enables anyone to use iMessage without the requirement of dedicating an at-home Mac to act as an iMessage server.\n\nI need your help! I have never made an Android application and would love someone to help me launch this product! An ideal candidate would have experience building a messaging app, dealing with JSON APIs, and Firecloud Messaging for notifications.\n\nI have made a Slack channel (imessageonandroid.slack.com) for those that want to participate. I look forward to seeing you there, or continuing the conversation on this thread!"
+                            tools:text="@string/placeholder_reddit_post_body"
                             android:layout_below="@+id/tv_points"
                             android:layout_toRightOf="@+id/iv_thumbnail"
                             android:layout_toEndOf="@+id/iv_thumbnail"
@@ -91,7 +91,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
-                            tools:text="/user/rashwan"
+                            tools:text="@string/placeholder_reddit_post_author"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
@@ -119,7 +119,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
-                            tools:text="/r/androiddev"
+                            tools:text="@string/placeholder_reddit_post_subreddit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
@@ -131,7 +131,7 @@
                             android:textColor="@color/colorPrimary"/>
 
                         <TextView
-                            tools:text="500 comments"
+                            tools:text="@string/placeholder_reddit_post_comments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"

@@ -1,21 +1,39 @@
 <resources>
-    <string name="app_name">Reddit Client</string>
-    <string name="reddit_api_base_url">https://oauth.reddit.com/</string>
-    <string name="reddit_auth_base_url">https://www.reddit.com/api/v1/</string>
-    <string name="reddit_api_client_id">j8R8fYjet2a6wQ</string>
-    <string name="sp_device_id_key">deviceId</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="content_description_post_thumbnail">Reddit post thumbnail</string>
+    <string name="app_name" translatable="false">Reddit Client</string>
+    <string name="reddit_api_base_url" translatable="false">https://oauth.reddit.com/</string>
+    <string name="reddit_auth_base_url" translatable="false">https://www.reddit.com/api/v1/</string>
+    <string name="reddit_api_client_id" translatable="false">j8R8fYjet2a6wQ</string>
+    <string name="sp_device_id_key" translatable="false">deviceId</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_mob_device_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+
+    <!-- UI -->
     <string name="text_view_by_author">By\u0020</string>
     <string name="text_view_in_subreddit">\u0020In\u0020 </string>
+    <string name="offline_layout_check_connection">Please Check Your Internet Connection</string>
+    <string name="offline_layout_button_refresh">Refresh</string>
+    <string name="msg_snackbar_no_internet">Please check your internet connection</string>
+
+    <!-- Content Description -->
     <string name="content_description_subreddit_icon">Subreddit icon</string>
     <string name="content_description_post_carma_icon">Reddit post carma icon</string>
     <string name="content_description_comment_carma_icon">Reddit comment carma icon</string>
     <string name="content_description_joined_at_icon">User joined at icon</string>
     <string name="content_description_no_internet_image">No internet connection image</string>
-    <string name="offline_layout_check_connection">Please Check Your Internet Connection</string>
-    <string name="offline_layout_button_refresh">Refresh</string>
-    <string name="msg_snackbar_no_internet">Please check your internet connection</string>
-    <string name="ad_mob_device_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="content_description_post_thumbnail">Reddit post thumbnail</string>
+
+    <!-- Placeholders -->
+
+    <string name="placeholder_reddit_post_points" translatable="false">300 Points</string>
+    <string name="placeholder_reddit_post_body" translatable="false">Hi everyone,\n\nI have been working on and off for the past 2 months on creating a cloud-based service to bring iMessage functionality to Android users.\n\nWhat I have accomplished so far:\n\nServer-side ability to send and receive individual messages, group chat messages, and attachments (images and movies). Others like PieMessage have accomplished single user messages, but it does not support group messages or attachments. The big breakthrough was figuring out how to support group iMessages as Applescript for Messages does not support multiple-user messages.\n\nMy goal is to introduce a cloud-based service that enables anyone to use iMessage without the requirement of dedicating an at-home Mac to act as an iMessage server.\n\nI need your help! I have never made an Android application and would love someone to help me launch this product! An ideal candidate would have experience building a messaging app, dealing with JSON APIs, and Firecloud Messaging for notifications.\n\nI have made a Slack channel (imessageonandroid.slack.com) for those that want to participate. I look forward to seeing you there, or continuing the conversation on this thread!</string>
+    <string name="placeholder_reddit_post_author" translatable="false">/user/rashwan</string>
+    <string name="placeholder_reddit_post_subreddit" translatable="false">/r/androiddev</string>
+    <string name="placeholder_reddit_post_comments" translatable="false">500 comments</string>
+    <string name="placeholder_subreddit_description" translatable="false">.gifs - funny, animated gifs for your viewing pleasure</string>
+    <string name="placeholder_subreddit_subscribers" translatable="false">500,000 subscribers</string>
+    <string name="placeholder_reddit_post_title" translatable="false">adsjkq wnekqwj dnaskj dnaskj asjk dnask dnjwd jk adn askjd askdlad klamdsla mkqlwen</string>
+    <string name="placeholder_link_karma" translatable="false">Link Karma : 300 points</string>
+    <string name="placeholder_comment_karma" translatable="false">Comment Karma : 200 points</string>
+    <string name="placeholder_user_joined_at" translatable="false">Joined At : 20/4/2010</string>
 
 </resources>

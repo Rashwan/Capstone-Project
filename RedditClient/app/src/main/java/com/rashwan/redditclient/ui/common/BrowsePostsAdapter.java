@@ -63,7 +63,7 @@ public class BrowsePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             BrowsePostsVH browsePostsVH = (BrowsePostsVH) holder;
             browsePostsVH.title.setText(post.title());
             browsePostsVH.points.setText(String.format("%s Points", post.score()));
-            browsePostsVH.comments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
+            browsePostsVH.comments.setText(String.format(Locale.getDefault(), "%d Comments", post.numOfComments()));
             browsePostsVH.author.setText(post.author());
             browsePostsVH.subreddit.setText(post.subreddit());
             if (!post.thumbnail().isEmpty()) {

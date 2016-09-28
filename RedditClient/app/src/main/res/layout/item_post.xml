@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="900 points"
+        tools:text="@string/placeholder_reddit_post_points"
         app:layout_constraintLeft_toRightOf="@+id/iv_thumbnail"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="16dp"
@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="3"
-            tools:text="adsjkq wnekqwj dnaskj dnaskj asjk dnask dnjwd jk adn askjd askdlad klamdsla mkqlwen"
+            tools:text="@string/placeholder_reddit_post_title"
             app:layout_constraintLeft_toRightOf="@+id/iv_thumbnail"
             app:layout_constraintTop_toBottomOf="@+id/tv_points"
             app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="/u/ARashwan"
+            tools:text="@string/placeholder_reddit_post_author"
             android:id="@+id/tv_author"
             app:layout_constraintLeft_toRightOf="@id/tv_by"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_by"
@@ -84,7 +84,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="/r/androiddev"
+            tools:text="@string/placeholder_reddit_post_subreddit"
             android:id="@+id/tv_subreddit"
             app:layout_constraintLeft_toRightOf="@id/tv_in"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_in"
@@ -96,7 +96,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="500 comments"
+            tools:text="@string/placeholder_reddit_post_comments"
             app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
             app:layout_constraintLeft_toRightOf="@+id/tv_subreddit"
             app:layout_constraintRight_toRightOf="parent"

@@ -132,7 +132,7 @@ public class PostDetailsActivity extends AppCompatActivity implements PostDetail
         }
         toolbar.setTitle(post.title());
         points.setText(String.format("%s Points", post.score()));
-        noOfComments.setText(String.format(Locale.US, "%d Comments", post.numOfComments()));
+        noOfComments.setText(String.format(Locale.getDefault(), "%d Comments", post.numOfComments()));
         author.setText(post.author());
         subreddit.setText(post.subreddit());
         if (!post.thumbnail().isEmpty()) {

@@ -51,6 +51,7 @@
         <service
             android:name=".widget.RedditClientWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
     </application>
 
 </manifest>

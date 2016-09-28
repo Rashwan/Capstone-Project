@@ -132,7 +132,7 @@ public class SubredditDetailsActivity extends AppCompatActivity implements Subre
         subredditName.setText(details.name());
         subredditDescription.setText(details.description());
         String formattedNumber = NumberFormat.getInstance().format(details.numOfSubscribers());
-        subredditSubscribers.setText(String.format(Locale.US,"%s Subscribers",formattedNumber));
+        subredditSubscribers.setText(String.format(Locale.getDefault(),"%s Subscribers",formattedNumber));
 
         int color = ContextCompat.getColor(this,android.R.color.white);
         String iconUrl = details.subredditIcon().isEmpty()?null:details.subredditIcon();

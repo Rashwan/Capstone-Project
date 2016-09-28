@@ -25,7 +25,7 @@
             android:layout_row="0"
             android:layout_columnSpan="2"
             android:layout_column="0"
-            tools:text="/User/asdasdqw"
+            tools:text="@string/placeholder_reddit_post_author"
             android:id="@+id/tv_username"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Large"/>
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Post Carma"
+            tools:text="@string/placeholder_link_karma"
             android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:layout_row="1"
@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Comment Carma"
+            tools:text="@string/placeholder_comment_karma"
             android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:padding="8dp"
@@ -73,7 +73,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Reddit age"
+            tools:text="@string/placeholder_user_joined_at"
             android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:padding="8dp"
