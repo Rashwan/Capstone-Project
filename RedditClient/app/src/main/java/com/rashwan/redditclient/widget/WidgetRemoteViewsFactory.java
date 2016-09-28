@@ -15,6 +15,7 @@ import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.RedditClientApplication;
+import com.rashwan.redditclient.common.utilities.Exceptions;
 import com.rashwan.redditclient.data.model.ListingKind;
 import com.rashwan.redditclient.data.model.RedditPostDataModel;
 import com.rashwan.redditclient.data.provider.RedditPostMeta;
@@ -22,6 +23,7 @@ import com.rashwan.redditclient.service.RedditService;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +35,7 @@ import timber.log.Timber;
  */
 public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private int widgetId;
-    private List<ListingKind> posts;
+    private List<ListingKind> posts = new ArrayList<>();
     @Inject StorIOContentResolver storIOContentResolver;
     @Inject RedditService redditService;
     private final Context context;
@@ -50,9 +52,28 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public void onDataSetChanged() {
-        List<ListingKind> postsList = redditService
-                .getSubredditPosts("All", null, 0).toBlocking().first().data().children();
+        List<ListingKind> postsList = new ArrayList<>();
+                redditService.getSubredditPosts("All", null, 0)
+                .toBlocking().subscribe(listingResponse ->{
+                        postsList.addAll(listingResponse.data().children());
+                        updateDBPosts(postsList);
+                    }
+                    ,throwable -> {
+                        if (throwable instanceof Exceptions.NoInternetException) {
+                            Exceptions.NoInternetException exception = (Exceptions.NoInternetException) throwable;
+                            Timber.d("Error retrieving posts: %s . First page: %s"
+                                    , exception.message, exception.firstPage);
+                        }
+                        posts = storIOContentResolver.get().listOfObjects(ListingKind.class).withQuery(Query.builder()
+                                .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
+                        Timber.d("Got %d rows from DB",posts.size());
+                    }
+                    ,() -> Timber.d("completed getting posts")
+                );
 
+    }
+
+    private void updateDBPosts(List<ListingKind> postsList) {
         DeleteResult deleteResult = storIOContentResolver.delete().byQuery(DeleteQuery.builder()
                 .uri(RedditPostMeta.CONTENT_URI).build()).prepare().executeAsBlocking();
         Timber.d("deleted %d rows",deleteResult.numberOfRowsDeleted());
