@@ -78,6 +78,7 @@ public class RedditPostMeta {
                 contentValues.put(RedditPostTable.COLUMN_THUMBNAIL, post.thumbnail());
                 contentValues.put(RedditPostTable.COLUMN_TITLE, post.title());
                 contentValues.put(RedditPostTable.COLUMN_NUM_OF_COMMENTS, post.numOfComments());
+                contentValues.put(RedditPostTable.COLUMN_IS_SELF,post.isSelf());
                 if (!post.thumbnail().contains("http")){
                     contentValues.putNull(RedditPostTable.COLUMN_THUMBNAIL);
                 }
@@ -101,8 +102,9 @@ public class RedditPostMeta {
             String title = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_TITLE));
             String thumbnail = cursor.getString(cursor.getColumnIndex(RedditPostTable.COLUMN_THUMBNAIL));
             int numOfComments = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_NUM_OF_COMMENTS));
+            boolean isSelf = cursor.getInt(cursor.getColumnIndex(RedditPostTable.COLUMN_IS_SELF)) != 0;
             RedditPostDataModel post = RedditPostDataModel.create(postId,author, score, subreddit
-                    , thumbnail, title, numOfComments);
+                    , thumbnail, title, numOfComments,isSelf);
             post.setId(id);
             return post;
         }

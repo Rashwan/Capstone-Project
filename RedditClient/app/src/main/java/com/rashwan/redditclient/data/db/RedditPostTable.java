@@ -18,6 +18,7 @@ public class RedditPostTable {
     public static final String COLUMN_SUBREDDIT = "subreddit";
     public static final String COLUMN_THUMBNAIL = "thumbnail";
     public static final String COLUMN_NUM_OF_COMMENTS = "numberOfComments";
+    public static final String COLUMN_IS_SELF = "isSelf";
 
 
     // This is just class with Meta Data, we don't need instances
@@ -37,7 +38,8 @@ public class RedditPostTable {
                 + COLUMN_SCORE  + " TEXT ,"
                 + COLUMN_SUBREDDIT + " TEXT NOT NULL ,"
                 + COLUMN_THUMBNAIL + " TEXT ,"
-                + COLUMN_NUM_OF_COMMENTS + " INTEGER"
+                + COLUMN_NUM_OF_COMMENTS + " INTEGER ,"
+                + COLUMN_IS_SELF + " BOOLEAN"
                 + ");";
     }
 }

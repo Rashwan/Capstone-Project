@@ -34,9 +34,9 @@ public abstract class RedditPostDataModel extends ListingKind implements Parcela
     }
 
     public static RedditPostDataModel create(String postId,String author,String score,String subreddit
-            ,String thumbnail,String title,int numOfComments){
+            ,String thumbnail,String title,int numOfComments,boolean isSelf){
         return new AutoValue_RedditPostDataModel(author,score,subreddit,title,postId,null,null
-        ,thumbnail,null,null,null,null,false,numOfComments,false);
+        ,thumbnail,null,null,null,null,false,numOfComments,isSelf);
     }
 
 
