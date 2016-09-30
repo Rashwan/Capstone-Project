@@ -7,6 +7,14 @@ apply plugin: 'com.google.gms.google-services'
 
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'RedditClientKey'
+            keyPassword '987654321'
+            storeFile file('/home/rashwan/Work/StudioProjects/Udacity-Projects/Capstone-Project/RedditClient/android.jks')
+            storePassword '123456789'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
     defaultConfig {
@@ -17,37 +25,35 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField("String","REDDIT_API_CLIENT_ID","\"${redditApiClientId}\"")
+        buildConfigField("String", "REDDIT_API_CLIENT_ID", "\"${redditApiClientId}\"")
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 ext {
     supportLibraryVersion = '24.2.1'
+    googlePlayServiceVersion = '9.6.1'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     //UI
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile "com.android.support:cardview-v7:$supportLibraryVersion"
-
 
     //Networking
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -72,20 +78,16 @@ dependencies {
     //DB
     compile 'com.pushtorefresh.storio:content-resolver:1.10.0'
 
-
     //other
     compile 'com.jakewharton.timber:timber:4.3.0'
-    provided "com.google.auto.value:auto-value:1.3"
-    apt  "com.google.auto.value:auto-value:1.3"
+    provided 'com.google.auto.value:auto-value:1.3'
+    apt "com.google.auto.value:auto-value:1.3"
     apt 'com.ryanharter.auto.value:auto-value-parcel:0.2.4-rc2'
     apt 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
     compile "com.android.support:customtabs:$supportLibraryVersion"
-    compile 'com.google.firebase:firebase-ads:9.6.1'
-    compile 'com.google.firebase:firebase-core:9.6.1'
-
-
-
+    compile "com.google.firebase:firebase-ads:$googlePlayServiceVersion"
+    compile "com.google.firebase:firebase-core:$googlePlayServiceVersion"
 
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
