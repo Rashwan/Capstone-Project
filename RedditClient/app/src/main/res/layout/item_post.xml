@@ -65,9 +65,8 @@
             android:layout_height="wrap_content"
             tools:text="@string/placeholder_reddit_post_author"
             android:id="@+id/tv_author"
-            app:layout_constraintLeft_toRightOf="@id/tv_by"
-            app:layout_constraintBaseline_toBaselineOf="@id/tv_by"
-            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_by"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_by"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textSize="16sp"
             android:textColor="@color/colorPrimary" />
@@ -76,9 +75,8 @@
             android:layout_height="wrap_content"
             android:text="@string/text_view_in_subreddit"
             android:id="@+id/tv_in"
-            app:layout_constraintLeft_toRightOf="@id/tv_author"
-            app:layout_constraintBaseline_toBaselineOf="@id/tv_author"
-            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_author"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_author"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textSize="16sp"/>
         <TextView
@@ -86,9 +84,8 @@
             android:layout_height="wrap_content"
             tools:text="@string/placeholder_reddit_post_subreddit"
             android:id="@+id/tv_subreddit"
-            app:layout_constraintLeft_toRightOf="@id/tv_in"
-            app:layout_constraintBaseline_toBaselineOf="@id/tv_in"
-            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_in"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_in"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textSize="16sp"
             android:textColor="@color/colorPrimary"/>

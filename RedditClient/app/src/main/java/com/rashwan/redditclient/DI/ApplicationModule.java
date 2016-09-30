@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
+import com.rashwan.redditclient.BuildConfig;
 import com.rashwan.redditclient.R;
 import com.rashwan.redditclient.common.utilities.TokenAuthenticator;
 import com.rashwan.redditclient.data.CommentDeserializer;
@@ -59,7 +60,7 @@ public class ApplicationModule {
     @Provides @Named("auth") @Singleton
     public OkHttpClient provideAuthOkhttpClient(){
 
-        String credentials = application.getString(R.string.reddit_api_client_id) + ":" ;
+        String credentials = BuildConfig.REDDIT_API_CLIENT_ID + ":" ;
         String basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes()
                 ,Base64.NO_WRAP);
 

@@ -2,7 +2,6 @@
     <string name="app_name" translatable="false">Reddit Client</string>
     <string name="reddit_api_base_url" translatable="false">https://oauth.reddit.com/</string>
     <string name="reddit_auth_base_url" translatable="false">https://www.reddit.com/api/v1/</string>
-    <string name="reddit_api_client_id" translatable="false">j8R8fYjet2a6wQ</string>
     <string name="sp_device_id_key" translatable="false">deviceId</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ad_mob_device_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
