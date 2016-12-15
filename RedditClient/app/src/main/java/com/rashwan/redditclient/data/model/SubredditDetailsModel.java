@@ -1,6 +1,7 @@
 package com.rashwan.redditclient.data.model;
 
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
@@ -15,7 +16,7 @@ public abstract class SubredditDetailsModel extends ListingKind implements Parce
 
     @SerializedName("title") public abstract String description();
     @SerializedName("display_name") public abstract String name();
-    @SerializedName("banner_img") public abstract String bannerImage();
+    @Nullable @SerializedName("banner_img") public abstract String bannerImage();
     @SerializedName("icon_img") public abstract String subredditIcon();
     @SerializedName("subscribers") public abstract long numOfSubscribers();
 
