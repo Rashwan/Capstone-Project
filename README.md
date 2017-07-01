@@ -2,7 +2,7 @@
 Capstone project for Udacity's [Android Developer Nanodegree Program](https://www.udacity.com/course/android-developer-nanodegree-by-google--nd801).
 The project is a [Reddit](https://www.reddit.com) client (Reddit is a social news aggregation, web content rating, and discussion website). The project is a showcase for what we have learned throughout the entire program.
 
-### Features:ssas
+### Features:
 * See the reddit front page to discover trending posts.
 * Choose a post to see its details (author, subreddit, points, comments)
 * Choose a subreddit to see its details(tagline, subscribers, posts)
